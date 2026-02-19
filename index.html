@@ -3,9 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>uplay</title>
+    <title>Nexus Gaming Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts: Poppins for that clean app look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    
+
+    <div class="app-container">
+        
+        <!-- LEFT SIDEBAR (Navigation) -->
+        <aside class="sidebar-left">
+            <div class="logo">
+                <i data-lucide="gamepad-2" size="32" color="#ff6b6b"></i>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" onclick="switchTab('home')">
+                    <i data-lucide="home"></i>
+                </a>
+                <a href="#" class="nav-item" onclick="switchTab('games')">
+                    <i data-lucide="gamepad"></i>
+                </a>
+                <a href="#" class="nav-item" onclick="switchTab('store')">
+                    <i data-lucide="shopping-bag"></i>
+                </a>
+                <a href="#" class="nav-item" onclick="switchTab('stats')">
+                    <i data-lucide="pie-chart"></i>
+                </a>
+                <a href="#" class="nav-item" onclick="switchTab('messages')">
+                    <i data-lucide="message-circle"></i>
+                </a>
+            </nav>
+
+            <div class="nav-bottom">
+                <div class="add-btn">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="user-welcome">
+                    <h1>Good evening, <span class="highlight">Gamer</span></h1>
+                    <p>May your gaming exploits be legendary! 🌟</p>
+                </div>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search games...">
+                </div>
+            </header>
+
+            <!-- Dynamic Content Container -->
+            <div id="content-area">
+                
+                <!-- FEATURED BANNER (Valorant Style) -->
+                <div class="featured-card">
+                    <div class="featured-content">
+                        <div class="tags">
+                            <span class="tag popular">🔥 Popular</span>
+                            <span class="platform-icon"><i data-lucide="monitor"></i></span>
+                        </div>
+                        <h2>Valorant</h2>
+                        <p>A 5v5 character-based tactical shooter where precise gunplay meets unique agent abilities.</p>
+                        <div class="action-buttons">
+                            <button class="btn-play">Play Now</button>
+                            <button class="btn-review">👍 +53 Reviews</button>
+                        </div>
+                    </div>
+                    <!-- Decorative Graphic (Simulating the character art) -->
+                    <div class="hero-graphic"></div>
+                </div>
+
+                <!-- GAME ROWS -->
+                <div class="section-title">
+                    <h3>New Games</h3>
+                    <a href="#">See More</a>
+                </div>
+
+                <div class="horizontal-scroll">
+                    <!-- Card 1 -->
+                    <div class="game-card small" style="background: linear-gradient(135deg, #2c3e50, #000000);">
+                        <div class="card-icon"><i data-lucide="swords"></i></div>
+                        <h4>Uncharted 4</h4>
+                        <p>Action Adventure</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="game-card small" style="background: linear-gradient(135deg, #4b1d1d, #2d1b1b);">
+                        <div class="card-icon" style="color:#ff9f43"><i data-lucide="flame"></i></div>
+                        <h4>Dishonored</h4>
+                        <p>Standard Edition</p>
+                    </div>
+                     <!-- Card 3 -->
+                     <div class="game-card small" style="background: linear-gradient(135deg, #1e272e, #485460);">
+                        <div class="card-icon" style="color:#0fb9b1"><i data-lucide="globe"></i></div>
+                        <h4>Elden Ring</h4>
+                        <p>RPG Fantasy</p>
+                    </div>
+                </div>
+
+                <!-- LAST DOWNLOADS (List) -->
+                <div class="section-title" style="margin-top: 20px;">
+                    <h3>Last Downloads</h3>
+                </div>
+
+                <div class="download-item">
+                    <div class="game-icon-box bg-red">
+                        <i data-lucide="trophy"></i>
+                    </div>
+                    <div class="game-info">
+                        <h4>FIFA 23</h4>
+                        <p>Sports Simulator</p>
+                    </div>
+                    <div class="download-meta">
+                        <span>1hr 23min</span>
+                        <div class="progress-bar"><div class="fill" style="width: 70%"></div></div>
+                    </div>
+                    <div class="action-icons">
+                        <i data-lucide="play-circle"></i>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR (Stats & Social) -->
+        <aside class="sidebar-right">
+            <!-- Profile -->
+            <div class="profile-header">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User">
+                </div>
+                <div class="icons">
+                    <i data-lucide="bell"></i>
+                    <i data-lucide="settings"></i>
+                </div>
+            </div>
+
+            <!-- Stats Card (The Circle) -->
+            <div class="stats-card">
+                <h3>Your Statistic</h3>
+                <div class="chart-container">
+                    <div class="circle-chart">
+                        <div class="inner-circle">
+                            <span class="total-hours">12,340h</span>
+                            <span class="label">Total hours</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-legend">
+                    <div class="legend-item">
+                        <div class="dot red"></div> <span>Dota 2</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="dot yellow"></div> <span>CS:GO</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friends List -->
+            <div class="friends-list">
+                <h3>Online Friends</h3>
+                <div class="friend-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Annie" class="friend-avatar">
+                    <div class="status-dot online"></div>
+                </div>
+                <div class="friend-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob" class="friend-avatar">
+                    <div class="status-dot playing"></div>
+                </div>
+                <div class="friend-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Cait" class="friend-avatar">
+                    <div class="status-dot offline"></div>
+                </div>
+                <div class="friend-item add-friend">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Bottom Nav for Mobile (Only visible on small screens) -->
+    <nav class="mobile-nav">
+        <a href="#" class="active"><i data-lucide="home"></i></a>
+        <a href="#"><i data-lucide="gamepad-2"></i></a>
+        <div class="floating-action"><i data-lucide="plus"></i></div>
+        <a href="#"><i data-lucide="message-circle"></i></a>
+        <a href="#"><i data-lucide="user"></i></a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
