@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>uPlay Login</title>
+  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+
+  <meta name="title" content="UPlay - PES Tournament">
+  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta property="og:title" content="UPlay - PES Tournament">
+  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="UPlay - PES Tournament">
+  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta name="twitter:title" content="UPlay - PES Tournament">
+  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  
+
+    <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../uplay/css/uplay.css">
+  <link rel="stylesheet" href="../css/preloader.css">
+  <link rel="stylesheet" href="../css/scroll-to-top.css">
+  <link rel="stylesheet" href="../css/page_style.css">
+  <link rel="stylesheet" href="../css/hide-content.css">
+</head>
+<body style="background: #191919">
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <img src="../images/logo/pad-logo.png" alt="Logo" />
+      uPlay<br>
+    </div>
+    
+    <div style="display: flex; list-style: none; align-items: center;">
+      <ul class="nav-list">
+        <li><a href="../uplay/home.html">Home</a></li>
+        <!-- <li><a href="pages/about.html">About</a></li> -->
+        <li><a href="../pages/coming_soon.html">About</a></li>
+        <li><a href="../pages/coming_soon.html">Contact</a></li>
+      </ul>
+      
+      
+      
+    </div>
+    <a class="cta-button4" href="../pages/signup.html">Sign Up</a>
+    
+    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <header class="hero" id="heroo">
+    <section id="register">
+    <h1>Login</h1>
+    <p style="color: #ccc;">Login to continue uPlay</p>
+    <div class="form">
+  
+      <div class="form-inputs">
+        <label for="email">Email :</label>
+        <input id="loginEmail" type="email" placeholder="example@gmail.com">
+      </div>
+  
+      <!-- <div class="form-inputs">
+        <label for="whatsapp">WhatsApp No :</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+123 4567 890..." required>
+      </div> -->
+  
+      <div class="form-inputs">
+        <label for="password">Password :</label>
+        <input id="loginPassword" type="password" placeholder="xxxxxx">
+      </div>
+  
+      <button class="" id="loginBtn">Login</button>
+      <!-- <div id="loadingSpinner" style="display: none; margin-top: 10px; color: #fff;">
+        ⏳ Submitting... Please wait
+      </div> -->
+      <!-- ===== Loading Overlay ===== -->
+      <div id="loadingOverlay">
+        <div class="loader-container">
+          <img src="../images/loading6.png" alt="Loading..." id="loadingIcon">
+          <!-- <p id="loadingText">Processing...</p> -->
+        </div>
+      </div>
+  
+  
+      <div class="form-inputs">
+        <p>Don't have an account? <a style="color: var(--UPlay-yellow);" href="signup.html">Sign up</a></p>
+      </div>
+    </div>
+  </section>
+  </header>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../javar/page.js"></script>
+<script src="../javar/auto_submit_and_respond.js"></script>
+
+
+  <script>
+  function showLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'flex';
+    // auto-hide after 10s if stuck
+    // clearTimeout(window.loadingTimeout);
+    // window.loadingTimeout = setTimeout(hideLoading, 100);
+  }
+
+  function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+    clearTimeout(window.loadingTimeout);
+  }
+</script>
+</body>
+</html>

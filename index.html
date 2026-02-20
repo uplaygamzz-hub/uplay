@@ -88,132 +88,148 @@
     <section id="tournament">
       <h4>Featured Games</h4>
       
-      <div class="tournament-cards hide-scrollbar">
-        <a href="../pages/login.html">
-            <div class="tournament-card" id="pes" data-aos-delay="100">
-                <span style="position: relative; z-index: 2;">Pro Evolution Soccer</span>
-            </div>
-        </a>
-        <a href="../pages/login.html">
-            <div class="tournament-card" id="cod" data-aos-delay="200">
-                <span style="position: relative; z-index: 2;">Call of Duty</span>
-            </div>
-        </a>
-        <a href="../pages/login.html">
-            <div class="tournament-card" id="fifa" data-aos-delay="300">
-                <span style="position: relative; z-index: 2;">FIFA 23</span>
-            </div>
-        </a>
-        <a href="../pages/login.html">
-            <div class="tournament-card" id="pubg" data-aos-delay="300">
-                <span style="position: relative; z-index: 2;">PubG Mobile</span>
-            </div>
-        </a>
-        <a href="#">
-            <div class="tournament-card" id="see-more" data-aos-delay="400">
-                SEE MORE GAMES
-            </div>
-        </a>
+      <div class="carousel-wrapper">
+          <div class="tournament-cards hide-scrollbar">
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="pes" data-aos-delay="100">
+                    <span style="position: relative; z-index: 2;">Pro Evolution Soccer</span>
+                </div>
+            </a>
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="cod" data-aos-delay="200">
+                    <span style="position: relative; z-index: 2;">Call of Duty</span>
+                </div>
+            </a>
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="fifa" data-aos-delay="300">
+                    <span style="position: relative; z-index: 2;">FIFA 23</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="tournament-card" id="see-more" data-aos-delay="400">
+                    SEE MORE GAMES
+                </div>
+            </a>
+          </div>
+    
+          <!-- The Dots -->
+          <div class="slider-dots">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+          </div>
       </div>
     </section>
-  </header>
+</header>
 
   <!-- TOURNAMENTS SECTION -->
-    <section id="tournaments" class="py-12 px-4 bg-panel/30">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-3xl font-heading font-bold mb-2">Active Tournaments</h2>
-                    <p class="text-gray-400 text-sm">Register now before slots fill up!</p>
+    <section id="tournaments">
+            <div class="container">
+                
+                <!-- Section Header -->
+                <div class="section-header">
+                    <div>
+                        <h2>Active Tournaments</h2>
+                        <p>Register now before slots fill up!</p>
+                    </div>
+                    <a href="#" class="view-all-desktop">View All</a>
                 </div>
-                <a href="#" class="text-primary text-sm font-semibold hover:underline hidden sm:block">View All</a>
+
+                <!-- Grid Container -->
+                <div class="tournaments-grid">
+                    
+                    <!-- Tournament Card 1 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-live">
+                                <span class="pulse-dot"></span> Live
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 64/128
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">PubG Mobile</h3>
+                        <p class="t-card-desc">Squads • Erangel Only • Region: Global</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$5,000</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">Free</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Team</button>
+                    </div>
+
+                    <!-- Tournament Card 2 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-upcoming">
+                                <i data-lucide="clock"></i> Starts in 2h
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 16/32
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">Valorant Campus Clash</h3>
+                        <p class="t-card-desc">5v5 • Double Elimination • Region: NA</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$1,500</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">100 Coins</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Team</button>
+                    </div>
+
+                    <!-- Tournament Card 3 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-date">
+                                <i data-lucide="calendar"></i> Oct 24th
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 112/256
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">eFootball 2024 Open</h3>
+                        <p class="t-card-desc">1v1 • Groups to Knockout • Region: EU</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$2,000</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">Free</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Solo</button>
+                    </div>
+
+                </div>
+
+                <!-- Mobile View All Link -->
+                <a href="#" class="view-all-mobile">View All Tournaments</a>
+                
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Tournament Card 1 -->
-                <div class="glass-panel rounded-2xl p-5 hover:border-primary/50 transition-colors">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-red-500/20 text-red-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Live
-                        </span>
-                        <span class="text-gray-400 text-sm"><i data-lucide="users" class="w-4 h-4 inline mr-1"></i> 64/128</span>
-                    </div>
-                    <h3 class="text-xl font-bold font-heading mb-1">PubG Mobile Masters</h3>
-                    <p class="text-sm text-gray-400 mb-6">Squads • Erangel Only • Region: Global</p>
-                    
-                    <div class="flex justify-between items-center bg-darker/50 p-3 rounded-xl mb-6">
-                        <div>
-                            <p class="text-xs text-gray-500 uppercase font-bold">Prize Pool</p>
-                            <p class="text-primary font-bold text-lg">$5,000</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-gray-500 uppercase font-bold">Entry Fee</p>
-                            <p class="font-bold text-white">Free</p>
-                        </div>
-                    </div>
-                    
-                    <button class="w-full bg-white/5 hover:bg-primary hover:text-black text-white font-bold py-3 rounded-xl transition-colors">
-                        Register Team
-                    </button>
-                </div>
-
-                <!-- Tournament Card 2 -->
-                <div class="glass-panel rounded-2xl p-5 hover:border-primary/50 transition-colors">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                            <i data-lucide="clock" class="w-3 h-3"></i> Starts in 2h
-                        </span>
-                        <span class="text-gray-400 text-sm"><i data-lucide="users" class="w-4 h-4 inline mr-1"></i> 16/32</span>
-                    </div>
-                    <h3 class="text-xl font-bold font-heading mb-1">Valorant Campus Clash</h3>
-                    <p class="text-sm text-gray-400 mb-6">5v5 • Double Elimination • Region: NA</p>
-                    
-                    <div class="flex justify-between items-center bg-darker/50 p-3 rounded-xl mb-6">
-                        <div>
-                            <p class="text-xs text-gray-500 uppercase font-bold">Prize Pool</p>
-                            <p class="text-primary font-bold text-lg">$1,500</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-gray-500 uppercase font-bold">Entry Fee</p>
-                            <p class="font-bold text-white">100 Coins</p>
-                        </div>
-                    </div>
-                    
-                    <button class="w-full bg-white/5 hover:bg-primary hover:text-black text-white font-bold py-3 rounded-xl transition-colors">
-                        Register Team
-                    </button>
-                </div>
-
-                <!-- Tournament Card 3 -->
-                <div class="glass-panel rounded-2xl p-5 hover:border-primary/50 transition-colors">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-gray-500/20 text-gray-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                            <i data-lucide="calendar" class="w-3 h-3"></i> Oct 24th
-                        </span>
-                        <span class="text-gray-400 text-sm"><i data-lucide="users" class="w-4 h-4 inline mr-1"></i> 112/256</span>
-                    </div>
-                    <h3 class="text-xl font-bold font-heading mb-1">eFootball 2024 Open</h3>
-                    <p class="text-sm text-gray-400 mb-6">1v1 • Groups to Knockout • Region: EU</p>
-                    
-                    <div class="flex justify-between items-center bg-darker/50 p-3 rounded-xl mb-6">
-                        <div>
-                            <p class="text-xs text-gray-500 uppercase font-bold">Prize Pool</p>
-                            <p class="text-primary font-bold text-lg">$2,000</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-gray-500 uppercase font-bold">Entry Fee</p>
-                            <p class="font-bold text-white">Free</p>
-                        </div>
-                    </div>
-                    
-                    <button class="w-full bg-white/5 hover:bg-primary hover:text-black text-white font-bold py-3 rounded-xl transition-colors">
-                        Register Solo
-                    </button>
-                </div>
-            </div>
-            <a href="#" class="text-primary text-sm font-semibold hover:underline block sm:hidden mt-6 text-center">View All Tournaments</a>
-        </div>
-    </section>
+        </section>
 
 
   <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
@@ -224,5 +240,35 @@
 </footer>
 
 <script src="../uplay/java/page.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.tournament-cards');
+        const dots = document.querySelectorAll('.dot');
+
+        // 1. Update active dot based on scroll position
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = slider.clientWidth;
+            
+            // Calculate which card is closest to the center
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+
+            // Update classes on dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        // 2. Allow clicking a dot to snap to that specific game card
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slider.scrollTo({
+                    left: slider.clientWidth * index,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

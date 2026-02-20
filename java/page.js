@@ -78,3 +78,7 @@
     countdownTimer();
     setInterval(countdownTimer, 1000);
   });
+
+
+lucide.createIcons();
+

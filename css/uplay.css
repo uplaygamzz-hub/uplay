@@ -1,3 +1,13 @@
+:root {
+    --primary: #EAB308; 
+    --bg-panel: rgba(23, 23, 23, 0.7); 
+    --bg-inner: rgba(5, 5, 5, 0.5); 
+    --text-gray: #9ca3af;
+    --text-gray-dark: #6b7280;
+    --border-glass: rgba(255, 255, 255, 0.05);
+    --border-hover: rgba(234, 179, 8, 0.5); 
+}
+
 body {
   background: #181818;    
 }
@@ -10,19 +20,20 @@ body {
   justify-items: center;
   justify-content: center;
   flex-direction: column;
-  /* text-align: center; */
 }
 
 .hero {
   height: fit-content;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 1%, #181818 90%), url('../images/cod1.jpeg') no-repeat center center/cover;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 1%, #181818 90%),
+              url('../images/cod1.jpeg') no-repeat center center/cover;
   text-align: left;
   padding: 0px;
 }
 
 .hero_dark {
   height: fit-content;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.756) 5%, #181818 90%), url('../images/stadium-night.png') no-repeat center center/cover;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.756) 5%, #181818 90%),
+              url('../images/stadium-night.png') no-repeat center center/cover;
   text-align: left;
   padding: 0px;
 }
@@ -38,7 +49,6 @@ body {
 }
 
 .left-border {
-  
   padding-left: 1rem;
   margin-bottom: 5rem;
   width: 70%;
@@ -68,12 +78,10 @@ body {
   padding-left: 10px;
 }
 
-
-
 #tournament {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 0;
+    padding: 40px 5%;
 }
 
 #tournament h4 {
@@ -82,55 +90,53 @@ body {
     font-weight: bold;
 }
 
-/* The container that holds all the cards */
-.tournament-cards {
-    display: flex; /* Lines up items horizontally */
-    overflow-x: auto; /* Enables horizontal scrolling */
-    scroll-snap-type: x mandatory; /* Forces scrolling to snap to items */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    
-    /* The overall container border radius and background */
+.carousel-wrapper {
+    position: relative;
     border-radius: 24px;
     background: rgba(23, 23, 23, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.tournament-cards {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Hide Scrollbar */
 .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
 }
 
-/* The Anchor tags are the direct children of the flex container */
 .tournament-cards > a {
-    flex: 0 0 100%; /* Forces EACH card to take up 100% of the container width */
-    scroll-snap-align: center; /* Snaps exactly to the center of the screen */
+    flex: 0 0 100%;
+    scroll-snap-align: center;
     text-decoration: none;
     display: block;
 }
 
-/* The visual card itself */
 .tournament-card {
-    height: 300px; /* Adjust height for mobile/desktop as needed */
     width: 100%;
     position: relative;
     background-size: cover;
     background-position: center;
     display: flex;
-    align-items: flex-end; /* Aligns text to bottom */
+    align-items: flex-end;
     padding: 30px;
+    padding-bottom: 50px;
     box-sizing: border-box;
     color: white;
-    font-size: 32px;
     font-weight: bold;
     transition: transform 0.3s ease;
 }
 
-/* Dark overlay so text is readable */
 .tournament-card::before {
     content: '';
     position: absolute;
@@ -139,8 +145,7 @@ body {
     z-index: 1;
 }
 
-/* Ensure text sits above the dark overlay */
-.tournament-card text, .tournament-card {
+.tournament-card span, .tournament-card {
     z-index: 2;
 }
 
@@ -150,28 +155,59 @@ body {
 }
 
 #cod {
-    background-image: url('../images/『コール\ オブ\ デューティ\ モダン・ウォーフェア2』ディスク版容量は僅か70MB？DL前提の商品に海外メディアがさまざまな懸念.jpeg');
+    background-image: url('../images/cod1.jpeg');
 }
 
 #fifa {
     background-image: url('../images/FC25-1.png');
 }
 
-#pubg {
-    background-image: url('../images/game1.jpeg');
-}
-
 #see-more {
-    background-color: #EAB308; /* Theme Yellow */
-    color: #000;
-    justify-content: center; /* Centers the text */
+    background: linear-gradient(to left, #68676455 1%, #181818 90%);
+    color: #ffffff17;
+    justify-content: center;
     align-items: center;
+    font-size: 20px;
 }
 #see-more::before {
-    display: none; /* Removes dark overlay for this specific card */
+    display: none;
 }
 
-/* Responsive sizing for Desktop */
+/* --- DOTS STYLING --- */
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dot.active {
+    background-color: rgba(255, 255, 255, 1);
+    transform: scale(1.2);
+}
+
+/* Responsive sizing for Mobile (Screen width less than 768px) */
+@media (max-width: 767px) {
+    .tournament-card {
+        height: 400px;
+        font-size: 32px;
+    }
+}
+
+/* Responsive sizing for Desktop (Screen width 768px and up) */
 @media (min-width: 768px) {
     .tournament-card {
         height: 450px;
@@ -182,3 +218,234 @@ body {
 
 
 
+/* 2. Container & Header Layout */
+#tournaments {
+    padding: 40px 5%; /* Matches your existing layout padding */
+}
+
+#tournaments .container {
+    max-width: 1200px; /* Matches your existing max-width */
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+}
+
+.section-header h2 {
+    font-family: var(--UPlay-font);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.section-header p {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin: 0;
+}
+
+.view-all-desktop {
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    display: none; 
+    text-decoration: none;
+}
+
+.view-all-desktop:hover {
+    text-decoration: underline;
+}
+
+/* 3. Grid Layout */
+.tournaments-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 column on mobile */
+    gap: 24px;
+}
+
+/* 4. Glassmorphism Card (t-card) */
+.t-card {
+    background: var(--bg-panel);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 20px;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.t-card:hover {
+    border-color: var(--border-hover);
+}
+
+/* 5. Card Header (Badges) */
+.t-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+}
+
+.badge-live {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444; 
+}
+
+.badge-upcoming {
+    background-color: rgba(234, 179, 8, 0.2);
+    color: var(--primary);
+}
+
+.badge-date {
+    background-color: rgba(107, 114, 128, 0.2);
+    color: #d1d5db; 
+}
+
+/* Pulsing Dot Animation */
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .5; }
+}
+
+.player-count {
+    color: var(--text-gray);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 6. Card Typography */
+.t-card-title {
+    font-family: var(--UPlay-font);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.t-card-desc {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 24px;
+}
+
+/* 7. Inner Stats Box (Prize & Fee) */
+.t-card-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-inner);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-gray-dark);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.stat-value.primary { color: var(--primary); }
+.stat-value.white { color: #ffffff; }
+
+.entry-fee {
+    text-align: right;
+}
+
+/* 8. Register Button */
+.btn-register {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-family: var(--UPlay-font);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: var(--primary);
+    color: #050505;
+}
+
+/* 9. Mobile View All Button */
+.view-all-mobile {
+    display: block;
+    text-align: center;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 24px;
+    text-decoration: none;
+}
+
+.view-all-mobile:hover {
+    text-decoration: underline;
+}
+
+/* Size fix for lucide icons inside text */
+.t-card .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+    .tournaments-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+    .view-all-desktop {
+        display: block;
+    }
+    .view-all-mobile {
+        display: none;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+    .tournaments-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
+}
