@@ -68,74 +68,117 @@ body {
   padding-left: 10px;
 }
 
+
+
 #tournament {
-  padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0;
 }
 
-#tournament h2 {
-  margin-top: 40px;
+#tournament h4 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
+/* The container that holds all the cards */
 .tournament-cards {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto; /* horizontal scroll */
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  gap: 1.5rem;
-  white-space: nowrap;
-  height: 20rem;
+    display: flex; /* Lines up items horizontally */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    scroll-snap-type: x mandatory; /* Forces scrolling to snap to items */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    
+    /* The overall container border radius and background */
+    border-radius: 24px;
+    background: rgba(23, 23, 23, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-@media (max-width: 768px) {
-  .tournament-cards {
-    justify-content: normal;
-  }
+/* Hide Scrollbar */
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
-/* .tournament-cards::-webkit-scrollbar {
-  display: none;
-} */
+/* The Anchor tags are the direct children of the flex container */
+.tournament-cards > a {
+    flex: 0 0 100%; /* Forces EACH card to take up 100% of the container width */
+    scroll-snap-align: center; /* Snaps exactly to the center of the screen */
+    text-decoration: none;
+    display: block;
+}
 
+/* The visual card itself */
 .tournament-card {
-  padding: 1.5rem;
-  /* border: solid, rgb(147, 146, 146), 0.5px; */
-  background: rgba(104, 104, 104, 0.144);
-  text-align: center;
-  height: 13rem;
-  width: 8rem;
-  transition: transform 0.3s ease;
-  cursor: pointer;
+    height: 300px; /* Adjust height for mobile/desktop as needed */
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end; /* Aligns text to bottom */
+    padding: 30px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
 }
 
-.tournament-card:hover {
-  transform: translateY(-5rem);
-  transition: 50s;
-  height: 15rem;
-  width: 8rem;
+/* Dark overlay so text is readable */
+.tournament-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    z-index: 1;
 }
 
+/* Ensure text sits above the dark overlay */
+.tournament-card text, .tournament-card {
+    z-index: 2;
+}
+
+/* Individual Card Backgrounds based on your IDs */
 #pes {
-  background: url(../images/Pro\ Evolution\ Soccer\ 2017.jpeg) no-repeat center center/cover;
+    background-image: url('../images/Pro\ Evolution\ Soccer\ 2017.jpeg');
 }
 
 #cod {
-  background: url(../images/cod.png) no-repeat center center/cover;
+    background-image: url('../images/『コール\ オブ\ デューティ\ モダン・ウォーフェア2』ディスク版容量は僅か70MB？DL前提の商品に海外メディアがさまざまな懸念.jpeg');
 }
 
 #fifa {
-  background: url(../images/eFootball_icon.png) no-repeat center center/cover;
+    background-image: url('../images/FC25-1.png');
+}
+
+#pubg {
+    background-image: url('../images/game1.jpeg');
 }
 
 #see-more {
-  display: flex;
-  place-items: center;
-  font-size: 0.6rem;
-  justify-content: space-around;
-  color: #ccc;
+    background-color: #EAB308; /* Theme Yellow */
+    color: #000;
+    justify-content: center; /* Centers the text */
+    align-items: center;
+}
+#see-more::before {
+    display: none; /* Removes dark overlay for this specific card */
 }
 
-a {
-  text-decoration: none;
+/* Responsive sizing for Desktop */
+@media (min-width: 768px) {
+    .tournament-card {
+        height: 450px;
+        font-size: 48px;
+    }
 }
+
+
+
+
