@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>uPlay</title>
+  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+
+  <meta name="title" content="UPlay - PES Tournament">
+  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta property="og:title" content="UPlay - PES Tournament">
+  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="UPlay - PES Tournament">
+  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta name="twitter:title" content="UPlay - PES Tournament">
+  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  
+
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- AOS animations -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <!-- Local stylesheets -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/preloader.css" />
+  <link rel="stylesheet" href="../css/scroll-to-top.css" />
+  <link rel="stylesheet" href="../css/uplay.css">
+  <link rel="stylesheet" href="../css/page_style.css">
+  <link rel="stylesheet" href="../css/live_score.css">
+  <link rel="stylesheet" href="../css/hide-content.css">
+  <!-- If 'libs/aos/aos.css' is a duplicate, remove it to avoid duplication -->
+  <link rel="stylesheet" href="../libs/aos/aos.css" />
+
+  <!-- player bracket links -->
+  <link rel="stylesheet" href="../css/bracket.css" />
+
+</head>
+
+<body id="body">
+  
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <img src="../images/logo/pad-logo.png" alt="Logo" />
+      uPlay
+    </div>
+
+    <!-- <div style="display: flex; list-style: none; align-items: center;">
+      <li class="reg">
+        <a id="liveScoreBtn" class="cta-button3" style="display: flex; align-items: center;">
+          Live Score
+          <img style="height: 15px; width: 15px; padding-left: 6px;" src="images/icons/circle.png" alt="Logo" />
+        </a>
+      </li>
+    </div> -->
+    
+    <div style="display: flex; list-style: none; align-items: center;">
+      <ul class="nav-list">
+        <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+        <!-- <li><a href="pages/about.html">About</a></li> -->
+        <li><a href="../pages/coming_soon.html">About</a></li>
+        <li><a href="#tournament">Tournaments</a></li>
+        <!-- <li><a href="../index.html#players">Players</a></li> -->
+        <!-- <li><a href="pages/leaderboard.html"><img src="images/icons/leaderboard-icon.png" alt=""></a></li> -->
+        <li><a href="../pages/login.html">leaderboard</a></li>
+      </ul>
+
+    </div>
+    <a class="cta-button5" href="../pages/login.html"><img class="small-size" src="images/icons/profile4.1.png" alt=""></a>
+    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <header class="hero" id="header">
+
+    <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
+
+
+    <div class="main-header">
+        <div>
+            <div class="left-border" data-aos="fade-right" data-aos-delay="100" style="transition: 1s;">
+                <h class="title" style="font-size: 2.5rem;">Welcome to uPlayGammz</h><br>
+                <H class="tagline" style="font-size: 1.2rem;">Compete, Win & Shine</H>
+            </div>
+            <div class="flex_buttons">
+                <h class="cta-button-container" data-aos="fade-up" data-aos-delay="100">
+                    <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32;">Browse Tournament</a>
+                </h>
+                <h class="cta-button-container" data-aos="fade-up" style="transition: 1s;">
+                    <a href="https://chat.whatsapp.com/LT7yMKAj4nTJSfm6RBj4aU" id="cta-button2" style="color: #dedede; padding: 10px 32;">Join Community</a>
+                </h>
+            </div>
+        </div>
+
+      
+    </div>
+    <section id="tournament">
+      <h4>Featured Games</h4>
+      <div class="tournament-cards">
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="pes" data-aos="fade-up" data-aos-delay="100">
+            </div>
+        </a>
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="cod" data-aos="fade-up" data-aos-delay="200">
+            </div>
+        </a>
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="fifa" data-aos="fade-up" data-aos-delay="300">
+            </div>
+        </a>
+        <a href="">
+            <div class="tournament-card" id="see-more" data-aos="fade-up" data-aos-delay="400">
+                SEE MORE GAMES
+            </div>
+        </a>
+      </div>
+    </section>
+  </header>
+
+
+  <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
+    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
+  </a>
+
+
+
+
+
+<footer>
+  <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+</footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../javar/page.js"></script>
+<script src="../javar/bracket.js"></script>
+<script src="../auto_submit_and_respond.js"></script>
+<script src="../javar/live_score.js"></script>
+<script src="../javar/hide-content.js"></script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js"></script>
+
+<script src="../javar/firebaseConfig.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+body {
+  font-family: var(--UPlay-font);
+  margin: 0;
+  padding: 0;
+  background: #181818;
+  color: #fff;
+}
+
+.main-header {
+  padding: 40px 20% 163px 7%;
+}
+
+  .main-header {
+    padding: 15% 7% 40% 7%;
+  }
+
+.hero {
+  height: fit-content;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0) 5%, #181818 90%), url('../images/stadium-night.png') no-repeat center center/cover;
+  text-align: left;
+  padding: 0px;
+}
+
+.hero_dark {
+  height: fit-content;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.756) 5%, #181818 90%), url('../images/stadium-night.png') no-repeat center center/cover;
+  text-align: left;
+  padding: 0px;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+  font-size: 4rem;
+}
+
+@media (max-width: 768px) {
+  .title{
+    font-size: 3rem;
+  }
+}
+
+.tagline {
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+#players {
+  padding: 3rem 3rem;
+  /* background: linear-gradient(to top, #ff0b0b 5%, #0b0b0b 90%), url('../images/blurry-stadium.png') no-repeat center center/cover; */
+  background: linear-gradient(to top, #191919c0 5%, #0b0b0b00 90%), url('../images/medals.png') no-repeat center center/cover;
+  position: relative;
+  background-position: -50px 1px;
+  background-size: 360px;
+}
