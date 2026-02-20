@@ -1,0 +1,57 @@
+@baseUrl = http://localhost:8000/api
+@contentType = application/json
+
+### 1. Register a new Player
+POST {{baseUrl}}/signup/
+Content-Type: {{contentType}}
+
+{
+    "username": "tester1",
+    "email": "tester1@uplay.com",
+    "password": "password123",
+    "first_name": "Test",
+    "last_name": "User",
+    "phone_number": "08012345678"
+}
+
+### 2. Login (This will save a cookie for subsequent requests)
+# @name login
+POST {{baseUrl}}/login/
+Content-Type: {{contentType}}
+
+{
+    "username": "tester1",
+    "password": "password123"
+}
+
+### 3. Get Logged-in Profile (Requires Login)
+GET {{baseUrl}}/profile/
+
+### 4. View All Registered Players (Admin check)
+GET {{baseUrl}}/players/
+
+### 5. List Active Tournaments (With Pagination & Search)
+# Testing partial name search
+GET {{baseUrl}}/tournaments/active/?search=test
+
+### 6. List Active Tournaments (With Dropdown Filters)
+# Replace 1 with an actual category_id or game_id from your DB
+GET {{baseUrl}}/tournaments/active/?category_id=1&game_id=1
+
+### 7. Join a Tournament (Requires Login)
+# Replace '1' with an actual Tournament ID
+POST {{baseUrl}}/tournaments/join/1/
+Content-Type: {{contentType}}
+
+### 8. Update Player Status
+POST {{baseUrl}}/status/
+Content-Type: {{contentType}}
+
+{
+    "username": "tester1",
+    "status": "inactive"
+}
+
+### 9. Logout
+POST {{baseUrl}}/logout/
+Content-Type: {{contentType}}
