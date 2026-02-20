@@ -287,7 +287,7 @@ header {
   color: #ffffff;
   font-weight: bold;
   border: 1.5px solid, rgb(188, 188, 188);
-  border-radius: 0px;
+  border-radius: 100px;
   text-decoration: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -952,7 +952,7 @@ nav ul.nav-list li img:hover {
   #cta-button2 {
     padding: 1rem 0rem;
     width: 100%;
-    margin: 0;
+    margin: 10px 0;
 
   }
 

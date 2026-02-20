@@ -1,204 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Gaming Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Google Fonts: Poppins for that clean app look -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>uPlay</title>
+  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+
+  <meta name="title" content="UPlay - PES Tournament">
+  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta property="og:title" content="UPlay - PES Tournament">
+  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="UPlay - PES Tournament">
+  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta name="twitter:title" content="UPlay - PES Tournament">
+  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  
+
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- AOS animations -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <!-- Local stylesheets -->
+  <link rel="stylesheet" href="./css/uplay.css">
+  <link rel="stylesheet" href="./css/page_style.css">
+  <link rel="stylesheet" href="./css/hide-content.css">
+  <link rel="stylesheet" href="./css/scroll-to-top.css">
+  <!-- If 'libs/aos/aos.css' is a duplicate, remove it to avoid duplication -->
+  <link rel="stylesheet" href="./libs/aos/aos.css" />
+
 </head>
-<body>
 
-    <div class="app-container">
-        
-        <!-- LEFT SIDEBAR (Navigation) -->
-        <aside class="sidebar-left">
-            <div class="logo">
-                <i data-lucide="gamepad-2" size="32" color="#ff6b6b"></i>
-            </div>
-            
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" onclick="switchTab('home')">
-                    <i data-lucide="home"></i>
-                </a>
-                <a href="#" class="nav-item" onclick="switchTab('games')">
-                    <i data-lucide="gamepad"></i>
-                </a>
-                <a href="#" class="nav-item" onclick="switchTab('store')">
-                    <i data-lucide="shopping-bag"></i>
-                </a>
-                <a href="#" class="nav-item" onclick="switchTab('stats')">
-                    <i data-lucide="pie-chart"></i>
-                </a>
-                <a href="#" class="nav-item" onclick="switchTab('messages')">
-                    <i data-lucide="message-circle"></i>
-                </a>
-            </nav>
-
-            <div class="nav-bottom">
-                <div class="add-btn">
-                    <i data-lucide="plus"></i>
-                </div>
-            </div>
-        </aside>
-
-        <!-- MAIN CONTENT AREA -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="top-bar">
-                <div class="user-welcome">
-                    <h1>Good evening, <span class="highlight">Gamer</span></h1>
-                    <p>May your gaming exploits be legendary! 🌟</p>
-                </div>
-                <div class="search-bar">
-                    <i data-lucide="search"></i>
-                    <input type="text" placeholder="Search games...">
-                </div>
-            </header>
-
-            <!-- Dynamic Content Container -->
-            <div id="content-area">
-                
-                <!-- FEATURED BANNER (Valorant Style) -->
-                <div class="featured-card">
-                    <div class="featured-content">
-                        <div class="tags">
-                            <span class="tag popular">🔥 Popular</span>
-                            <span class="platform-icon"><i data-lucide="monitor"></i></span>
-                        </div>
-                        <h2>Valorant</h2>
-                        <p>A 5v5 character-based tactical shooter where precise gunplay meets unique agent abilities.</p>
-                        <div class="action-buttons">
-                            <button class="btn-play">Play Now</button>
-                            <button class="btn-review">👍 +53 Reviews</button>
-                        </div>
-                    </div>
-                    <!-- Decorative Graphic (Simulating the character art) -->
-                    <div class="hero-graphic"></div>
-                </div>
-
-                <!-- GAME ROWS -->
-                <div class="section-title">
-                    <h3>New Games</h3>
-                    <a href="#">See More</a>
-                </div>
-
-                <div class="horizontal-scroll">
-                    <!-- Card 1 -->
-                    <div class="game-card small" style="background: linear-gradient(135deg, #2c3e50, #000000);">
-                        <div class="card-icon"><i data-lucide="swords"></i></div>
-                        <h4>Uncharted 4</h4>
-                        <p>Action Adventure</p>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="game-card small" style="background: linear-gradient(135deg, #4b1d1d, #2d1b1b);">
-                        <div class="card-icon" style="color:#ff9f43"><i data-lucide="flame"></i></div>
-                        <h4>Dishonored</h4>
-                        <p>Standard Edition</p>
-                    </div>
-                     <!-- Card 3 -->
-                     <div class="game-card small" style="background: linear-gradient(135deg, #1e272e, #485460);">
-                        <div class="card-icon" style="color:#0fb9b1"><i data-lucide="globe"></i></div>
-                        <h4>Elden Ring</h4>
-                        <p>RPG Fantasy</p>
-                    </div>
-                </div>
-
-                <!-- LAST DOWNLOADS (List) -->
-                <div class="section-title" style="margin-top: 20px;">
-                    <h3>Last Downloads</h3>
-                </div>
-
-                <div class="download-item">
-                    <div class="game-icon-box bg-red">
-                        <i data-lucide="trophy"></i>
-                    </div>
-                    <div class="game-info">
-                        <h4>FIFA 23</h4>
-                        <p>Sports Simulator</p>
-                    </div>
-                    <div class="download-meta">
-                        <span>1hr 23min</span>
-                        <div class="progress-bar"><div class="fill" style="width: 70%"></div></div>
-                    </div>
-                    <div class="action-icons">
-                        <i data-lucide="play-circle"></i>
-                    </div>
-                </div>
-
-            </div>
-        </main>
-
-        <!-- RIGHT SIDEBAR (Stats & Social) -->
-        <aside class="sidebar-right">
-            <!-- Profile -->
-            <div class="profile-header">
-                <div class="avatar">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User">
-                </div>
-                <div class="icons">
-                    <i data-lucide="bell"></i>
-                    <i data-lucide="settings"></i>
-                </div>
-            </div>
-
-            <!-- Stats Card (The Circle) -->
-            <div class="stats-card">
-                <h3>Your Statistic</h3>
-                <div class="chart-container">
-                    <div class="circle-chart">
-                        <div class="inner-circle">
-                            <span class="total-hours">12,340h</span>
-                            <span class="label">Total hours</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="stats-legend">
-                    <div class="legend-item">
-                        <div class="dot red"></div> <span>Dota 2</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="dot yellow"></div> <span>CS:GO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Friends List -->
-            <div class="friends-list">
-                <h3>Online Friends</h3>
-                <div class="friend-item">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Annie" class="friend-avatar">
-                    <div class="status-dot online"></div>
-                </div>
-                <div class="friend-item">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob" class="friend-avatar">
-                    <div class="status-dot playing"></div>
-                </div>
-                <div class="friend-item">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Cait" class="friend-avatar">
-                    <div class="status-dot offline"></div>
-                </div>
-                <div class="friend-item add-friend">
-                    <i data-lucide="plus"></i>
-                </div>
-            </div>
-        </aside>
+<body id="body">
+  
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <img src="../images/logo/pad-logo.png" alt="Logo" />
+      uPlay
+    </div>
+    <div style="display: flex; list-style: none; align-items: center;">
+      <ul class="nav-list">
+        <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+        <li><a href="../pages/coming_soon.html">About</a></li>
+        <li><a href="#tournament">Tournaments</a></li>
+        <li><a href="../pages/login.html">leaderboard</a></li>
+      </ul>
 
     </div>
+    <a class="cta-button5" href="../pages/login.html"><img class="small-size" src="images/icons/profile4.1.png" alt=""></a>
+    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <header class="hero" id="header">
 
-    <!-- Bottom Nav for Mobile (Only visible on small screens) -->
-    <nav class="mobile-nav">
-        <a href="#" class="active"><i data-lucide="home"></i></a>
-        <a href="#"><i data-lucide="gamepad-2"></i></a>
-        <div class="floating-action"><i data-lucide="plus"></i></div>
-        <a href="#"><i data-lucide="message-circle"></i></a>
-        <a href="#"><i data-lucide="user"></i></a>
-    </nav>
+    <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
 
-    <script src="./java/script.js"></script>
-    <script>lucide.createIcons();</script>
+
+    <div class="main-header">
+        <div>
+            <div class="left-border" style="transition: 1s;">
+                <h class="title" style="font-size: 2.5rem;">Welcome to uPlayGammz</h><br>
+                <h class="tagline" style="font-size: 1rem;"><h1></h1>Compete, Win & Shine</h>
+            </div>
+            <div class="flex_buttons">
+                <h class="cta-button-container" data-aos-delay="100">
+                    <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32;">Browse Tournament</a>
+                </h>
+                <h class="cta-button-container" style="transition: 1s;">
+                    <a href="https://chat.whatsapp.com/LT7yMKAj4nTJSfm6RBj4aU" id="cta-button2" style="color: #dedede; padding: 10px 32;">Join Community</a>
+                </h>
+            </div>
+        </div>
+    </div>
+    
+    <section id="tournament">
+      <h4>Featured Games</h4>
+      <div class="tournament-cards">
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="pes" data-aos="fade-up" data-aos-delay="100">
+            </div>
+        </a>
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="cod" data-aos="fade-up" data-aos-delay="200">
+            </div>
+        </a>
+        <a href="../pages/login.html">
+            <div class="tournament-card" id="fifa" data-aos="fade-up" data-aos-delay="300">
+            </div>
+        </a>
+        <a href="">
+            <div class="tournament-card" id="see-more" data-aos="fade-up" data-aos-delay="400">
+                SEE MORE GAMES
+            </div>
+        </a>
+      </div>
+    </section>
+  </header>
+
+
+  <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
+    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
+  </a>
+<footer>
+  <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+</footer>
+
+<script src="../uplay/java/page.js"></script>
 </body>
 </html>

@@ -38,21 +38,34 @@ body {
 }
 
 .left-border {
-  border-left: 2px solid var(--UPlay-yellow);
   
   padding-left: 1rem;
   margin-bottom: 5rem;
   width: 70%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .title {
+  border-left: 3.5px solid var(--UPlay-yellow);
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  padding-left: 10px;
 }
 
 .tagline {
+  height: 10px;
   font-size: 2.5rem;
   color: #ccc;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.tagline h1 {
+  border-left: 3.5px solid var(--UPlay-yellow);
+  height: 5px;
+  padding-left: 10px;
 }
 
 #tournament {
