@@ -1,0 +1,38 @@
+.scrollToTop {
+  position: fixed;
+  bottom: -5px;
+  right: 30px;
+  width: 35px;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  background-image: linear-gradient(45deg, #976a02de, #ffcc00ea);
+  /* border-top-left-radius: 30%;
+  border-top-right-radius: 30%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  cursor: pointer;
+  transform: translateY(100%);
+}
+
+@media (min-width: 768px) {
+  .scrollToTop {
+    padding-top: 0px;
+    height: 40px;
+    /* border-radius: 15%; */
+  }
+}
+
+.scrollToTop.show {
+  opacity: 1;
+  transform: translateY(10%);
+}
+
+.scrollToTop img {
+  width: 24px;
+  height: 17px;
+}
