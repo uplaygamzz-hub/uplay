@@ -49,17 +49,27 @@
       <img src="../images/logo/pad-logo.png" alt="Logo" />
       uPlay
     </div>
-    <div style="display: flex; list-style: none; align-items: center;">
-      <ul class="nav-list">
-        <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
-        <li><a href="../pages/coming_soon.html">About</a></li>
-        <li><a href="#tournament">Tournaments</a></li>
-        <li><a href="../pages/login.html">leaderboard</a></li>
-      </ul>
+
+    <div class="nav-menu" id="nav-menu">
+
+        <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+          <ul class="nav-list">
+            <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+            <li><a href="../pages/coming_soon.html">About</a></li>
+            <li><a href="#tournament">Tournaments</a></li>
+            <li><a href="../pages/login.html">leaderboard</a></li>
+          </ul>
+        </div>
+    
+        <div class="nav-auth-wrapper">
+            <!-- <a class="cta-button5" href="../pages/login.html"><img class="small-size" src="images/icons/profile4.1.png" alt=""></a> -->
+            <a id="cta-button2" href="./pages/login.html">Login</a>
+            <a class="cta-button4" href="./pages/login.html">Sign up</a>
+        </div>
 
     </div>
-    <a class="cta-button5" href="../pages/login.html"><img class="small-size" src="images/icons/profile4.1.png" alt=""></a>
-    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
       <span></span><span></span><span></span>
     </div>
   </nav>
@@ -71,12 +81,12 @@
     <div class="main-header">
         <div>
             <div class="left-border" style="transition: 1s;">
-                <h class="title" style="font-size: 2.5rem;">Welcome to uPlay<span style="color: rgb(255, 183, 0);">Gammz</span></h><br>
-                <h class="tagline" style="font-size: 1rem;"><h1></h1>Compete, Win & Shine</h>
+                <h class="title">Welcome to uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+                <h class="tagline"><h1 class="predot"></h1>Compete, Win & Shine</h>
             </div>
             <div class="flex_buttons">
                 <h class="cta-button-container" data-aos-delay="100">
-                    <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32;">Browse Tournament</a>
+                    <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32; margin-right: 20px;">Browse Tournament</a>
                 </h>
                 <h class="cta-button-container" style="transition: 1s;">
                     <a href="https://chat.whatsapp.com/LT7yMKAj4nTJSfm6RBj4aU" id="cta-button2" style="color: #dedede; padding: 10px 32;">Join Community</a>
@@ -86,7 +96,7 @@
     </div>
     
     <section id="tournament">
-      <h4>Featured Games</h4>
+      <h4>Games</h4>
       
       <div class="carousel-wrapper">
           <div class="tournament-cards hide-scrollbar">
@@ -131,7 +141,7 @@
                 <div class="section-header">
                     <div>
                         <h2>Active Tournaments</h2>
-                        <p>Register now before slots fill up!</p>
+                        <h class="tagline"><h1 class="predot"></h1>Register now before slots fill up!</h>
                     </div>
                     <a href="#" class="view-all-desktop">View All</a>
                 </div>
@@ -236,10 +246,44 @@
     <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
   </a>
 <footer>
-  <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+    <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+    <p>&copy; 2025 PES Tournament. All rights reserved.</p>
 </footer>
 
 <script src="../uplay/java/page.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const body = document.body;
+
+        // When the hamburger icon is clicked
+        navToggle.addEventListener('click', () => {
+            // Toggle the 'X' animation on the hamburger
+            navToggle.classList.toggle('active');
+            
+            // Toggle the visibility of the mobile menu
+            navMenu.classList.toggle('active');
+
+            // Stop the background from scrolling while menu is open
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu if a user clicks one of the links
+        const navLinks = document.querySelectorAll('.nav-list a, .nav-auth-wrapper a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    });
+    </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const slider = document.querySelector('.tournament-cards');

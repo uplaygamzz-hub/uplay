@@ -57,8 +57,9 @@ body {
 }
 
 .title {
-  border-left: 3.5px solid var(--UPlay-yellow);
-  font-size: 2.5rem;
+  border-left: 4.5px solid var(--UPlay-yellow);
+  font-size: 4.5rem;
+  font-weight: bold;
   margin-bottom: 0.5rem;
   padding-left: 10px;
 }
@@ -70,10 +71,11 @@ body {
   margin-top: 10px;
   display: flex;
   align-items: center;
+  font-size: 1rem;
 }
 
-.tagline h1 {
-  border-left: 3.5px solid var(--UPlay-yellow);
+.predot {
+  border-left: 4.5px solid var(--UPlay-yellow);
   height: 5px;
   padding-left: 10px;
 }
@@ -85,9 +87,11 @@ body {
 }
 
 #tournament h4 {
-    font-size: 24px;
+    font-size: 35px;
     margin-bottom: 20px;
-    font-weight: bold;
+    /* font-weight: bold; */
+    border-left: 4.5px solid var(--UPlay-yellow);
+    padding-left: 10px;
 }
 
 .carousel-wrapper {
@@ -237,10 +241,12 @@ body {
 
 .section-header h2 {
     font-family: var(--UPlay-font);
-    font-size: 32px;
+    font-size: 35px;
     font-weight: 700;
     margin-bottom: 8px;
     margin-top: 0;
+    border-left: 4.5px solid var(--UPlay-yellow);
+    padding-left: 10px;
 }
 
 .section-header p {

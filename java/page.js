@@ -14,23 +14,23 @@
     faders.forEach(el => appearOnScroll.observe(el));
 
     // Mobile nav toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
-    const profileToggle = document.querySelector('.profile-toggle');
-    const profileList = document.querySelector('.profile-list');
-    const loadingCover = document.querySelector('.loading-cover');
-    const loginBtn = document.querySelector('.loginBtn');
-    navToggle.addEventListener('click', () => {
-      navList.classList.toggle('show');
-      navToggle.classList.toggle('active');
-      profileToggle.classList.toggle('hide');
-    });
+    // const navToggle = document.querySelector('.nav-toggle');
+    // const navList = document.querySelector('.nav-list');
+    // const profileToggle = document.querySelector('.profile-toggle');
+    // const profileList = document.querySelector('.profile-list');
+    // const loadingCover = document.querySelector('.loading-cover');
+    // const loginBtn = document.querySelector('.loginBtn');
+    // navToggle.addEventListener('click', () => {
+    //   navList.classList.toggle('show');
+    //   navToggle.classList.toggle('active');
+    //   profileToggle.classList.toggle('hide');
+    // });
 
-    profileToggle.addEventListener('click', () => {
-      profileList.classList.toggle('show');
-      profileToggle.classList.toggle('active');
-      navToggle.classList.toggle('hide');
-    });
+    // profileToggle.addEventListener('click', () => {
+    //   profileList.classList.toggle('show');
+    //   profileToggle.classList.toggle('active');
+    //   navToggle.classList.toggle('hide');
+    // });
     
    
 

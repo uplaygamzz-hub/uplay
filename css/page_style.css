@@ -147,17 +147,21 @@ header {
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #1a1a1a00;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  border-bottom: 1px solid #ffffff34;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 60px;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--bg-dark); /* Keeps header solid */
+    z-index: 1001; /* Highest priority to stay above menu */
+    background: #1a1a1a00;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    z-index: 999;
+    border-bottom: 1px solid #ffffff34;
 }
 
 .nav-logo {
@@ -173,6 +177,25 @@ header {
   height: 15px;
   padding: 0;
   rotate: 24deg;
+}
+
+.nav-menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Centers the ul links */
+.nav-links-wrapper {
+    margin: 0 auto;
+}
+
+/* Groups the buttons on the right */
+.nav-auth-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 .flex_container {
@@ -322,7 +345,7 @@ header {
 #cta-button2 {
   display: inline-block;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 10px;
   padding: 10px 2rem;
   background: none;
   color: #ffffff;
@@ -369,16 +392,17 @@ header {
 
 .cta-button4 {
   display: inline-block;
-  padding: 0.4rem 2rem;
+  padding: 10px 32px;
   background: #ffcc00;
   color: #000;
   font-weight: bold;
-  border-radius: 0px;
+  border-radius: 100px;
   text-decoration: none;
+  transition: 0.6s;
 }
 
 .cta-button4:hover {
-  background: #cfa602;
+  background: #ffeda5;
 }
 
 .cta-button5 {
@@ -699,7 +723,7 @@ select {
 
 footer {
   text-align: center;
-  padding: 1rem;
+  padding: 4rem 10rem 1rem;
   background: #111;
   color: #888;
   font-size: 0.9rem;
@@ -769,8 +793,8 @@ nav ul.nav-list li img:hover {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  z-index: 11;
-  transition: 3s;
+  z-index: 1002;
+  transition: 0.3s;
 }
 
 .nav-toggle span {
@@ -934,35 +958,53 @@ nav ul.nav-list li img:hover {
 
 
 /* Mobile navigation */
+/* Mobile navigation */
 @media (max-width: 768px) {
   .nav-toggle {
     display: flex;
   }
 
-  nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    /* width: 100%; */
+  .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(24, 24, 24, 0.98); 
+      flex-direction: column; 
+      justify-content: center;
+      padding-top: 80px; 
+      z-index: 1000; 
+      
+      /* Animation Setup */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      transition: all 0.3s ease-in-out;
   }
 
-  nav ul.nav-list {
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(26, 26, 26, 0.95);
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 100%;
-    padding-top: 100px;
-    transform: translateY(-100%);
-    transition: transform 0.4s ease;
-    z-index: 9;
+  .nav-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
   }
 
-  nav ul.nav-list.show {
-    transform: translateY(0);
+  .nav-auth-wrapper {
+      order: 1;
+      margin-bottom: 50px;
+  }
+
+  .nav-links-wrapper {
+      order: 2;
+  }
+
+  .nav-list {
+      flex-direction: column;
+      gap: 40px;
+  }
+
+  .nav-list a, .nav-list span {
+      font-size: 24px;
   }
 
   .title {
@@ -994,7 +1036,13 @@ nav ul.nav-list li img:hover {
     padding: 1rem 0rem;
     width: 100%;
     margin: 10px 0;
+  }
 
+  /* Make sure Sign Up button spans full width on mobile too */
+  .cta-button4 {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   .steps {
@@ -1018,6 +1066,23 @@ nav ul.nav-list li img:hover {
 
   #logoutBtn {
     width: 100%;
+  }
+
+  #players h2 {
+    margin-top: 40px;
+  }
+
+  #players h3 {
+    font-size: 25px;
+  }
+
+  #players p {
+    font-size: 15px;
+    color: #d2d2d2;
+  }
+
+  footer {
+    padding: 4rem 2rem 2rem;
   }
 }
 
