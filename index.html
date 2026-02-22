@@ -29,6 +29,8 @@
   <!-- Fonts and icons -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script> 
   
   <!-- AOS animations -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
@@ -271,10 +273,7 @@
     <p>&copy; 2025 PES Tournament. All rights reserved.</p>
 </footer>
 
-<script src="../uplay/java/page.js"></script>
-<script>
-    
-    </script>
+<script src="./java/page.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const slider = document.querySelector('.tournament-cards');
@@ -304,6 +303,48 @@
             });
         });
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Safely init AOS if it exists
+    if (typeof AOS !== 'undefined') {
+        AOS.init();
+    }
+
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            // Toggle animation and menu
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            // Stop background scrolling
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.mobile-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    }
+});
 </script>
 </body>
 </html>

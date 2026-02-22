@@ -31,37 +31,7 @@
     //   profileToggle.classList.toggle('active');
     //   navToggle.classList.toggle('hide');
     // });
-    document.addEventListener('DOMContentLoaded', () => {
-        const navToggle = document.getElementById('nav-toggle');
-        const navMenu = document.getElementById('nav-menu');
-        const body = document.body;
-
-        // When the hamburger icon is clicked
-        navToggle.addEventListener('click', () => {
-            // Toggle the 'X' animation on the hamburger
-            navToggle.classList.toggle('active');
-            
-            // Toggle the visibility of the mobile menu
-            navMenu.classList.toggle('active');
-
-            // Stop the background from scrolling while menu is open
-            if (navMenu.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
-
-        // Close menu if a user clicks one of the links
-        const navLinks = document.querySelectorAll('.mobile-menu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
-    });
+   
     
    
 

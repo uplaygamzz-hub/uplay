@@ -42,28 +42,52 @@
 
 <body style="background: #191919">
 
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">
-      <img src="../images/logo/pad-logo.png" alt="Logo" />
-      uPlay<br>
-    </div>
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">
+        <img src="../images/logo/pad-logo.png" alt="Logo" />
+        uPlay
+        </div>
 
-    <div style="display: flex; list-style: none; align-items: center;">
-      <ul class="nav-list">
-        <li><a href="../index.html">Home</a></li>
-        <!-- <li><a href="pages/about.html">About</a></li> -->
-        <li><a href="../pages/coming_soon.html">About</a></li>
-        <li><a href="../pages/coming_soon.html">Contact</a></li>
-      </ul>
+        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
+        <div class="desktop-menu">
+            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+            <ul class="nav-list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            </div>
+            <div class="nav-auth-wrapper">
+                <a id="cta-button2" href="./login.html">Login</a>
+            </div>
+        </div>
 
+        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
+        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
+        <div class="mobile-menu" id="nav-menu">
+            
+            <div class="mobile-auth-wrapper">
+                <a class="mobile-btn-login" href="./login.html">Login</a>
+            </div>
 
-    </div>
-    <a class="cta-button4" href="../pages/login.html">Login</a>
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><a href="">Help Center</a></li>
+            </ul>
 
-    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+            <!-- You can easily add mobile-only text, social icons, etc. here! -->
+
+        </div>
+
+        <!-- Hamburger Icon -->
+        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+        </div>
+    </nav>
   <header class="hero" id="heroo">
     <section id="register">
       <h1>Sign Up</h1>
@@ -124,8 +148,88 @@
   </header>
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="../javar/page.js"></script>
 
+  <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
+    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
+  </a>
+<footer>
+    <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+    <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+</footer>
+
+<script src="../java/page.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.tournament-cards');
+        const dots = document.querySelectorAll('.dot');
+
+        // 1. Update active dot based on scroll position
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = slider.clientWidth;
+            
+            // Calculate which card is closest to the center
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+
+            // Update classes on dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        // 2. Allow clicking a dot to snap to that specific game card
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slider.scrollTo({
+                    left: slider.clientWidth * index,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Safely init AOS if it exists
+    if (typeof AOS !== 'undefined') {
+        AOS.init();
+    }
+
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            // Toggle animation and menu
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            // Stop background scrolling
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.mobile-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    }
+});
+</script>
 
   <script>
     function validateStep1() {

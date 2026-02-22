@@ -53,8 +53,7 @@
             </ul>
             </div>
             <div class="nav-auth-wrapper">
-                <a id="cta-button2" href="./pages/login.html">Login</a>
-                <a class="cta-button4" href="./pages/signup.html">Sign up</a>
+                <a class="cta-button4" href="./signup.html">Sign up</a>
             </div>
         </div>
 
@@ -63,8 +62,7 @@
         <div class="mobile-menu" id="nav-menu">
             
             <div class="mobile-auth-wrapper">
-                <a class="mobile-btn-login" href="./pages/login.html">Login</a>
-                <a class="mobile-btn-signup" href="./pages/signup.html">Sign up</a>
+                <a class="mobile-btn-signup" href="./signup.html">Sign up</a>
             </div>
 
             <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
@@ -127,9 +125,89 @@
   </section>
   </header>
 
+    <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
+    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
+  </a>
+<footer>
+    <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+    <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+</footer>
+
+<script src="../java/page.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.tournament-cards');
+        const dots = document.querySelectorAll('.dot');
+
+        // 1. Update active dot based on scroll position
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = slider.clientWidth;
+            
+            // Calculate which card is closest to the center
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+
+            // Update classes on dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        // 2. Allow clicking a dot to snap to that specific game card
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slider.scrollTo({
+                    left: slider.clientWidth * index,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Safely init AOS if it exists
+    if (typeof AOS !== 'undefined') {
+        AOS.init();
+    }
+
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            // Toggle animation and menu
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            // Stop background scrolling
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.mobile-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    }
+});
+</script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="../javar/page.js"></script>
-<script src="../javar/auto_submit_and_respond.js"></script>
+<script src="../java/auto_submit_and_respond.js"></script>
 
 
   <script>
