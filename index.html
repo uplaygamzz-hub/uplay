@@ -44,35 +44,56 @@
 
 <body id="body">
   
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">
-      <img src="../images/logo/pad-logo.png" alt="Logo" />
-      uPlay
-    </div>
-
-    <div class="nav-menu" id="nav-menu">
-
-        <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
-          <ul class="nav-list">
-            <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
-            <li><a href="../pages/coming_soon.html">About</a></li>
-            <li><a href="#tournament">Tournaments</a></li>
-            <li><a href="../pages/login.html">leaderboard</a></li>
-          </ul>
-        </div>
-    
-        <div class="nav-auth-wrapper">
-            <!-- <a class="cta-button5" href="../pages/login.html"><img class="small-size" src="images/icons/profile4.1.png" alt=""></a> -->
-            <a id="cta-button2" href="./pages/login.html">Login</a>
-            <a class="cta-button4" href="./pages/login.html">Sign up</a>
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">
+        <img src="../images/logo/pad-logo.png" alt="Logo" />
+        uPlay
         </div>
 
-    </div>
+        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
+        <div class="desktop-menu">
+            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+            <ul class="nav-list">
+                <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#tournament">Tournaments</a></li>
+                <li><a href="../pages/login.html">Leaderboard</a></li>
+            </ul>
+            </div>
+            <div class="nav-auth-wrapper">
+                <a id="cta-button2" href="./pages/login.html">Login</a>
+                <a class="cta-button4" href="./pages/signup.html">Sign up</a>
+            </div>
+        </div>
 
-    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
+        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
+        <div class="mobile-menu" id="nav-menu">
+            
+            <div class="mobile-auth-wrapper">
+                <a class="mobile-btn-login" href="./pages/login.html">Login</a>
+                <a class="mobile-btn-signup" href="./pages/signup.html">Sign up</a>
+            </div>
+
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#tournament">Tournaments</a></li>
+                <li><a href="../pages/login.html">Leaderboard</a></li>
+            </ul>
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><a href="">Help Center</a></li>
+            </ul>
+
+            <!-- You can easily add mobile-only text, social icons, etc. here! -->
+
+        </div>
+
+        <!-- Hamburger Icon -->
+        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+        </div>
+    </nav>
   <header class="hero" id="header">
 
     <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
@@ -252,37 +273,7 @@
 
 <script src="../uplay/java/page.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const navToggle = document.getElementById('nav-toggle');
-        const navMenu = document.getElementById('nav-menu');
-        const body = document.body;
-
-        // When the hamburger icon is clicked
-        navToggle.addEventListener('click', () => {
-            // Toggle the 'X' animation on the hamburger
-            navToggle.classList.toggle('active');
-            
-            // Toggle the visibility of the mobile menu
-            navMenu.classList.toggle('active');
-
-            // Stop the background from scrolling while menu is open
-            if (navMenu.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
-
-        // Close menu if a user clicks one of the links
-        const navLinks = document.querySelectorAll('.nav-list a, .nav-auth-wrapper a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
-    });
+    
     </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {

@@ -29,7 +29,7 @@
     <!-- Fonts and icons -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="../uplay/css/uplay.css">
+  <link rel="stylesheet" href="../css/uplay.css">
   <link rel="stylesheet" href="../css/preloader.css">
   <link rel="stylesheet" href="../css/scroll-to-top.css">
   <link rel="stylesheet" href="../css/page_style.css">
@@ -37,29 +37,54 @@
 </head>
 <body style="background: #191919">
 
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">
-      <img src="../images/logo/pad-logo.png" alt="Logo" />
-      uPlay<br>
-    </div>
-    
-    <div style="display: flex; list-style: none; align-items: center;">
-      <ul class="nav-list">
-        <li><a href="../uplay/home.html">Home</a></li>
-        <!-- <li><a href="pages/about.html">About</a></li> -->
-        <li><a href="../pages/coming_soon.html">About</a></li>
-        <li><a href="../pages/coming_soon.html">Contact</a></li>
-      </ul>
-      
-      
-      
-    </div>
-    <a class="cta-button4" href="../pages/signup.html">Sign Up</a>
-    
-    <div class="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">
+        <img src="../images/logo/pad-logo.png" alt="Logo" />
+        uPlay
+        </div>
+
+        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
+        <div class="desktop-menu">
+            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+            <ul class="nav-list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            </div>
+            <div class="nav-auth-wrapper">
+                <a id="cta-button2" href="./pages/login.html">Login</a>
+                <a class="cta-button4" href="./pages/signup.html">Sign up</a>
+            </div>
+        </div>
+
+        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
+        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
+        <div class="mobile-menu" id="nav-menu">
+            
+            <div class="mobile-auth-wrapper">
+                <a class="mobile-btn-login" href="./pages/login.html">Login</a>
+                <a class="mobile-btn-signup" href="./pages/signup.html">Sign up</a>
+            </div>
+
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
+                <li><a href="">Help Center</a></li>
+            </ul>
+
+            <!-- You can easily add mobile-only text, social icons, etc. here! -->
+
+        </div>
+
+        <!-- Hamburger Icon -->
+        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+        </div>
+    </nav>
 
   <header class="hero" id="heroo">
     <section id="register">
