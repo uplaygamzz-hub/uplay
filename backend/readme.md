@@ -1,6 +1,6 @@
 # 🎮 UPlay Backend API Documentation
 
-This documentation is for the frontend team to integrate with the UPlay Tournament System. The backend is built on **Django 5.x**, utilizing **PBKDF2/Argon2** for security and **WebSockets** for real-time updates.
+This documentation is for the frontend team to integrate with the UPlay Tournament System. The backend is built on **Django 6.0.2**, utilizing **PBKDF2/Argon2** for security and **WebSockets** for real-time updates.
 
 ---
 
