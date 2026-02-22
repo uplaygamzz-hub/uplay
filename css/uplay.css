@@ -13,7 +13,7 @@ body {
 }
 
 .main-header {
-  padding: 0% 7% 0% 7%;
+  padding: 7% 7%;
   height: 80dvh;
   display: flex;
   place-items: center;
@@ -25,7 +25,7 @@ body {
 .hero {
   height: fit-content;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 1%, #181818 90%),
-              url('../images/cod1.jpeg') no-repeat center center/cover;
+              url('../images/cod1_gemini.png') no-repeat center center/cover;
   text-align: left;
   padding: 0px;
 }
@@ -88,20 +88,20 @@ body {
 
 #tournament h4 {
     font-size: 35px;
-    margin-bottom: 20px;
+    margin: 20px 0px;
     /* font-weight: bold; */
     border-left: 4.5px solid var(--UPlay-yellow);
     padding-left: 10px;
 }
 
-.carousel-wrapper {
+/* .carousel-wrapper {
     position: relative;
-    border-radius: 24px;
+    border-radius: 0px;
     background: rgba(23, 23, 23, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     overflow: hidden;
-}
+} */
 
 .tournament-cards {
     display: flex;
@@ -149,13 +149,14 @@ body {
     z-index: 1;
 }
 
+
 .tournament-card span, .tournament-card {
     z-index: 2;
 }
 
 /* Individual Card Backgrounds based on your IDs */
 #pes {
-    background-image: url('../images/Pro\ Evolution\ Soccer\ 2017.jpeg');
+    background-image: url('../images/stadium-night.png');
 }
 
 #cod {
@@ -163,7 +164,7 @@ body {
 }
 
 #fifa {
-    background-image: url('../images/FC25-1.png');
+    background-image: url('../images/Fifa24/Gemini_Generated_Image_ov6wohov6wohov6w.png');
 }
 
 #see-more {
