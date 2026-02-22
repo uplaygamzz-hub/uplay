@@ -15,13 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, re_path
+from django.conf.urls.static import static
+from core import settings
 from uplay_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/signup/', views.register_player),
+    re_path(
+        r'^api/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32}=*)/?$', 
+        views.activate_account, 
+        name='activate'
+    ),
     path('api/login/', views.login_player),
     path('api/logout/', views.logout_player),
     path('api/profile/', views.get_profile),
@@ -33,4 +40,10 @@ urlpatterns = [
 
     path('api/status/', views.update_status),
     path('api/players/', views.view_all_players),
+
+    path('api/password-reset/', views.request_password_reset, name='password_reset'),
+    path('api/password-reset-confirm/<uidb64>/<token>/', views.reset_password_confirm, name='password_reset_confirm'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

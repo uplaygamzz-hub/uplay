@@ -60,3 +60,24 @@ class Tournament(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class PendingRegistration(models.Model):
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    receipt = models.FileField(upload_to='payment_receipts/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.player.username} - {self.tournament.title}"
+    
+class Transaction(models.Model):
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    receipt = models.FileField(upload_to='permanent_receipts/')
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment: {self.player.username} - {self.tournament.title}"

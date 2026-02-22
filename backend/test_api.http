@@ -6,12 +6,12 @@ POST {{baseUrl}}/signup/
 Content-Type: {{contentType}}
 
 {
-    "username": "tester1",
-    "email": "tester1@uplay.com",
+    "username": "tester02",
+    "email": "tester02@uplay.com",
     "password": "password123",
     "first_name": "Test",
     "last_name": "User",
-    "phone_number": "08012345678"
+    "phone_number": "08012445678"
 }
 
 ### 2. Login (This will save a cookie for subsequent requests)
@@ -20,7 +20,7 @@ POST {{baseUrl}}/login/
 Content-Type: {{contentType}}
 
 {
-    "username": "tester1",
+    "username": "tester3",
     "password": "password123"
 }
 
@@ -32,15 +32,17 @@ GET {{baseUrl}}/players/
 
 ### 5. List Active Tournaments (With Pagination & Search)
 # Testing partial name search
-GET {{baseUrl}}/tournaments/active/?search=test
+GET {{baseUrl}}/tournaments/active/?search=lea
 
 ### 6. List Active Tournaments (With Dropdown Filters)
-# Replace 1 with an actual category_id or game_id from your DB
-GET {{baseUrl}}/tournaments/active/?category_id=1&game_id=1
+GET {{baseUrl}}/tournaments/active/?game=PES 2025
+
+### 7. List Active Tournaments (With Category Filter)
+GET {{baseUrl}}/tournaments/active/?category=shooter
 
 ### 7. Join a Tournament (Requires Login)
 # Replace '1' with an actual Tournament ID
-POST {{baseUrl}}/tournaments/join/1/
+POST {{baseUrl}}/tournaments/join/2/
 Content-Type: {{contentType}}
 
 ### 8. Update Player Status
@@ -49,7 +51,7 @@ Content-Type: {{contentType}}
 
 {
     "username": "tester1",
-    "status": "inactive"
+    "status": "active"
 }
 
 ### 9. Logout
