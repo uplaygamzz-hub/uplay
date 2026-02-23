@@ -1,18 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-class Player(AbstractUser):
-    # AbstractUser already has first_name, last_name, username, email, password
+class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    status = models.CharField(
-        max_length=10, 
-        choices=[('active', 'Active'), ('inactive', 'Inactive')],
-        default='active'
-    )
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.username
 
 class Game(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -40,7 +30,7 @@ class Tournament(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="tournaments")
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    participants = models.ManyToManyField(Player, related_name="joined_tournaments", blank=True)
+    participants = models.ManyToManyField(User, related_name="joined_tournaments", blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     is_paid = models.BooleanField(default=False)
@@ -63,7 +53,7 @@ class Tournament(models.Model):
     
 
 class PendingRegistration(models.Model):
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    player = models.ForeignKey('User', on_delete=models.CASCADE)
     tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
     receipt = models.FileField(upload_to='payment_receipts/')
     submitted_at = models.DateTimeField(auto_now_add=True)
@@ -73,7 +63,7 @@ class PendingRegistration(models.Model):
         return f"{self.player.username} - {self.tournament.title}"
     
 class Transaction(models.Model):
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    player = models.ForeignKey('User', on_delete=models.CASCADE)
     tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
     receipt = models.FileField(upload_to='permanent_receipts/')
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

@@ -1,13 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Player, Game, Tournament, PendingRegistration, Transaction, Category
+from .models import User, Game, Tournament, PendingRegistration, Transaction, Category
 from django.utils.html import format_html
 
 # Basic Model Registrations
-admin.site.register(Player, UserAdmin)
 admin.site.register(Game)
 admin.site.register(Tournament)
 admin.site.register(Category)
+
+# accounts/admin.py
+from django.contrib.auth.admin import UserAdmin
+from .models import User
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        ('Extra Info', {'fields': ('phone_number',)}),
+    )
 
 @admin.action(description='Approve and Move to Transactions')
 def approve_and_record(modeladmin, request, queryset):
