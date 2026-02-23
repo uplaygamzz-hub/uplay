@@ -11,3 +11,5 @@ env/
 # IDE files
 .vscode/
 .idea/
+
+db.sqlite3
