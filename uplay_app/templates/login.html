@@ -94,24 +94,54 @@
     <section id="register">
       <h1>Login</h1>
       <p style="color: #ccc;">Login to continue uPlay</p>
-      <div class="form">
-
+      <form class="form" method="POST">
+        {% csrf_token %}
         <div class="form-inputs">
-          <label for="email">Email :</label>
-          <input id="loginEmail" type="email" placeholder="example@gmail.com">
+          <label for="id_username">Username :</label>
+          <input id="id_username" type="text" name="username" placeholder="Username" required
+            value="{{ form.username.value|default:'' }}">
+          {% if form.username.errors %}
+          <div class="field-error">{{ form.username.errors.0 }}</div>
+          {% endif %}
         </div>
 
-        <!-- <div class="form-inputs">
-        <label for="whatsapp">WhatsApp No :</label>
-        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+123 4567 890..." required>
-      </div> -->
-
         <div class="form-inputs">
-          <label for="password">Password :</label>
-          <input id="loginPassword" type="password" placeholder="xxxxxx">
+          <label for="id_password">Password :</label>
+          <input id="id_password" type="password" name="password" placeholder="••••••••" required>
+          {% if form.password.errors %}
+          <div class="field-error">{{ form.password.errors.0 }}</div>
+          {% endif %}
         </div>
 
-        <button class="" id="loginBtn">Login</button>
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+          <p class="message-item {{ message.tags }}" style="margin-bottom: 1rem;">{{ message }}</p>
+          {% endfor %}
+        </div>
+        <style>
+          .message-item.error {
+            color: #ff4444;
+          }
+
+          .message-item.success {
+            color: #00C851;
+          }
+
+          .message-item.info {
+            color: #33b5e5;
+          }
+
+          .field-error {
+            color: #ff4444;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            font-family: inherit;
+          }
+        </style>
+        {% endif %}
+
+        <button type="submit" class="" id="loginBtn">Login</button>
         <!-- <div id="loadingSpinner" style="display: none; margin-top: 10px; color: #fff;">
         ⏳ Submitting... Please wait
       </div> -->
@@ -127,7 +157,7 @@
         <div class="form-inputs">
           <p>Don't have an account? <a style="color: var(--UPlay-yellow);" href="{% url 'signup' %}">Sign up</a></p>
         </div>
-      </div>
+      </form>
     </section>
   </header>
 

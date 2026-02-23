@@ -433,6 +433,30 @@ body {
     height: 16px;
 }
 
+
+/* =========================================================
+   FORM MESSAGES CSS
+   ========================================================= */
+
+.form-message-item.error {
+    color: #ff4444;
+}
+
+.form-message-item.success {
+    color: #00C851;
+}
+
+.form-message-item.info {
+    color: #33b5e5;
+}
+
+.field-error {
+    color: #ff4444;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    font-family: inherit;
+}
+
 /* =========================================================
    RESPONSIVE BREAKPOINTS
    ========================================================= */
@@ -456,3 +480,6 @@ body {
         grid-template-columns: repeat(3, 1fr); /* 3 columns */
     }
 }
+
+
+
