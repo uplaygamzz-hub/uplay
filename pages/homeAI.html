@@ -35,12 +35,10 @@
   <!-- AOS animations -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <!-- Local stylesheets -->
-  <link rel="stylesheet" href="./css/uplay.css">
-  <link rel="stylesheet" href="./css/page_style.css">
-  <link rel="stylesheet" href="./css/hide-content.css">
-  <link rel="stylesheet" href="./css/scroll-to-top.css">
-  <!-- If 'libs/aos/aos.css' is a duplicate, remove it to avoid duplication -->
-  <link rel="stylesheet" href="./libs/aos/aos.css" />
+  <link rel="stylesheet" href="../css/uplay.css">
+  <link rel="stylesheet" href="../css/page_style.css">
+  <link rel="stylesheet" href="../css/hide-content.css">
+  <link rel="stylesheet" href="../css/scroll-to-top.css">
 
 </head>
 
@@ -48,58 +46,71 @@
   
     <nav class="navbar" id="navbar">
         <div class="nav-logo">
-        <img src="../images/logo/pad-logo.png" alt="Logo" />
-        uPlay
+            <img src="../images/logo/pad-logo.png" alt="Logo" />
+            uPlay
         </div>
 
-        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
-        <div class="desktop-menu">
-            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+        <!-- 1. DESKTOP CENTER LINKS -->
+        <div class="desktop-links">
             <ul class="nav-list">
-                <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                <li><span style="color: var(--UPlay-yellow);">Home</span></li>
                 <li><a href="../pages/coming_soon.html">About</a></li>
                 <li><a href="#tournament">Tournaments</a></li>
                 <li><a href="../pages/login.html">Leaderboard</a></li>
             </ul>
-            </div>
-            <div class="nav-auth-wrapper">
-                <a id="cta-button2" href="./pages/login.html">Login</a>
-                <a class="cta-button4" href="./pages/signup.html">Sign up</a>
-            </div>
         </div>
-
-        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
-        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
-        <div class="mobile-menu" id="nav-menu">
+        
+        <!-- 2. RIGHT SIDE & UNIFIED MENU -->
+        <div class="nav-actions">
             
-            <div class="mobile-auth-wrapper">
-                <a class="mobile-btn-login" href="./pages/login.html">Login</a>
-                <a class="mobile-btn-signup" href="./pages/signup.html">Sign up</a>
+            <div class="nav-profile">
+                <!-- Trigger Icon (Desktop Only) -->
+                <img src="../images/profile1.png" alt="Profile" class="profile-icon-top">
+                
+                <!-- The Core Unified Element -->
+                <div class="unified-menu" id="nav-menu">
+                    
+                    <div class="unified-header">
+                        <img class="profile" src="../images/profile1.png" alt="">
+                        <ul class="unified-user-info">
+                            <li><h4>Full Name</h4></li>
+                            <li><h6>@Username</h6></li>
+                        </ul>
+                        <a class="edit-btn" href="#"><h6>Edit</h6></a>
+                    </div>
+
+                    <!-- HIDDEN ON DESKTOP, REVEALED ON MOBILE -->
+                    <ul class="unified-nav-list mobile-only-links">
+                        <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                        <li><a href="../pages/coming_soon.html">Achievements</a></li>
+                        <li><a href="#tournament">Tournaments</a></li>
+                        <li><a href="../pages/login.html">Leaderboard</a></li>
+                    </ul>
+
+                    <!-- ALWAYS VISIBLE LINKS -->
+                    <ul class="unified-nav-list secondary-links">
+                        <li><a href="">Help Center</a></li>
+                        <li><a href="../pages/coming_soon.html">About</a></li>
+                    </ul>
+
+                    <div class="unified-logout-wrapper">
+                        <a href="#" class="logout-btn">Log out</a>
+                    </div>
+
+                </div>
             </div>
 
-            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
-                <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
-                <li><a href="../pages/coming_soon.html">About</a></li>
-                <li><a href="#tournament">Tournaments</a></li>
-                <li><a href="../pages/login.html">Leaderboard</a></li>
-            </ul>
-            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
-                <li><a href="">Help Center</a></li>
-            </ul>
+            <!-- Hamburger Trigger (Mobile Only) -->
+            <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+                <span></span><span></span><span></span>
+            </div>
 
-            <!-- You can easily add mobile-only text, social icons, etc. here! -->
-
-        </div>
-
-        <!-- Hamburger Icon -->
-        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span><span></span><span></span>
         </div>
     </nav>
+    
   <header class="hero" id="header">
 
     <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
-
 
     <div class="main-header">
         <div>
@@ -273,27 +284,22 @@
     <p>&copy; 2025 PES Tournament. All rights reserved.</p>
 </footer>
 
-<script src="./java/page.js"></script>
+<script src="../java/page.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const slider = document.querySelector('.tournament-cards');
         const dots = document.querySelectorAll('.dot');
 
-        // 1. Update active dot based on scroll position
         slider.addEventListener('scroll', () => {
             const scrollLeft = slider.scrollLeft;
             const cardWidth = slider.clientWidth;
-            
-            // Calculate which card is closest to the center
             const activeIndex = Math.round(scrollLeft / cardWidth);
 
-            // Update classes on dots
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === activeIndex);
             });
         });
 
-        // 2. Allow clicking a dot to snap to that specific game card
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 slider.scrollTo({
@@ -314,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // MOBILE NAV TOGGLE
+    // UNIFIED MENU TOGGLE LOGIC
     // ==========================================
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
@@ -334,8 +340,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close menu when a link is clicked
-        const navLinks = document.querySelectorAll('.mobile-menu a');
+        // Close menu when a link inside it is clicked
+        const navLinks = document.querySelectorAll('.unified-menu a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navToggle.classList.remove('active');

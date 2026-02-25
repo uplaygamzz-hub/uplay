@@ -1,6 +1,6 @@
 :root {
-  --UPlay-yellow: #ffcc00;
-  --UPlay-background-color: #1a1a1a;
+  --UPlay-yellow: rgb(255, 204, 0);
+  --UPlay-background-color: #border-bottom: 1px solid rgba(255, 255, 255, 0.402);;
   --UPlay-text-color: white;
   --UPlay-font: 'Orbitron', sans-serif;
   --line: #3a3a3a;
@@ -86,10 +86,13 @@ body {
   margin: 0;
   padding: 0;
   color: #fff;
+  display: flex;
+  justify-content: space-between;
 }
 
 .body {
-  border-radius: 20px;
+  width: 100%;
+  background: rgb(13 13 13);
 }
 
 .logos {
@@ -150,18 +153,23 @@ header {
   background: #191919;
 }
 
+@media (max-width: 768px) {
+
+}
+
 .navbar {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 5%;
-    height: 60px;
+    align-items: flex-start;
+    padding: 0 30px 30px 30px;
+    height: 100dvh;
     top: 0;
-    width: 100%;
+    width: fit-content;
     box-sizing: border-box;
     background: var(--bg-dark); /* Keeps header solid */
     z-index: 1001; /* Highest priority to stay above menu */
-    background: #1a1a1a00;
+    background: #ff353500;
     backdrop-filter: blur(10px);
     position: sticky;
     z-index: 999;
@@ -173,8 +181,12 @@ header {
   font-weight: bold;
   color: var(--UPay-yellow);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.402);
+  width: 200px;
+  gap: 10px;
 }
 
 .nav-logo img {
@@ -187,7 +199,8 @@ header {
 .desktop-menu {
     display: flex;
     flex: 1;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
     justify-content: space-between;
 }
 
@@ -199,6 +212,10 @@ header {
 /* Centers the ul links */
 .nav-links-wrapper {
     margin: 0 auto;
+    display: flex; 
+    flex-direction: column;
+    list-style: none; 
+    align-items: flex-start;
 }
 
 /* Groups the buttons on the right */
@@ -764,10 +781,12 @@ footer {
 nav ul.nav-list {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 30px;
   margin: 0;
   padding: 0;
-  align-items: center;
+  align-items: flex-start;
+  width: 200px;
 }
 
 ul li {
@@ -973,6 +992,21 @@ nav ul.nav-list li img:hover {
 /* Mobile navigation */
 /* Mobile navigation */
 @media (max-width: 768px) {
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+  .nav-logo {
+    border: none;
+  }
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+  }
 .nav-toggle {
     display: flex;
     z-index: 1002; /* Keeps hamburger above overlay */
@@ -1019,7 +1053,7 @@ nav ul.nav-list li img:hover {
       display: flex;
       justify-content: flex-end;
       border-bottom: 1px solid rgba(255, 255, 255, 0.402);
-      gap: 20px;
+      gap: 30px;
       width: 85%;
       padding-bottom: 20px;
       flex-direction: column;
@@ -1067,7 +1101,7 @@ nav ul.nav-list li img:hover {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 20px;
+      gap: 30px;
       text-align: center;
       font-size: 15px;
   }
