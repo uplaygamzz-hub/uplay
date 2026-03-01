@@ -1019,9 +1019,9 @@ nav ul.nav-list li img:hover {
       display: flex;
       justify-content: flex-end;
       border-bottom: 1px solid rgba(255, 255, 255, 0.402);
-      gap: 20px;
+      gap: 30px;
       width: 85%;
-      padding-bottom: 20px;
+      padding-bottom: 30px;
       flex-direction: column;
   }
 
@@ -1037,7 +1037,7 @@ nav ul.nav-list li img:hover {
   }
 
   .mobile-auth-wrapper div {
-      padding-bottom: 20px;
+      padding-bottom: 30px;
   }
 
   .mobile-btn-login, .mobile-btn-signup {
@@ -1062,12 +1062,12 @@ nav ul.nav-list li img:hover {
 
   .mobile-nav-list {
       list-style: none;
-      padding: 20px 10px;
+      padding: 30px 10px;
       margin: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 20px;
+      gap: 30px;
       text-align: center;
       font-size: 15px;
   }

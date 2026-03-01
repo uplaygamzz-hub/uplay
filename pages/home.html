@@ -1,414 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>uPlay</title>
-  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Same fonts and icons so it matches the parent -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-  <meta name="title" content="UPlay - PES Tournament">
-  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+    <style>
+        /* Base Themes */
+        :root {
+            --UPlay-yellow: #ffcc00;
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg-base: #121212;
+            --bg-surface: #1c1c1c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --hover-bg: rgba(255, 255, 255, 0.05);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+        }
 
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
-  <meta property="og:title" content="UPlay - PES Tournament">
-  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
-  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+        body.light-mode {
+            --bg-base: #f4f7fb;
+            --bg-surface: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-bg: #f3f4f6;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="UPlay - PES Tournament">
-  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
-  <meta name="twitter:title" content="UPlay - PES Tournament">
-  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
-  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
-  
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-base); /* Fills iframe background */
+            color: var(--text-primary);
+            margin: 0;
+            padding: 24px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-  <!-- Fonts and icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script> 
-  
-  <!-- AOS animations -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  <!-- Local stylesheets -->
-  <link rel="stylesheet" href="../css/uplay.css">
-  <link rel="stylesheet" href="../css/home.css">
-  <link rel="stylesheet" href="../css/hide-content.css">
-  <link rel="stylesheet" href="../css/scroll-to-top.css">
-  <!-- If 'libs/aos/aos.css' is a duplicate, remove it to avoid duplication -->
-  <link rel="stylesheet" href="../libs/aos/aos.css" />
+        /* --- Global Scrollbar Hiding --- */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-  <style>
-    .ads-card, .ads-cards {
-      height: 300px;
-    }
-
-    .title {
-      font-size: 40px;
-    }
-
-    .left-border {
-      margin-bottom: 3rem;
-    }
-  </style>
-
-</head>
-
-<body id="body">
-  
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">
-        <img src="../images/logo/pad-logo.png" alt="Logo" />
-        <h6 style="margin: 0;">Hi, @Username</h6>
-        </div>
-
-        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
-        <div class="desktop-menu">
-            <div class="nav-links-wrapper">
-                <div class="nav-auth-wrapper">
-                    <img class="profile" style="padding: 30px 0px;" src="../images/profile1.png" alt="">
-                </div>
-                <ul class="nav-list" style="border-bottom: 1px solid rgba(255, 255, 255, 0.402); border-top: 1px solid rgba(255, 255, 255, 0.402); padding: 30px 0px;">
-                    <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
-                    <li><a href="../pages/coming_soon.html">About</a></li>
-                    <li><a href="#tournament">Tournaments</a></li>
-                    <li><a href="../pages/login.html">Leaderboard</a></li>
-                </ul>
-            </div>
-
-            <a class="mobile-btn-login"  href="#">Log out</a>
+        /* --- Dashboard Content Styles --- */
+        .welcome-banner { background: linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(0,0,0,0) 100%), var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 32px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; box-shadow: var(--card-shadow); }
+        .welcome-text h1 { font-family: var(--font-heading); font-size: 24px; margin-bottom: 8px; }
+        .welcome-text p { color: var(--text-secondary); margin-bottom: 20px; }
+        .btn-primary { background-color: var(--UPlay-yellow); color: #000; padding: 10px 24px; border-radius: 8px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; border: none; cursor: pointer;}
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3); }
+        .welcome-img { width: 150px; opacity: 0.8; }
         
-        </div>
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+        .stat-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 16px; }
+        .stat-icon { width: 50px; height: 50px; background-color: rgba(255, 204, 0, 0.1); color: var(--UPlay-yellow); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .stat-info h4 { color: var(--text-secondary); font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+        .stat-info h2 { font-family: var(--font-heading); font-size: 22px; margin: 0; }
+        
+        .section-heading { font-family: var(--font-heading); font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; margin-top: 0; }
 
-        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
-        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
-        <div class="mobile-menu" id="nav-menu">
+        /* --- NEW SECTION: My Upcoming Matches --- */
+        .upcoming-match-card {
+            background: linear-gradient(to right, rgba(16, 185, 129, 0.05), var(--bg-surface) 40%);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--success-color);
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .match-details h4 { 
+            margin: 0 0 6px 0; 
+            font-size: 16px; 
+            font-family: var(--font-heading); 
+        }
+
+        .match-details p { 
+            margin: 0; 
+            font-size: 13px; 
+            color: var(--text-secondary); 
+        }
+
+        .match-action { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+        }
+
+        .match-timer { 
+            font-family: monospace; 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--danger-color); 
+            background: rgba(239, 68, 68, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+        
+        /* --- SECTION: Tournament Slideshow --- */
+        .promo-slideshow {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            margin-bottom: 32px;
+            padding: 4px 4px 14px 4px;
+            scroll-behavior: smooth;
+        }
+        
+        .promo-slide {
+            flex: 0 0 calc(50% - 10px); /* Desktop: Shows 2 cards side-by-side */
+            scroll-snap-align: start;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            height: 220px;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid var(--border-color);
+        }
+
+        .promo-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%);
+            z-index: 1;
+        }
+
+        .promo-content { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end;}
+        .promo-content h3 { font-family: var(--font-heading); font-size: 24px; margin: 0 0 4px 0; }
+        .promo-content p { color: #d1d5db; margin: 0; font-size: 14px; }
+        
+        .promo-badge {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .promo-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .promo-slide:hover .promo-btn { background-color: var(--UPlay-yellow); color: black; }
+
+        /* --- SECTION: Games Horizontal Scroll --- */
+        .games-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 16px;
+            padding-bottom: 12px;
+            margin-bottom: 32px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .game-box {
+            /* Desktop: Shows 5 boxes (100% / 5 = 20%, minus gaps) */
+            flex: 0 0 calc(20% - 13px); 
+            aspect-ratio: 3 / 4;
+            border-radius: 12px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: start;
+            transition: transform 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .game-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--UPlay-yellow);
+        }
+
+        .game-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .game-title {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            z-index: 2;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0;
+            font-family: var(--font-heading);
+        }
+
+        /* --- NEW SECTION: Friends Online Strip --- */
+        .friends-strip {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            overflow-x: auto;
+            margin-bottom: 32px;
+            padding-bottom: 8px;
+        }
+
+        .friend-avatar {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--bg-surface);
+        }
+
+        .friend-avatar:hover {
+            transform: translateY(-3px);
+            border-color: var(--UPlay-yellow);
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-base);
+        }
+
+        .status-dot.online { background-color: var(--success-color); }
+        .status-dot.offline { background-color: var(--text-secondary); }
+        .status-dot.in-game { background-color: #a855f7; }
+
+        .add-friend-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .add-friend-btn:hover {
+            border-color: var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            background-color: rgba(255, 204, 0, 0.05);
+        }
+
+        /* --- Quick Actions --- */
+        .actions-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+        .action-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s ease; box-shadow: var(--card-shadow); text-decoration: none; color: inherit; display: block;}
+        .action-card:hover { border-color: var(--UPlay-yellow); transform: translateY(-5px); }
+        .action-card .icon-wrapper { width: 60px; height: 60px; margin: 0 auto 16px auto; background-color: var(--hover-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-primary); }
+        .action-card h3 { font-size: 15px; font-weight: 600; margin: 0;}
+
+        /* --- NEW SECTION: Recent Match History --- */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .history-item {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .history-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .history-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .game-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .history-details h4 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .history-details p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .history-result {
+            text-align: right;
+        }
+
+        .result-status {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .result-status.victory { color: var(--success-color); }
+        .result-status.defeat { color: var(--danger-color); }
+
+        .result-score {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .result-reward {
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 12px;
+        }
+
+        .result-reward.positive { color: var(--UPlay-yellow); }
+        .result-reward.negative { color: var(--text-secondary); }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 992px) { 
+            .stats-grid { grid-template-columns: repeat(2, 1fr); } 
+            .actions-grid { grid-template-columns: repeat(2, 1fr); } 
+            /* Tablet: Shows 3.5 boxes so user knows to scroll */
+            .game-box { flex: 0 0 calc(28% - 10px); } 
+        }
+        
+        @media (max-width: 768px) { 
+            .stats-grid { grid-template-columns: 1fr; } 
+            .welcome-banner { flex-direction: column; text-align: center; } 
+            .welcome-img { display: none; } 
             
-            <div class="mobile-auth-wrapper">
-                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.402);">
-                    <img class="profile" style="padding: 0;" src="../images/profile1.png" alt="">
-                    <ul style="padding: 0px;">
-                        <li><h4>Full Name</h4></li>
-                        <li><h6>@Username</h6></li>
-                    </ul>
-                    <a class="mobile-btn-login" style="margin-left: 25px;" href="#"><h6>Edit</h6></a>
-                </div>
-                <ul class="mobile-nav-list">
-                    <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
-                    <li><a href="../pages/coming_soon.html">Achievements</a></li>
-                    <li><a href="#tournament">Tournaments</a></li>
-                    <li><a href="../pages/login.html">Leaderboard</a></li>
-                </ul>
-                <ul style="border-top: 1px solid rgba(255, 255, 255, 0.402); bottom: 1; padding-top: 20px;" class="mobile-nav-list">
-                    <li><a href="">Help Center</a></li>
-                    <li><a href="../pages/coming_soon.html">About</a></li>
-                </ul>
-            </div>
+            .upcoming-match-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .match-action { width: 100%; justify-content: space-between; }
 
-            <div class="mobile-auth-wrapper" style="margin-bottom: 19px; padding-bottom: 25px;">
-                <a class="mobile-btn-login"  href="#">Log out</a>
-            </div>            <!-- You can easily add mobile-only text, social icons, etc. here! -->
-
-        </div>
-
-        <!-- Hamburger Icon -->
-        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span><span></span><span></span>
-        </div>
-    </nav>
-
-    <section class="body">
-
-        <header class="hero" style="background-image: none;" id="header">
-      
-          <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
-          
-          
-          <div class="main-header" style="height: 100dvh; padding: 0; justify-content: flex-start; align-items: flex-start;">
-              
-            <section id="tournament"style="padding: 0 0 50px 0;">
-                <div class="carousel-wrapper">
-                    <div class="ads-cards tournament-cards hide-scrollbar">
-                      <a href="../pages/login.html">
-                          <div class="ads-card tournament-card" id="pes">
-                              <span style="position: relative; z-index: 2;">Pro Evolution Soccer</span>
-                          </div>
-                      </a>
-                      <a href="../pages/login.html">
-                          <div class="ads-card tournament-card" id="cod">
-                              <span style="position: relative; z-index: 2;">Call of Duty Mobile</span>
-                          </div>
-                      </a>
-                      <a href="../pages/login.html">
-                          <div class="ads-card tournament-card" id="fifa">
-                              <span style="position: relative; z-index: 2;">FIFA 23</span>
-                          </div>
-                      </a>
-                      <a href="#">
-                          <div class="ads-card tournament-card" id="see-more">
-                              SEE MORE GAMES
-                          </div>
-                      </a>
-                    </div>
-              
-                    <!-- The Dots -->
-                    <div class="slider-dots">
-                        <div class="dot active"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </div>
-              </section>
-
-              <div style="padding-left: 70px;">
-                  <div class="left-border" style="transition: 1s;">
-                      <h class="title">Hi, <span style="color: #ffcc00;">@Username</span></h><br>
-                      <h class="tagline"><h1 class="predot"></h1>Compete, Win & Shine</h>
-                  </div>
-                  <div class="flex_buttons">
-                      <h class="cta-button-container" data-aos-delay="100">
-                          <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32; margin-right: 20px;">Browse Tournament</a>
-                      </h>
-                      <h class="cta-button-container" style="transition: 1s;">
-                          <a href="https://chat.whatsapp.com/LT7yMKAj4nTJSfm6RBj4aU" id="cta-button2" style="color: #dedede; padding: 10px 32;">Join Community</a>
-                      </h>
-                  </div>
-              </div>
-          </div>
-          
-          <section id="tournament">
-            <h4>Games</h4>
+            .promo-slide { 
+                height: 180px; 
+                flex: 0 0 calc(100% - 24px); /* Mobile: 1 card focused, with next card peeking */
+                scroll-snap-align: center;
+            }
+            .promo-content h3 { font-size: 20px; }
             
-            <div class="carousel-wrapper">
-                <div class="tournament-cards hide-scrollbar">
-                  <a href="../pages/login.html">
-                      <div class="tournament-card" id="pes" data-aos-delay="100">
-                          <span style="position: relative; z-index: 2;">Pro Evolution Soccer</span>
-                      </div>
-                  </a>
-                  <a href="../pages/login.html">
-                      <div class="tournament-card" id="cod" data-aos-delay="200">
-                          <span style="position: relative; z-index: 2;">Call of Duty Mobile</span>
-                      </div>
-                  </a>
-                  <a href="../pages/login.html">
-                      <div class="tournament-card" id="fifa" data-aos-delay="300">
-                          <span style="position: relative; z-index: 2;">FIFA 23</span>
-                      </div>
-                  </a>
-                  <a href="#">
-                      <div class="tournament-card" id="see-more" data-aos-delay="400">
-                          SEE MORE GAMES
-                      </div>
-                  </a>
-                </div>
-          
-                <!-- The Dots -->
-                <div class="slider-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
-          </section>
-      </header>
-      
-        <!-- TOURNAMENTS SECTION -->
-          <section id="tournaments">
-                  <div class="container">
-                      
-                      <!-- Section Header -->
-                      <div class="section-header">
-                          <div>
-                              <h2>Active Tournaments</h2>
-                              <h class="tagline"><h1 class="predot"></h1>Register now before slots fill up!</h>
-                          </div>
-                          <a href="#" class="view-all-desktop">View All</a>
-                      </div>
-      
-                      <!-- Grid Container -->
-                      <div class="tournaments-grid">
-                          
-                          <!-- Tournament Card 1 -->
-                          <div class="t-card">
-                              <div class="t-card-header">
-                                  <span class="badge badge-live">
-                                      <span class="pulse-dot"></span> Live
-                                  </span>
-                                  <span class="player-count">
-                                      <i data-lucide="users"></i> 64/128
-                                  </span>
-                              </div>
-                              
-                              <h3 class="t-card-title">PubG Mobile</h3>
-                              <p class="t-card-desc">Squads • Erangel Only • Region: Global</p>
-                              
-                              <div class="t-card-stats">
-                                  <div>
-                                      <span class="stat-label">Prize Pool</span>
-                                      <span class="stat-value primary">$5,000</span>
-                                  </div>
-                                  <div class="entry-fee">
-                                      <span class="stat-label">Entry Fee</span>
-                                      <span class="stat-value white">Free</span>
-                                  </div>
-                              </div>
-                              
-                              <button class="btn-register">Register Team</button>
-                          </div>
-      
-                          <!-- Tournament Card 2 -->
-                          <div class="t-card">
-                              <div class="t-card-header">
-                                  <span class="badge badge-upcoming">
-                                      <i data-lucide="clock"></i> Starts in 2h
-                                  </span>
-                                  <span class="player-count">
-                                      <i data-lucide="users"></i> 16/32
-                                  </span>
-                              </div>
-                              
-                              <h3 class="t-card-title">Valorant Campus Clash</h3>
-                              <p class="t-card-desc">5v5 • Double Elimination • Region: NA</p>
-                              
-                              <div class="t-card-stats">
-                                  <div>
-                                      <span class="stat-label">Prize Pool</span>
-                                      <span class="stat-value primary">$1,500</span>
-                                  </div>
-                                  <div class="entry-fee">
-                                      <span class="stat-label">Entry Fee</span>
-                                      <span class="stat-value white">100 Coins</span>
-                                  </div>
-                              </div>
-                              
-                              <button class="btn-register">Register Team</button>
-                          </div>
-      
-                          <!-- Tournament Card 3 -->
-                          <div class="t-card">
-                              <div class="t-card-header">
-                                  <span class="badge badge-date">
-                                      <i data-lucide="calendar"></i> Oct 24th
-                                  </span>
-                                  <span class="player-count">
-                                      <i data-lucide="users"></i> 112/256
-                                  </span>
-                              </div>
-                              
-                              <h3 class="t-card-title">eFootball 2024 Open</h3>
-                              <p class="t-card-desc">1v1 • Groups to Knockout • Region: EU</p>
-                              
-                              <div class="t-card-stats">
-                                  <div>
-                                      <span class="stat-label">Prize Pool</span>
-                                      <span class="stat-value primary">$2,000</span>
-                                  </div>
-                                  <div class="entry-fee">
-                                      <span class="stat-label">Entry Fee</span>
-                                      <span class="stat-value white">Free</span>
-                                  </div>
-                              </div>
-                              
-                              <button class="btn-register">Register Solo</button>
-                          </div>
-      
-                      </div>
-      
-                      <!-- Mobile View All Link -->
-                      <a href="#" class="view-all-mobile">View All Tournaments</a>
-                      
-                  </div>
-              </section>
-              
-              
-                <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
-                  <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
-                </a>
-              <footer>
-                  <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
-                  <p>&copy; 2025 PES Tournament. All rights reserved.</p>
-              </footer>
-    </section>
+            /* Mobile: Shows 2.2 boxes so user knows to scroll */
+            .game-box { flex: 0 0 calc(45% - 8px); } 
 
-<script src="../java/page.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const slider = document.querySelector('.tournament-cards');
-        const dots = document.querySelectorAll('.dot');
-
-        // 1. Update active dot based on scroll position
-        slider.addEventListener('scroll', () => {
-            const scrollLeft = slider.scrollLeft;
-            const cardWidth = slider.clientWidth;
-            
-            // Calculate which card is closest to the center
-            const activeIndex = Math.round(scrollLeft / cardWidth);
-
-            // Update classes on dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeIndex);
-            });
-        });
-
-        // 2. Allow clicking a dot to snap to that specific game card
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                slider.scrollTo({
-                    left: slider.clientWidth * index,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+            .history-item { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .history-result { text-align: left; display: flex; width: 100%; justify-content: space-between; align-items: center; }
+            .result-reward { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
     
-    // Safely init AOS if it exists
-    if (typeof AOS !== 'undefined') {
-        AOS.init();
-    }
+    <div class="welcome-banner">
+        <div class="welcome-text">
+            <h1>Good evening, Emmanuel!</h1>
+            <p>Ready to dominate the arena? Complete your team setup to join the upcoming PES Open.</p>
+            <button class="btn-primary">
+                <i data-lucide="check-circle"></i> Complete Setup
+            </button>
+        </div>
+        <i data-lucide="swords" class="welcome-img" style="width: 120px; height: 120px; color: var(--border-color);"></i>
+    </div>
 
-    // ==========================================
-    // MOBILE NAV TOGGLE
-    // ==========================================
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const body = document.body;
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="coins"></i></div>
+            <div class="stat-info"><h4>Wallet Balance</h4><h2>$240.50</h2></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color: var(--success-color); background: rgba(16, 185, 129, 0.1);"><i data-lucide="target"></i></div>
+            <div class="stat-info"><h4>Overall Win Rate</h4><h2>68.4%</h2></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"><i data-lucide="swords"></i></div>
+            <div class="stat-info"><h4>Matches Played</h4><h2>142</h2></div>
+        </div>
+    </div>
 
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            // Toggle animation and menu
-            navToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
+    <!-- MY SCHEDULE / UPCOMING MATCH -->
+    <h3 class="section-heading"><i data-lucide="calendar-clock" style="color: var(--success-color);"></i> My Schedule</h3>
+    <div class="upcoming-match-card">
+        <div class="match-details">
+            <h4>PES 2024 Masters Open - Round of 16</h4>
+            <p>Opponent: <span style="color: var(--text-primary); font-weight: 600;">@FifaKing99</span> • Best of 3 Match</p>
+        </div>
+        <div class="match-action">
+            <div class="match-timer" id="matchTimer">00:1:59</div>
+            <button class="btn-primary" style="padding: 10px 20px; font-size: 14px;">
+                <i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Enter Lobby
+            </button>
+        </div>
+    </div>
 
-            // Stop background scrolling
-            if (navMenu.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
+    <!-- SQUAD & FRIENDS (Moved up here!) -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+        <h3 class="section-heading" style="margin-bottom: 0;"><i data-lucide="users" style="color: #3b82f6;"></i> Squad & Friends</h3>
+        <a href="friends.html" style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">Manage</a>
+    </div>
+    <div class="friends-strip hide-scrollbar">
+        <!-- Add Friend Button -->
+        <a href="friends.html" class="add-friend-btn" title="Add New Friend">
+            <i data-lucide="plus"></i>
+        </a>
+        
+        <!-- Online Friend 1 -->
+        <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Alex');" title="Alex_Pro (Online)">
+            <div class="status-dot online"></div>
+        </div>
+        
+        <!-- In-Game Friend 2 -->
+        <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'); border-color: #a855f7;" title="SarahGamer (In Game: Valorant)">
+            <div class="status-dot in-game"></div>
+        </div>
+        
+        <!-- Online Friend 3 -->
+        <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Mike');" title="MikeSniper (Online)">
+            <div class="status-dot online"></div>
+        </div>
+
+        <!-- Offline Friend 4 -->
+        <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Jessica'); opacity: 0.5;" title="Jess_Play (Offline)">
+            <div class="status-dot offline"></div>
+        </div>
+
+        <!-- Offline Friend 5 -->
+        <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=David'); opacity: 0.5;" title="Dave_11 (Offline)">
+            <div class="status-dot offline"></div>
+        </div>
+    </div>
+
+    <!-- TOURNAMENT ADS SLIDESHOW -->
+    <h3 class="section-heading"><i data-lucide="flame" style="color: var(--danger-color);"></i> Hot Tournaments</h3>
+    <div class="promo-slideshow hide-scrollbar">
+        
+        <!-- Slide 1 -->
+        <a href="../pages/tournaments.html" class="promo-slide" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop');">
+            <div class="promo-content">
+                <div>
+                    <span class="promo-badge"><span style="width:6px; height:6px; background:currentColor; border-radius:50%; animation: pulse 2s infinite;"></span> Registrations Open</span>
+                    <h3>Valorant Campus Clash</h3>
+                    <p>Prize Pool: $1,500 • Starts in 2 Days</p>
+                </div>
+                <div class="promo-btn">Join Now</div>
+            </div>
+        </a>
+
+        <!-- Slide 2 -->
+        <a href="../pages/tournaments.html" class="promo-slide" style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=1200&auto=format&fit=crop');">
+            <div class="promo-content">
+                <div>
+                    <span class="promo-badge" style="background: rgba(234, 179, 8, 0.2); color: var(--UPlay-yellow);">Filling Fast</span>
+                    <h3>PES 2024 Masters Open</h3>
+                    <p>Prize Pool: $5,000 • 1v1 Format</p>
+                </div>
+                <div class="promo-btn">Register Solo</div>
+            </div>
+        </a>
+
+        <!-- Slide 3 -->
+        <a href="../pages/tournaments.html" class="promo-slide" style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=1200&auto=format&fit=crop');">
+            <div class="promo-content">
+                <div>
+                    <span class="promo-badge" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6;">Upcoming</span>
+                    <h3>Call of Duty Mobile Squads</h3>
+                    <p>Free Entry • Erangel Only</p>
+                </div>
+                <div class="promo-btn">View Details</div>
+            </div>
+        </a>
+    </div>
+
+    <!-- HORIZONTAL GAMES LIST -->
+    <h3 class="section-heading"><i data-lucide="gamepad-2" style="color: var(--UPlay-yellow);"></i> Play & Compete</h3>
+    <div class="games-list hide-scrollbar">
+        <!-- Game 1 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">eFootball PES</h4>
+        </a>
+        <!-- Game 2 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">COD Mobile</h4>
+        </a>
+        <!-- Game 3 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1524281300062-817ab56a9286?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">EA FC 24</h4>
+        </a>
+        <!-- Game 4 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">Valorant</h4>
+        </a>
+        <!-- Game 5 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">PubG Mobile</h4>
+        </a>
+        <!-- Game 6 -->
+        <a href="#" class="game-box" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop');">
+            <h4 class="game-title">Mortal Kombat</h4>
+        </a>
+    </div>
+
+    <h3 class="section-heading"><i data-lucide="zap" style="color: #a855f7;"></i> Quick Actions</h3>
+    <div class="actions-grid">
+        <a href="#" class="action-card"><div class="icon-wrapper"><i data-lucide="crosshair" style="color: var(--danger-color);"></i></div><h3>Find Match</h3></a>
+        <a href="#" class="action-card"><div class="icon-wrapper"><i data-lucide="users" style="color: #3b82f6;"></i></div><h3>Create Team</h3></a>
+        <a href="history.html" class="action-card"><div class="icon-wrapper"><i data-lucide="history" style="color: #f59e0b;"></i></div><h3>Match History</h3></a>
+        <a href="#" class="action-card"><div class="icon-wrapper"><i data-lucide="shield" style="color: var(--success-color);"></i></div><h3>Anti-Cheat Status</h3></a>
+    </div>
+
+    <!-- RECENT MATCH HISTORY -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+        <h3 class="section-heading" style="margin-bottom: 0;"><i data-lucide="history" style="color: var(--text-secondary);"></i> Recent Matches</h3>
+        <a href="history.html" style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">View All</a>
+    </div>
+    
+    <div class="history-list">
+        <!-- Match 1 (Victory) -->
+        <a href="#" class="history-item">
+            <div class="history-info">
+                <div class="game-icon" style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=100&auto=format&fit=crop');"></div>
+                <div class="history-details">
+                    <h4>eFootball PES 2024</h4>
+                    <p>1v1 Matchmaking • Today, 2:30 PM</p>
+                </div>
+            </div>
+            <div class="history-result">
+                <span class="result-status victory">VICTORY</span>
+                <span class="result-score">3 - 1</span>
+                <span class="result-reward positive"><i data-lucide="coins" style="width: 14px; height: 14px;"></i> +15.00</span>
+            </div>
+        </a>
+
+        <!-- Match 2 (Defeat) -->
+        <a href="#" class="history-item">
+            <div class="history-info">
+                <div class="game-icon" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=100&auto=format&fit=crop');"></div>
+                <div class="history-details">
+                    <h4>Valorant</h4>
+                    <p>Ranked 5v5 • Yesterday, 8:15 PM</p>
+                </div>
+            </div>
+            <div class="history-result">
+                <span class="result-status defeat">DEFEAT</span>
+                <span class="result-score">11 - 13</span>
+                <span class="result-reward negative"><i data-lucide="trending-down" style="width: 14px; height: 14px;"></i> -24 RR</span>
+            </div>
+        </a>
+
+        <!-- Match 3 (Victory) -->
+        <a href="#" class="history-item">
+            <div class="history-info">
+                <div class="game-icon" style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=100&auto=format&fit=crop');"></div>
+                <div class="history-details">
+                    <h4>COD Mobile</h4>
+                    <p>Battle Royale Squads • Oct 20, 10:00 AM</p>
+                </div>
+            </div>
+            <div class="history-result">
+                <span class="result-status victory">1ST PLACE</span>
+                <span class="result-score">14 Kills</span>
+                <span class="result-reward positive"><i data-lucide="coins" style="width: 14px; height: 14px;"></i> +50.00</span>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Listen for Theme Toggle from the Parent Dashboard
+        window.addEventListener('message', (event) => {
+            if (event.data === 'theme-light') {
+                document.body.classList.add('light-mode');
+            } else if (event.data === 'theme-dark') {
+                document.body.classList.remove('light-mode');
             }
         });
 
-        // Close menu when a link is clicked
-        const navLinks = document.querySelectorAll('.mobile-menu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
-    }
-});
-</script>
+        // Initialize correctly on load
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // ==========================================
+        // LIVE COUNTDOWN TIMER FOR UPCOMING MATCH
+        // ==========================================
+        let timeLeft = 14 * 60 + 59; // 14 mins 59 secs
+        const timerEl = document.getElementById('matchTimer');
+        
+        if (timerEl) {
+            setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                    const s = (timeLeft % 60).toString().padStart(2, '0');
+                    timerEl.textContent = `00:${m}:${s}`;
+                    
+                    // Add extra urgency when less than 5 minutes
+                    if (timeLeft < 300) {
+                        timerEl.style.animation = 'pulse 1s infinite';
+                    }
+                } else {
+                    timerEl.textContent = "00:00:00";
+                    timerEl.style.color = "var(--success-color)"; // Turn green when ready
+                    timerEl.style.background = "rgba(16, 185, 129, 0.1)";
+                    timerEl.style.animation = 'none';
+                }
+            }, 1000);
+        }
+
+        // ==========================================
+        // AUTO-SLIDING TOURNAMENT BANNER (INFINITE LOOP)
+        // ==========================================
+        const promoSlider = document.querySelector('.promo-slideshow');
+        let autoSlideInterval;
+        let isTransitioning = false;
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                if (!promoSlider || isTransitioning) return;
+                
+                const firstSlide = promoSlider.firstElementChild;
+                if (!firstSlide) return;
+
+                const slideWidth = firstSlide.clientWidth + 20; 
+                
+                promoSlider.scrollBy({ left: slideWidth, behavior: 'smooth' });
+                isTransitioning = true;
+
+                setTimeout(() => {
+                    promoSlider.style.scrollBehavior = 'auto';
+                    promoSlider.style.scrollSnapType = 'none';
+                    
+                    promoSlider.appendChild(firstSlide);
+                    promoSlider.scrollLeft -= slideWidth;
+                    
+                    void promoSlider.offsetWidth; 
+                    
+                    promoSlider.style.scrollBehavior = 'smooth';
+                    promoSlider.style.scrollSnapType = 'x mandatory';
+                    
+                    isTransitioning = false;
+                }, 800); 
+
+            }, 3500); 
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        if (promoSlider) {
+            startAutoSlide();
+            promoSlider.addEventListener('mouseenter', stopAutoSlide);
+            promoSlider.addEventListener('mouseleave', startAutoSlide);
+            promoSlider.addEventListener('touchstart', stopAutoSlide, {passive: true});
+            promoSlider.addEventListener('touchend', startAutoSlide, {passive: true});
+        }
+    </script>
 </body>
 </html>
