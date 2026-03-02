@@ -273,7 +273,7 @@
             display: none;
         }
 
-        /* --- Registration Modal (Option 3 Setup) --- */
+        /* --- Registration Modal --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -304,6 +304,8 @@
             transform: translateY(20px);
             transition: 0.3s;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.show .modal-content {
@@ -361,6 +363,126 @@
         
         .modal-note i { flex-shrink: 0; width: 16px; height: 16px; color: var(--success-color); }
 
+        /* Payment Options Styling */
+        .payment-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .payment-divider::before, .payment-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .payment-divider:not(:empty):before { margin-right: 10px; }
+        .payment-divider:not(:empty):after { margin-left: 10px; }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-primary);
+        }
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .manual-transfer-box {
+            display: none;
+            background: var(--bg-base);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+        .manual-transfer-box.show {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bank-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .bank-detail:last-of-type { margin-bottom: 16px; }
+        .bank-detail .label { color: var(--text-secondary); }
+        .bank-detail .value { font-weight: bold; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+        
+        .copy-btn {
+            color: var(--UPlay-yellow);
+            background: rgba(255, 204, 0, 0.1);
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .copy-btn:hover {
+            background: var(--UPlay-yellow);
+            color: black;
+        }
+
+        .copy-toast {
+            display: none;
+            position: absolute;
+            bottom: -25px;
+            right: 0;
+            color: var(--success-color);
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* File Upload UI */
+        .upload-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-secondary);
+            text-align: center;
+            gap: 8px;
+        }
+        .upload-box:hover {
+            border-color: var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            background: rgba(255, 204, 0, 0.05);
+        }
+
+        .file-name-display {
+            font-size: 12px;
+            color: var(--success-color);
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+            word-break: break-all;
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
         /* --- Responsive --- */
         @media (max-width: 768px) {
@@ -429,7 +551,6 @@
                 </div>
 
                 <div class="card-actions">
-                    <!-- Added data attributes for the modal to read -->
                     <button class="btn-full primary register-btn" data-tourney="PES 2024 Masters Open - Africa" data-price="₦5,000" data-link="https://paystack.com/pay/your-pes-link">
                         Register Now
                     </button>
@@ -543,33 +664,100 @@
     </div>
 
     <!-- ===================================== -->
-    <!-- PAYMENT / REGISTRATION MODAL -->
+    <!-- DUAL PAYMENT / REGISTRATION MODAL -->
     <!-- ===================================== -->
     <div id="paymentModal" class="modal-overlay">
         <div class="modal-content">
             <button class="close-modal" id="closeModalBtn"><i data-lucide="x"></i></button>
-            <div class="modal-header">
-                <div class="modal-icon"><i data-lucide="credit-card"></i></div>
-                <h3>Secure Registration</h3>
-            </div>
-            <div class="modal-body">
-                <p style="color: var(--text-secondary); margin-bottom: 0;">You are about to register for:</p>
-                <h4 id="modalTourneyName" class="modal-tourney-title">Tournament Name</h4>
-                
-                <div class="modal-price-box">
-                    <span style="color: var(--text-secondary); font-size: 14px;">Entry Fee:</span>
-                    <span id="modalTourneyPrice" class="modal-price">₦0</span>
+            
+            <!-- REGISTRATION VIEW -->
+            <div id="registrationView">
+                <div class="modal-header">
+                    <div class="modal-icon"><i data-lucide="credit-card"></i></div>
+                    <h3>Secure Registration</h3>
+                </div>
+                <div class="modal-body">
+                    <p style="color: var(--text-secondary); margin-bottom: 0;">You are about to register for:</p>
+                    <h4 id="modalTourneyName" class="modal-tourney-title">Tournament Name</h4>
+                    
+                    <div class="modal-price-box">
+                        <span style="color: var(--text-secondary); font-size: 14px;">Entry Fee:</span>
+                        <span id="modalTourneyPrice" class="modal-price">₦0</span>
+                    </div>
+                    
+                    <div class="modal-note">
+                        <i data-lucide="shield-check"></i>
+                        <span>Securely book your slot in the bracket. Choose your preferred payment method below.</span>
+                    </div>
                 </div>
                 
-                <div class="modal-note">
-                    <i data-lucide="shield-check"></i>
-                    <span>Payments are securely processed via Paystack. You will receive an email receipt and be automatically added to the bracket upon successful payment.</span>
+                <div class="modal-footer" style="text-align: center;">
+                    <!-- OPTION 1: PAYSTACK -->
+                    <a href="#" id="proceedPaymentBtn" class="btn-full primary" target="_blank">
+                        <i data-lucide="credit-card" style="width: 18px; height: 18px;"></i> Pay Online (Paystack)
+                    </a>
+
+                    <div class="payment-divider">OR</div>
+
+                    <!-- OPTION 2: MANUAL TRANSFER -->
+                    <button id="manualTransferBtn" class="btn-full btn-outline">
+                        <i data-lucide="landmark" style="width: 18px; height: 18px;"></i> Manual Bank Transfer
+                    </button>
+
+                    <!-- Hidden Manual Transfer Details -->
+                    <div id="manualTransferDetails" class="manual-transfer-box">
+                        <div class="bank-detail">
+                            <span class="label">Bank:</span>
+                            <span class="value">Moniepoint MFB</span>
+                        </div>
+                        <div class="bank-detail" style="position: relative;">
+                            <span class="label">Account No:</span>
+                            <span class="value">
+                                <span id="accNumber">8123456789</span>
+                                <div class="copy-btn" onclick="copyAccountNumber()" title="Copy Account Number">
+                                    <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+                                </div>
+                                <span id="copyToast" class="copy-toast">Copied!</span>
+                            </span>
+                        </div>
+                        <div class="bank-detail">
+                            <span class="label">Name:</span>
+                            <span class="value">uPlay Tournaments Ltd</span>
+                        </div>
+                        
+                        <!-- NEW RECEIPT UPLOAD UI -->
+                        <div class="upload-section" style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Upload your payment receipt below:</p>
+                            
+                            <!-- Backend team can simply grab files from this ID -->
+                            <input type="file" id="receiptUpload" hidden accept="image/*,.pdf" />
+                            
+                            <label for="receiptUpload" class="upload-box">
+                                <i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>
+                                <span id="uploadText">Click to browse or drag file here</span>
+                            </label>
+                            
+                            <div id="fileNameDisplay" class="file-name-display"></div>
+                            
+                            <button id="submitReceiptBtn" class="btn-full primary" style="margin-top: 16px; opacity: 0.5; cursor: not-allowed;" disabled>
+                                <span id="submitBtnText">Submit Registration</span>
+                                <i id="submitBtnSpinner" data-lucide="loader-2" class="spin" style="display: none; width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <!-- This link will be dynamically updated by Javascript to point to your Paystack Payment Page -->
-                <a href="#" id="proceedPaymentBtn" class="btn-full primary" target="_blank">Proceed to Payment</a>
+
+            <!-- SUCCESS VIEW (Hidden initially) -->
+            <div id="successView" style="display: none; text-align: center; padding: 20px 0;">
+                <div class="modal-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success-color);">
+                    <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
+                </div>
+                <h3 style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 8px;">Receipt Submitted!</h3>
+                <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 24px;">Your registration request has been sent to our admins for verification. You will be notified once approved.</p>
+                <button class="btn-full btn-outline" onclick="document.getElementById('paymentModal').classList.remove('show')">Close Window</button>
             </div>
+            
         </div>
     </div>
 
@@ -644,7 +832,7 @@
 
 
         // ==========================================
-        // PAYMENT MODAL LOGIC
+        // PAYMENT MODAL & UPLOAD LOGIC
         // ==========================================
         const modal = document.getElementById('paymentModal');
         const closeBtn = document.getElementById('closeModalBtn');
@@ -653,33 +841,111 @@
         const modalTitle = document.getElementById('modalTourneyName');
         const modalPrice = document.getElementById('modalTourneyPrice');
         const proceedBtn = document.getElementById('proceedPaymentBtn');
+        
+        const manualBtn = document.getElementById('manualTransferBtn');
+        const manualDetails = document.getElementById('manualTransferDetails');
+        
+        const regView = document.getElementById('registrationView');
+        const successView = document.getElementById('successView');
+        
+        // Upload Elements
+        const receiptUpload = document.getElementById('receiptUpload');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const submitReceiptBtn = document.getElementById('submitReceiptBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const submitBtnSpinner = document.getElementById('submitBtnSpinner');
 
-        // Open Modal when "Register Now" is clicked
+        // 1. Open Modal when "Register Now" is clicked
         registerBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Grab data from the button clicked
-                const tourneyName = btn.getAttribute('data-tourney');
-                const tourneyPrice = btn.getAttribute('data-price');
-                const paystackLink = btn.getAttribute('data-link');
+                // Reset views to default
+                regView.style.display = 'block';
+                successView.style.display = 'none';
+                manualDetails.classList.remove('show');
+                manualBtn.style.display = 'flex';
+                
+                // Reset Upload UI
+                receiptUpload.value = '';
+                fileNameDisplay.style.display = 'none';
+                submitReceiptBtn.setAttribute('disabled', 'true');
+                submitReceiptBtn.style.opacity = '0.5';
+                submitReceiptBtn.style.cursor = 'not-allowed';
+                submitBtnText.style.display = 'inline-block';
+                submitBtnSpinner.style.display = 'none';
 
-                // Populate Modal
-                modalTitle.textContent = tourneyName;
-                modalPrice.textContent = tourneyPrice;
-                proceedBtn.href = paystackLink; // Set the actual Paystack link!
+                // Populate dynamic data
+                modalTitle.textContent = btn.getAttribute('data-tourney');
+                modalPrice.textContent = btn.getAttribute('data-price');
+                proceedBtn.href = btn.getAttribute('data-link'); 
 
-                // Show Modal
                 modal.classList.add('show');
             });
         });
 
-        // Close Modal logic
+        // 2. Toggle Manual Transfer Dropdown
+        manualBtn.addEventListener('click', () => {
+            manualDetails.classList.add('show');
+            manualBtn.style.display = 'none'; 
+        });
+
+        // 3. Handle File Selection
+        receiptUpload.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileNameDisplay.textContent = `Selected: ${this.files[0].name}`;
+                fileNameDisplay.style.display = 'block';
+                
+                // Enable Submit Button
+                submitReceiptBtn.removeAttribute('disabled');
+                submitReceiptBtn.style.opacity = '1';
+                submitReceiptBtn.style.cursor = 'pointer';
+            } else {
+                fileNameDisplay.style.display = 'none';
+                submitReceiptBtn.setAttribute('disabled', 'true');
+                submitReceiptBtn.style.opacity = '0.5';
+                submitReceiptBtn.style.cursor = 'not-allowed';
+            }
+        });
+
+        // 4. Handle Mock Form Submission
+        submitReceiptBtn.addEventListener('click', function() {
+            // Show loading state
+            submitBtnText.style.display = 'none';
+            submitBtnSpinner.style.display = 'inline-block';
+            this.setAttribute('disabled', 'true');
+            
+            // MOCK API CALL (2 seconds)
+            setTimeout(() => {
+                // Switch to Success View
+                regView.style.display = 'none';
+                successView.style.display = 'block';
+            }, 2000);
+        });
+
+        // 5. Copy Account Number Function
+        window.copyAccountNumber = function() {
+            const accNum = document.getElementById('accNumber').textContent;
+            const toast = document.getElementById('copyToast');
+            
+            const input = document.createElement('textarea');
+            input.value = accNum;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        };
+
+        // 6. Close Modal
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('show');
         });
 
-        // Close if clicked outside the modal box
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('show');
