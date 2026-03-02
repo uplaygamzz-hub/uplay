@@ -476,12 +476,41 @@
             word-break: break-all;
         }
 
+        .btn-preview {
+            background: transparent;
+            border: 1px solid var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+            transition: 0.2s;
+            display: none; /* hidden by default */
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-preview:hover {
+            background: rgba(255, 204, 0, 0.1);
+        }
+
         .spin {
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        .fullscreen-content {
+            max-width: 90vw !important;
+            height: 90vh !important;
+            padding: 20px !important;
+            display: flex;
+            flex-direction: column;
         }
 
         /* --- Responsive --- */
@@ -732,12 +761,20 @@
                             <!-- Backend team can simply grab files from this ID -->
                             <input type="file" id="receiptUpload" hidden accept="image/*,.pdf" />
                             
-                            <label for="receiptUpload" class="upload-box">
-                                <i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>
-                                <span id="uploadText">Click to browse or drag file here</span>
+                            <!-- Updated label for dynamic preview -->
+                            <label for="receiptUpload" class="upload-box" id="uploadBox">
+                                <div id="uploadContent" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div id="uploadIconWrapper"><i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i></div>
+                                    <span id="uploadText">Click to browse or drag file here</span>
+                                </div>
+                                <img id="receiptPreview" src="" alt="Receipt Preview" style="display: none; max-width: 100%; max-height: 140px; border-radius: 8px; object-fit: contain;">
                             </label>
                             
                             <div id="fileNameDisplay" class="file-name-display"></div>
+                            
+                            <button id="viewFullScreenBtn" class="btn-preview" type="button">
+                                <i data-lucide="maximize" style="width: 16px; height: 16px;"></i> View Full Screen Preview
+                            </button>
                             
                             <button id="submitReceiptBtn" class="btn-full primary" style="margin-top: 16px; opacity: 0.5; cursor: not-allowed;" disabled>
                                 <span id="submitBtnText">Submit Registration</span>
@@ -761,6 +798,19 @@
         </div>
     </div>
 
+    <!-- FULL SCREEN PREVIEW MODAL -->
+    <div id="fullScreenModal" class="modal-overlay" style="z-index: 3000;">
+        <div class="modal-content fullscreen-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-family: var(--font-heading); font-size: 18px; margin: 0;">Document Preview</h3>
+                <button class="close-modal" id="closeFullScreenBtn" style="position: static;"><i data-lucide="x"></i></button>
+            </div>
+            <div id="fullScreenContainer" style="flex: 1; overflow: hidden; display: flex; justify-content: center; align-items: center; background: var(--bg-base); border-radius: 12px; border: 1px solid var(--border-color);">
+                <img id="fullScreenImg" src="" style="display: none; max-width: 100%; max-height: 100%; object-fit: contain;" />
+                <iframe id="fullScreenPdf" src="" style="display: none; width: 100%; height: 100%; border: none; border-radius: 12px;"></iframe>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Render Icons
@@ -850,10 +900,24 @@
         
         // Upload Elements
         const receiptUpload = document.getElementById('receiptUpload');
+        const uploadBox = document.getElementById('uploadBox');
+        const uploadContent = document.getElementById('uploadContent');
+        const uploadIconWrapper = document.getElementById('uploadIconWrapper');
+        const uploadText = document.getElementById('uploadText');
+        const receiptPreview = document.getElementById('receiptPreview');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const viewFullScreenBtn = document.getElementById('viewFullScreenBtn');
         const submitReceiptBtn = document.getElementById('submitReceiptBtn');
         const submitBtnText = document.getElementById('submitBtnText');
         const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+
+        // Full Screen Elements
+        const fullScreenModal = document.getElementById('fullScreenModal');
+        const closeFullScreenBtn = document.getElementById('closeFullScreenBtn');
+        const fullScreenImg = document.getElementById('fullScreenImg');
+        const fullScreenPdf = document.getElementById('fullScreenPdf');
+
+        let fileObjUrl = null;
 
         // 1. Open Modal when "Register Now" is clicked
         registerBtns.forEach(btn => {
@@ -869,6 +933,19 @@
                 // Reset Upload UI
                 receiptUpload.value = '';
                 fileNameDisplay.style.display = 'none';
+                viewFullScreenBtn.style.display = 'none';
+                if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+                
+                // Reset preview logic
+                receiptPreview.style.display = 'none';
+                receiptPreview.src = '';
+                uploadContent.style.display = 'flex';
+                uploadBox.style.padding = '20px';
+                uploadIconWrapper.innerHTML = '<i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>';
+                uploadText.innerHTML = 'Click to browse or drag file here';
+                lucide.createIcons();
+
+                // Disable submit button
                 submitReceiptBtn.setAttribute('disabled', 'true');
                 submitReceiptBtn.style.opacity = '0.5';
                 submitReceiptBtn.style.cursor = 'not-allowed';
@@ -890,22 +967,82 @@
             manualBtn.style.display = 'none'; 
         });
 
-        // 3. Handle File Selection
+        // 3. Handle File Selection (With Image Preview)
         receiptUpload.addEventListener('change', function() {
             if (this.files && this.files.length > 0) {
-                fileNameDisplay.textContent = `Selected: ${this.files[0].name}`;
+                const file = this.files[0];
+                fileNameDisplay.textContent = `Selected: ${file.name}`;
                 fileNameDisplay.style.display = 'block';
+                viewFullScreenBtn.style.display = 'flex';
                 
+                if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+                fileObjUrl = URL.createObjectURL(file);
+                
+                // If it is an image, preview it
+                if (file.type.startsWith('image/')) {
+                    receiptPreview.src = fileObjUrl;
+                    receiptPreview.style.display = 'block';
+                    uploadContent.style.display = 'none';
+                    uploadBox.style.padding = '10px'; 
+
+                    fullScreenImg.src = fileObjUrl;
+                    fullScreenImg.style.display = 'block';
+                    fullScreenPdf.style.display = 'none';
+                } else if (file.type === 'application/pdf') {
+                    // Fallback for PDFs and other non-image files
+                    receiptPreview.style.display = 'none';
+                    uploadContent.style.display = 'flex';
+                    uploadBox.style.padding = '20px';
+                    uploadIconWrapper.innerHTML = '<i data-lucide="file-text" style="width: 24px; height: 24px; color: var(--danger-color);"></i>';
+                    uploadText.innerHTML = 'PDF Document Selected <br><span style="font-size: 10px; text-decoration: underline;">Click to change</span>';
+                    lucide.createIcons();
+
+                    fullScreenPdf.src = fileObjUrl;
+                    fullScreenPdf.style.display = 'block';
+                    fullScreenImg.style.display = 'none';
+                } else {
+                    // Other non-image/pdf files
+                    receiptPreview.style.display = 'none';
+                    uploadContent.style.display = 'flex';
+                    uploadBox.style.padding = '20px';
+                    uploadIconWrapper.innerHTML = '<i data-lucide="file-text" style="width: 24px; height: 24px;"></i>';
+                    uploadText.innerHTML = 'Document Selected <br><span style="font-size: 10px; text-decoration: underline;">Click to change</span>';
+                    lucide.createIcons();
+                    viewFullScreenBtn.style.display = 'none'; // Only allow preview for Image/PDF
+                }
+
                 // Enable Submit Button
                 submitReceiptBtn.removeAttribute('disabled');
                 submitReceiptBtn.style.opacity = '1';
                 submitReceiptBtn.style.cursor = 'pointer';
             } else {
+                // Return to default if they cancel file selection
                 fileNameDisplay.style.display = 'none';
+                viewFullScreenBtn.style.display = 'none';
+                if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+                
+                receiptPreview.style.display = 'none';
+                receiptPreview.src = '';
+                uploadContent.style.display = 'flex';
+                uploadBox.style.padding = '20px';
+                uploadIconWrapper.innerHTML = '<i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>';
+                uploadText.innerHTML = 'Click to browse or drag file here';
+                lucide.createIcons();
+
                 submitReceiptBtn.setAttribute('disabled', 'true');
                 submitReceiptBtn.style.opacity = '0.5';
                 submitReceiptBtn.style.cursor = 'not-allowed';
             }
+        });
+
+        // Full Screen Preview Listeners
+        viewFullScreenBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            fullScreenModal.classList.add('show');
+        });
+
+        closeFullScreenBtn.addEventListener('click', () => {
+            fullScreenModal.classList.remove('show');
         });
 
         // 4. Handle Mock Form Submission
@@ -949,6 +1086,9 @@
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('show');
+            }
+            if (e.target === fullScreenModal) {
+                fullScreenModal.classList.remove('show');
             }
         });
 
