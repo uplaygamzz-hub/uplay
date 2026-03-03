@@ -499,6 +499,7 @@
 
         .spin {
             animation: spin 1s linear infinite;
+            transform-origin: center;
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
@@ -778,7 +779,10 @@
                             
                             <button id="submitReceiptBtn" class="btn-full primary" style="margin-top: 16px; opacity: 0.5; cursor: not-allowed;" disabled>
                                 <span id="submitBtnText">Submit Registration</span>
-                                <i id="submitBtnSpinner" data-lucide="loader-2" class="spin" style="display: none; width: 18px; height: 18px;"></i>
+                                <!-- WRAPPED IN A SPAN TO PREVENT LUCIDE FROM DETACHING IT -->
+                                <span id="submitBtnSpinner" style="display: none; margin-left: 8px; align-items: center; justify-content: center;">
+                                    <i data-lucide="loader-2" class="spin" style="width: 18px; height: 18px;"></i>
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -909,7 +913,15 @@
         const viewFullScreenBtn = document.getElementById('viewFullScreenBtn');
         const submitReceiptBtn = document.getElementById('submitReceiptBtn');
         const submitBtnText = document.getElementById('submitBtnText');
-        const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+        const submitBtnSpinner = document.getElementById('submitBtnSpinner'); // This now correctly targets the span wrapper
+
+        // Full Screen Elements
+        const fullScreenModal = document.getElementById('fullScreenModal');
+        const closeFullScreenBtn = document.getElementById('closeFullScreenBtn');
+        const fullScreenImg = document.getElementById('fullScreenImg');
+        const fullScreenPdf = document.getElementById('fullScreenPdf');
+
+        let fileObjUrl = null;
 
         // Full Screen Elements
         const fullScreenModal = document.getElementById('fullScreenModal');
@@ -1049,7 +1061,7 @@
         submitReceiptBtn.addEventListener('click', function() {
             // Show loading state
             submitBtnText.style.display = 'none';
-            submitBtnSpinner.style.display = 'inline-block';
+            submitBtnSpinner.style.display = 'inline-flex'; // Now safely changes the wrapper span!
             this.setAttribute('disabled', 'true');
             
             // MOCK API CALL (2 seconds)
