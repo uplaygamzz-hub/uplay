@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>uPlay</title>
+  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+
+  <meta name="title" content="UPlay - PES Tournament">
+  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta property="og:title" content="UPlay - PES Tournament">
+  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="UPlay - PES Tournament">
+  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+  <meta name="twitter:title" content="UPlay - PES Tournament">
+  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+  
+
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script> 
+  
+  <!-- AOS animations -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <!-- Local stylesheets -->
+  <link rel="stylesheet" href="./css/uplay.css">
+  <link rel="stylesheet" href="./css/page_style.css">
+  <link rel="stylesheet" href="./css/hide-content.css">
+  <link rel="stylesheet" href="./css/scroll-to-top.css">
+  <!-- If 'libs/aos/aos.css' is a duplicate, remove it to avoid duplication -->
+  <link rel="stylesheet" href="./libs/aos/aos.css" />
+
+</head>
+
+<body id="body">
+  
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">
+        <img src="../images/logo/pad-logo.png" alt="Logo" />
+        uPlay
+        </div>
+
+        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
+        <div class="desktop-menu">
+            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
+            <ul class="nav-list">
+                <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                <li><a href="../pages/coming_soon.html">About</a></li>
+                <li><a href="#tournament">Tournaments</a></li>
+                <li><a href="../pages/login.html">Leaderboard</a></li>
+            </ul>
+            </div>
+            <div class="nav-auth-wrapper">
+                <a id="cta-button2" href="./pages/login.html">Login</a>
+                <a class="cta-button4" href="./pages/signup.html">Sign up</a>
+            </div>
+        </div>
+
+        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
+        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
+        <div class="mobile-menu" id="nav-menu">
+            
+            <div class="mobile-auth-wrapper">
+                <div  style="border-bottom: 1px solid rgba(255, 255, 255, 0.402); display: flex; gap: 20px;">
+                    <a class="mobile-btn-login" href="./pages/login.html">Login</a>
+                    <a class="mobile-btn-signup" href="./pages/signup.html">Sign up</a>
+                </div>
+                <ul class="mobile-nav-list">
+                    <li><span style="color: var(--UPlay-yellow); font-weight: bold;">Home</span></li>
+                    <li><a href="../pages/coming_soon.html">Achievements</a></li>
+                    <li><a href="#tournament">Tournaments</a></li>
+                    <li><a href="../pages/login.html">Leaderboard</a></li>
+                </ul>
+                <ul style="border-top: 1px solid rgba(255, 255, 255, 0.402); bottom: 1; padding-top: 30px;" class="mobile-nav-list">
+                    <li><a href="">Help Center</a></li>
+                    <li><a href="../pages/coming_soon.html">About</a></li>
+                </ul>
+            </div>
+
+            <!-- <div class="mobile-auth-wrapper" style="margin-bottom: 19px; padding-bottom: 25px;">
+                <a class="mobile-btn-login"  href="#">Log out</a>
+            </div>            You can easily add mobile-only text, social icons, etc. here! -->
+
+        </div>
+
+        <!-- Hamburger Icon -->
+        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+        </div>
+    </nav>
+  <header class="hero" id="header">
+
+    <div class="preloader" id="preloader" style="opacity: 0; display: none;"></div>
+
+
+    <div class="main-header">
+        <div>
+            <div class="left-border" style="transition: 1s;">
+                <h class="title">Welcome to uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+                <h class="tagline"><h1 class="predot"></h1>Compete, Win & Shine</h>
+            </div>
+            <div class="flex_buttons">
+                <h class="cta-button-container" data-aos-delay="100">
+                    <a href="./pages/coming_soon.html" id="cta-button2" style="color: #dedede; padding: 10px 32; margin-right: 20px;">Browse Tournament</a>
+                </h>
+                <h class="cta-button-container" style="transition: 1s;">
+                    <a href="https://chat.whatsapp.com/LT7yMKAj4nTJSfm6RBj4aU" id="cta-button2" style="color: #dedede; padding: 10px 32;">Join Community</a>
+                </h>
+            </div>
+        </div>
+    </div>
+    
+    <section id="tournament">
+      <h4>Games</h4>
+      
+      <div class="carousel-wrapper">
+          <div class="tournament-cards hide-scrollbar">
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="pes" data-aos-delay="100">
+                    <span style="position: relative; z-index: 2;">Pro Evolution Soccer</span>
+                </div>
+            </a>
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="cod" data-aos-delay="200">
+                    <span style="position: relative; z-index: 2;">Call of Duty Mobile</span>
+                </div>
+            </a>
+            <a href="../pages/login.html">
+                <div class="tournament-card" id="fifa" data-aos-delay="300">
+                    <span style="position: relative; z-index: 2;">FIFA 23</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="tournament-card" id="see-more" data-aos-delay="400">
+                    SEE MORE GAMES
+                </div>
+            </a>
+          </div>
+    
+          <!-- The Dots -->
+          <div class="slider-dots">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+          </div>
+      </div>
+    </section>
+</header>
+
+  <!-- TOURNAMENTS SECTION -->
+    <section id="tournaments">
+            <div class="container">
+                
+                <!-- Section Header -->
+                <div class="section-header">
+                    <div>
+                        <h2>Active Tournaments</h2>
+                        <h class="tagline"><h1 class="predot"></h1>Register now before slots fill up!</h>
+                    </div>
+                    <a href="#" class="view-all-desktop">View All</a>
+                </div>
+
+                <!-- Grid Container -->
+                <div class="tournaments-grid">
+                    
+                    <!-- Tournament Card 1 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-live">
+                                <span class="pulse-dot"></span> Live
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 64/128
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">PubG Mobile</h3>
+                        <p class="t-card-desc">Squads • Erangel Only • Region: Global</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$5,000</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">Free</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Team</button>
+                    </div>
+
+                    <!-- Tournament Card 2 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-upcoming">
+                                <i data-lucide="clock"></i> Starts in 2h
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 16/32
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">Valorant Campus Clash</h3>
+                        <p class="t-card-desc">5v5 • Double Elimination • Region: NA</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$1,500</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">100 Coins</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Team</button>
+                    </div>
+
+                    <!-- Tournament Card 3 -->
+                    <div class="t-card">
+                        <div class="t-card-header">
+                            <span class="badge badge-date">
+                                <i data-lucide="calendar"></i> Oct 24th
+                            </span>
+                            <span class="player-count">
+                                <i data-lucide="users"></i> 112/256
+                            </span>
+                        </div>
+                        
+                        <h3 class="t-card-title">eFootball 2024 Open</h3>
+                        <p class="t-card-desc">1v1 • Groups to Knockout • Region: EU</p>
+                        
+                        <div class="t-card-stats">
+                            <div>
+                                <span class="stat-label">Prize Pool</span>
+                                <span class="stat-value primary">$2,000</span>
+                            </div>
+                            <div class="entry-fee">
+                                <span class="stat-label">Entry Fee</span>
+                                <span class="stat-value white">Free</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-register">Register Solo</button>
+                    </div>
+
+                </div>
+
+                <!-- Mobile View All Link -->
+                <a href="#" class="view-all-mobile">View All Tournaments</a>
+                
+            </div>
+        </section>
+
+
+  <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
+    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
+  </a>
+<footer>
+    <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
+    <p>&copy; 2025 PES Tournament. All rights reserved.</p>
+</footer>
+
+<script src="./java/page.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.tournament-cards');
+        const dots = document.querySelectorAll('.dot');
+
+        // 1. Update active dot based on scroll position
+        slider.addEventListener('scroll', () => {
+            const scrollLeft = slider.scrollLeft;
+            const cardWidth = slider.clientWidth;
+            
+            // Calculate which card is closest to the center
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+
+            // Update classes on dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        });
+
+        // 2. Allow clicking a dot to snap to that specific game card
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slider.scrollTo({
+                    left: slider.clientWidth * index,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Safely init AOS if it exists
+    if (typeof AOS !== 'undefined') {
+        AOS.init();
+    }
+
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            // Toggle animation and menu
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            // Stop background scrolling
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.mobile-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    }
+});
+</script>
+</body>
+</html>
