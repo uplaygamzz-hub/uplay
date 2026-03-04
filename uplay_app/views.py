@@ -48,3 +48,12 @@ def ai_dashboard(request):
 
 def ai_dashboard_v2(request):
     return render(request, 'AI2.html')
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def friends(request):
+    return render(request, 'friends.html')
+
+def tournaments(request):
+    return render(request, 'tournaments.html')

@@ -1,0 +1,268 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="welcome-banner">
+    <div class="welcome-text">
+        <h1>Good evening, Emmanuel!</h1>
+        <p>Ready to dominate the arena? Complete your team setup to join the upcoming PES Open.</p>
+        <button class="btn-primary">
+            <i data-lucide="check-circle"></i> Complete Setup
+        </button>
+    </div>
+    <i data-lucide="swords" class="welcome-img" style="width: 120px; height: 120px; color: var(--border-color);"></i>
+</div>
+
+<!-- STATS GRID UPDATED (Wallet Balance replaced with Total Earnings, currency changed to ₦) -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon"><i data-lucide="banknote"></i></div>
+        <div class="stat-info">
+            <h4>Total Earnings</h4>
+            <h2>₦240,500</h2>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="color: var(--success-color); background: rgba(16, 185, 129, 0.1);"><i
+                data-lucide="target"></i></div>
+        <div class="stat-info">
+            <h4>Overall Win Rate</h4>
+            <h2>68.4%</h2>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"><i data-lucide="swords"></i>
+        </div>
+        <div class="stat-info">
+            <h4>Matches Played</h4>
+            <h2>142</h2>
+        </div>
+    </div>
+</div>
+
+<!-- MY SCHEDULE / UPCOMING MATCH -->
+<h3 class="section-heading"><i data-lucide="calendar-clock" style="color: var(--success-color);"></i> My
+    Schedule</h3>
+<div class="upcoming-match-card">
+    <div class="match-details">
+        <h4>PES 2024 Masters Open - Round of 16</h4>
+        <p>Opponent: <span style="color: var(--text-primary); font-weight: 600;">@FifaKing99</span> • Best
+            of 3 Match</p>
+    </div>
+    <div class="match-action">
+        <div class="match-timer" id="matchTimer">00:1:59</div>
+        <button class="btn-primary" style="padding: 10px 20px; font-size: 14px;">
+            <i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Enter Lobby
+        </button>
+    </div>
+</div>
+
+<!-- SQUAD & FRIENDS -->
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+    <h3 class="section-heading" style="margin-bottom: 0;"><i data-lucide="users" style="color: #3b82f6;"></i> Squad &
+        Friends</h3>
+    <a href="{% url 'friends' %}"
+        style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">Manage</a>
+</div>
+<div class="friends-strip hide-scrollbar">
+    <a href="{% url 'friends' %}" class="add-friend-btn" title="Add New Friend"><i data-lucide="plus"></i></a>
+    <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Alex');"
+        title="Alex_Pro (Online)">
+        <div class="status-dot online"></div>
+    </div>
+    <div class="friend-avatar"
+        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'); border-color: #a855f7;"
+        title="SarahGamer (In Game: Valorant)">
+        <div class="status-dot in-game"></div>
+    </div>
+    <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Mike');"
+        title="MikeSniper (Online)">
+        <div class="status-dot online"></div>
+    </div>
+    <div class="friend-avatar"
+        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Jessica'); opacity: 0.5;"
+        title="Jess_Play (Offline)">
+        <div class="status-dot offline"></div>
+    </div>
+    <div class="friend-avatar"
+        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=David'); opacity: 0.5;"
+        title="Dave_11 (Offline)">
+        <div class="status-dot offline"></div>
+    </div>
+</div>
+
+<!-- TOURNAMENT ADS SLIDESHOW (Currencies updated to ₦) -->
+<h3 class="section-heading"><i data-lucide="flame" style="color: var(--danger-color);"></i> Hot Tournaments
+</h3>
+<div class="promo-slideshow hide-scrollbar">
+    <!-- Slide 1 -->
+    <a href="#" class="promo-slide"
+        style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop');">
+        <div class="promo-content">
+            <div>
+                <span class="promo-badge"><span
+                        style="width:6px; height:6px; background:currentColor; border-radius:50%; animation: pulse 2s infinite;"></span>
+                    Registrations Open</span>
+                <h3>Valorant Campus Clash</h3>
+                <p>Prize Pool: ₦150,000 • Starts in 2 Days</p>
+            </div>
+            <div class="promo-btn">Join Now</div>
+        </div>
+    </a>
+
+    <!-- Slide 2 -->
+    <a href="#" class="promo-slide"
+        style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=1200&auto=format&fit=crop');">
+        <div class="promo-content">
+            <div>
+                <span class="promo-badge"
+                    style="background: rgba(234, 179, 8, 0.2); color: var(--UPlay-yellow);">Filling
+                    Fast</span>
+                <h3>PES 2024 Masters Open</h3>
+                <p>Prize Pool: ₦500,000 • 1v1 Format</p>
+            </div>
+            <div class="promo-btn">Register Solo</div>
+        </div>
+    </a>
+
+    <!-- Slide 3 -->
+    <a href="#" class="promo-slide"
+        style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=1200&auto=format&fit=crop');">
+        <div class="promo-content">
+            <div>
+                <span class="promo-badge" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6;">Upcoming</span>
+                <h3>Call of Duty Mobile Squads</h3>
+                <p>Free Entry • Erangel Only</p>
+            </div>
+            <div class="promo-btn">View Details</div>
+        </div>
+    </a>
+</div>
+
+<!-- HORIZONTAL GAMES LIST -->
+<h3 class="section-heading"><i data-lucide="gamepad-2" style="color: var(--UPlay-yellow);"></i> Play &
+    Compete</h3>
+<div class="games-list hide-scrollbar">
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">eFootball PES</h4>
+    </a>
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">COD Mobile</h4>
+    </a>
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1524281300062-817ab56a9286?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">EA FC 24</h4>
+    </a>
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">Valorant</h4>
+    </a>
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">PubG Mobile</h4>
+    </a>
+    <a href="#" class="game-box"
+        style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop');">
+        <h4 class="game-title">Mortal Kombat</h4>
+    </a>
+</div>
+
+<h3 class="section-heading"><i data-lucide="zap" style="color: #a855f7;"></i> Quick Actions</h3>
+<div class="actions-grid">
+    <a href="#" class="action-card">
+        <div class="icon-wrapper"><i data-lucide="crosshair" style="color: var(--danger-color);"></i></div>
+        <h3>Find Match</h3>
+    </a>
+    <a href="#" class="action-card">
+        <div class="icon-wrapper"><i data-lucide="users" style="color: #3b82f6;"></i></div>
+        <h3>Create Team</h3>
+    </a>
+    <a href="#" class="action-card">
+        <div class="icon-wrapper"><i data-lucide="history" style="color: #f59e0b;"></i></div>
+        <h3>Match History</h3>
+    </a>
+    <a href="#" class="action-card">
+        <div class="icon-wrapper"><i data-lucide="shield" style="color: var(--success-color);"></i></div>
+        <h3>Anti-Cheat Status</h3>
+    </a>
+</div>
+
+<!-- RECENT MATCH HISTORY (Currencies updated to ₦) -->
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+    <h3 class="section-heading" style="margin-bottom: 0;"><i data-lucide="history"
+            style="color: var(--text-secondary);"></i> Recent Matches</h3>
+    <a href="#" style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">View
+        All</a>
+</div>
+
+<div class="history-list">
+    <!-- Match 1 -->
+    <a href="#" class="history-item">
+        <div class="history-info">
+            <div class="game-icon"
+                style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=100&auto=format&fit=crop');">
+            </div>
+            <div class="history-details">
+                <h4>eFootball PES 2024</h4>
+                <p>1v1 Matchmaking • Today, 2:30 PM</p>
+            </div>
+        </div>
+        <div class="history-result">
+            <span class="result-status victory">VICTORY</span>
+            <span class="result-score">3 - 1</span>
+            <span class="result-reward positive"><i data-lucide="banknote" style="width: 14px; height: 14px;"></i>
+                +₦15,000</span>
+        </div>
+    </a>
+
+    <!-- Match 2 -->
+    <a href="#" class="history-item">
+        <div class="history-info">
+            <div class="game-icon"
+                style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=100&auto=format&fit=crop');">
+            </div>
+            <div class="history-details">
+                <h4>Valorant</h4>
+                <p>Ranked 5v5 • Yesterday, 8:15 PM</p>
+            </div>
+        </div>
+        <div class="history-result">
+            <span class="result-status defeat">DEFEAT</span>
+            <span class="result-score">11 - 13</span>
+            <span class="result-reward negative"><i data-lucide="trending-down" style="width: 14px; height: 14px;"></i>
+                -24 RR</span>
+        </div>
+    </a>
+
+    <!-- Match 3 -->
+    <a href="#" class="history-item">
+        <div class="history-info">
+            <div class="game-icon"
+                style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=100&auto=format&fit=crop');">
+            </div>
+            <div class="history-details">
+                <h4>COD Mobile</h4>
+                <p>Battle Royale Squads • Oct 20, 10:00 AM</p>
+            </div>
+        </div>
+        <div class="history-result">
+            <span class="result-status victory">1ST PLACE</span>
+            <span class="result-score">14 Kills</span>
+            <span class="result-reward positive"><i data-lucide="banknote" style="width: 14px; height: 14px;"></i>
+                +₦50,000</span>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'java/dashboard.js' %}"></script>
+{% endblock %}
