@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>uPlay - Match Finder</title>
+    
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Base Themes */
+        :root {
+            --UPlay-yellow: #ffcc00;
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg-base: #121212;
+            --bg-surface: #1c1c1c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --hover-bg: rgba(255, 255, 255, 0.05);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+        }
+
+        body.light-mode {
+            --bg-base: #f4f7fb;
+            --bg-surface: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-bg: #f3f4f6;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            padding: 24px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        button { cursor: pointer; border: none; background: none; font-family: inherit; }
+        
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* --- Header --- */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Layout --- */
+        .match-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .panel {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        /* --- Quick Match Form --- */
+        .form-group { margin-bottom: 20px; }
+        
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .game-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .game-option {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            background: var(--bg-base);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .game-option:hover { border-color: var(--UPlay-yellow); }
+        .game-option.active {
+            border-color: var(--UPlay-yellow);
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--UPlay-yellow);
+        }
+
+        .form-select {
+            width: 100%;
+            background-color: var(--bg-base);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: var(--font-body);
+            transition: all 0.2s;
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+        .form-select:focus { border-color: var(--UPlay-yellow); }
+
+        .btn-find {
+            width: 100%;
+            background-color: var(--UPlay-yellow);
+            color: #000;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-find:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3); }
+
+        /* --- Radar Animation --- */
+        .radar-container {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .radar {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 204, 0, 0.3);
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(255,204,0,0.1) 0%, rgba(0,0,0,0) 70%);
+            margin-bottom: 20px;
+        }
+
+        .radar::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; height: 100%;
+            background: conic-gradient(from 0deg, transparent 70%, rgba(255, 204, 0, 0.8) 100%);
+            transform-origin: 0 0;
+            animation: radar-spin 2s linear infinite;
+        }
+
+        .radar::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px; height: 10px;
+            background: var(--UPlay-yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--UPlay-yellow);
+        }
+
+        @keyframes radar-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Open Lobbies List --- */
+        .lobby-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-chip {
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-secondary);
+        }
+        .filter-chip:hover, .filter-chip.active {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        .lobby-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lobby-card {
+            background-color: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .lobby-card:hover { border-color: var(--UPlay-yellow); }
+
+        .lobby-info { display: flex; align-items: center; gap: 16px; }
+        
+        .lobby-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background-color: var(--hover-bg);
+            background-size: cover;
+            position: relative;
+        }
+
+        .game-icon-badge {
+            position: absolute;
+            bottom: -5px; right: -5px;
+            background: var(--bg-surface);
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lobby-details h4 { font-size: 15px; margin: 0 0 4px 0; display: flex; align-items: center; gap: 6px;}
+        .lobby-details p { font-size: 12px; color: var(--text-secondary); margin: 0; }
+
+        .lobby-action { text-align: right; }
+        .lobby-stake { font-family: var(--font-heading); font-size: 16px; font-weight: bold; color: var(--success-color); display: block; margin-bottom: 6px;}
+        
+        .btn-challenge {
+            background: transparent;
+            border: 1px solid var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .btn-challenge:hover { background: var(--UPlay-yellow); color: black; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.95);
+            transition: 0.3s;
+        }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+
+        .versus-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 24px 0;
+            padding: 20px;
+            background: var(--bg-base);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .vs-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+        .vs-text { font-family: var(--font-heading); font-size: 24px; color: var(--danger-color); font-weight: bold; font-style: italic; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .match-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 500px) {
+            .lobby-card { flex-direction: column; align-items: flex-start; gap: 16px;}
+            .lobby-action { width: 100%; display: flex; justify-content: space-between; align-items: center;}
+            .lobby-stake { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1 class="page-title"><i data-lucide="crosshair" style="color: var(--danger-color);"></i> Match Finder</h1>
+        <button style="background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i> Create Custom Lobby
+        </button>
+    </div>
+
+    <div class="match-layout">
+        
+        <!-- LEFT PANEL: QUICK MATCH -->
+        <div class="panel">
+            
+            <div id="searchForm">
+                <h2 class="section-title"><i data-lucide="zap" style="color: var(--UPlay-yellow);"></i> Quick Play</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Game</label>
+                    <div class="game-select-grid">
+                        <div class="game-option active" data-game="pes">eFootball PES</div>
+                        <div class="game-option" data-game="eafc">EA FC 24</div>
+                        <div class="game-option" data-game="codm">COD Mobile</div>
+                        <div class="game-option" data-game="valorant">Valorant</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Match Format</label>
+                    <select class="form-select">
+                        <option>1v1 Ranked</option>
+                        <option>1v1 Unranked (Friendly)</option>
+                        <option>2v2 Co-op</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Stake / Entry Fee</label>
+                    <select class="form-select">
+                        <option>Free (XP Only)</option>
+                        <option>₦500</option>
+                        <option>₦1,000</option>
+                        <option>₦5,000 (High Roller)</option>
+                    </select>
+                </div>
+
+                <button id="findMatchBtn" class="btn-find">
+                    <i data-lucide="search"></i> Find Opponent
+                </button>
+            </div>
+
+            <!-- RADAR ANIMATION (Hidden initially) -->
+            <div id="radarView" class="radar-container">
+                <div class="radar"></div>
+                <h3 style="font-family: var(--font-heading); margin-bottom: 8px;">Scanning Sector...</h3>
+                <p style="color: var(--text-secondary); font-size: 13px;">Looking for players matching your criteria.</p>
+                <p id="timer" style="font-family: monospace; font-size: 18px; color: var(--UPlay-yellow); margin-top: 16px;">00:00</p>
+                <button id="cancelSearchBtn" style="color: var(--danger-color); font-weight: bold; text-decoration: underline; margin-top: 24px; font-size: 14px;">Cancel Search</button>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL: OPEN LOBBIES -->
+        <div class="panel">
+            <h2 class="section-title"><i data-lucide="list" style="color: var(--info-color);"></i> Open Lobbies</h2>
+            
+            <div class="lobby-filters hide-scrollbar">
+                <div class="filter-chip active">All Games</div>
+                <div class="filter-chip">PES Only</div>
+                <div class="filter-chip">High Stakes</div>
+                <div class="filter-chip">Free Play</div>
+            </div>
+
+            <div class="lobby-list">
+                
+                <!-- Lobby 1 -->
+                <div class="lobby-card">
+                    <div class="lobby-info">
+                        <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost');">
+                            <div class="game-icon-badge"><i data-lucide="gamepad-2" style="width: 14px; height: 14px; color: #3b82f6;"></i></div>
+                        </div>
+                        <div class="lobby-details">
+                            <h4>GhostRider_99 <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: var(--success-color); padding: 2px 6px; border-radius: 4px;">Host</span></h4>
+                            <p>EA FC 24 • 1v1 Ultimate Team</p>
+                        </div>
+                    </div>
+                    <div class="lobby-action">
+                        <span class="lobby-stake">₦1,000</span>
+                        <button class="btn-challenge">Challenge</button>
+                    </div>
+                </div>
+
+                <!-- Lobby 2 -->
+                <div class="lobby-card">
+                    <div class="lobby-info">
+                        <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Ninja');">
+                            <div class="game-icon-badge"><i data-lucide="crosshair" style="width: 14px; height: 14px; color: var(--danger-color);"></i></div>
+                        </div>
+                        <div class="lobby-details">
+                            <h4>SniperKing</h4>
+                            <p>COD Mobile • 1v1 Sniper Only (Killhouse)</p>
+                        </div>
+                    </div>
+                    <div class="lobby-action">
+                        <span class="lobby-stake" style="color: var(--text-primary);">Free Play</span>
+                        <button class="btn-challenge">Challenge</button>
+                    </div>
+                </div>
+
+                <!-- Lobby 3 -->
+                <div class="lobby-card">
+                    <div class="lobby-info">
+                        <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=ProGamer');">
+                            <div class="game-icon-badge"><i data-lucide="swords" style="width: 14px; height: 14px; color: var(--UPlay-yellow);"></i></div>
+                        </div>
+                        <div class="lobby-details">
+                            <h4>FifaLord <i data-lucide="badge-check" style="width: 14px; height: 14px; color: var(--UPlay-yellow);"></i></h4>
+                            <p>eFootball PES • Best of 3</p>
+                        </div>
+                    </div>
+                    <div class="lobby-action">
+                        <span class="lobby-stake">₦5,000</span>
+                        <button class="btn-challenge">Challenge</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MATCH FOUND MODAL -->
+    <div id="matchFoundModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="font-family: var(--font-heading); color: var(--success-color); font-size: 28px; margin-bottom: 8px;">MATCH FOUND!</h2>
+            <p style="color: var(--text-secondary); font-size: 14px;">Get ready to dominate.</p>
+            
+            <div class="versus-container">
+                <div style="text-align: center;">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Emmanuel" class="vs-avatar" style="border-color: var(--success-color);">
+                    <p style="font-size: 12px; font-weight: bold; margin-top: 8px;">You</p>
+                </div>
+                
+                <div class="vs-text">VS</div>
+                
+                <div style="text-align: center;">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Opponent" class="vs-avatar" style="border-color: var(--danger-color);">
+                    <p style="font-size: 12px; font-weight: bold; margin-top: 8px;">@ToxicPlayer</p>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 24px;">
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Game: <span style="color: white; font-weight: bold;">eFootball PES (1v1)</span></p>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Stake: <span style="color: var(--success-color); font-weight: bold;">₦500</span></p>
+            </div>
+
+            <button id="enterLobbyBtn" class="btn-find" style="margin-top: 0;">
+                <i data-lucide="log-in"></i> Enter Match Lobby
+            </button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Theme Synchronization
+        window.addEventListener('message', (event) => {
+            if (event.data === 'theme-light') {
+                document.body.classList.add('light-mode');
+            } else if (event.data === 'theme-dark') {
+                document.body.classList.remove('light-mode');
+            }
+        });
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        // Game Selection Logic
+        const gameOptions = document.querySelectorAll('.game-option');
+        gameOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                gameOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Search Animation Logic
+        const searchForm = document.getElementById('searchForm');
+        const radarView = document.getElementById('radarView');
+        const findMatchBtn = document.getElementById('findMatchBtn');
+        const cancelSearchBtn = document.getElementById('cancelSearchBtn');
+        const timerText = document.getElementById('timer');
+        const matchFoundModal = document.getElementById('matchFoundModal');
+        const enterLobbyBtn = document.getElementById('enterLobbyBtn');
+        
+        let searchInterval;
+        let seconds = 0;
+        let searchTimeout;
+
+        findMatchBtn.addEventListener('click', () => {
+            // Hide form, show radar
+            searchForm.style.display = 'none';
+            radarView.style.display = 'flex';
+            
+            // Start Timer
+            seconds = 0;
+            timerText.textContent = "00:00";
+            searchInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                timerText.textContent = `${mins}:${secs}`;
+            }, 1000);
+
+            // Mock "Match Found" after 4 seconds
+            searchTimeout = setTimeout(() => {
+                clearInterval(searchInterval);
+                matchFoundModal.classList.add('show');
+            }, 4000);
+        });
+
+        cancelSearchBtn.addEventListener('click', () => {
+            clearInterval(searchInterval);
+            clearTimeout(searchTimeout);
+            radarView.style.display = 'none';
+            searchForm.style.display = 'block';
+        });
+
+        enterLobbyBtn.addEventListener('click', () => {
+            // Usually this would redirect to a specific match room page
+            alert("Redirecting to secure match lobby...");
+            matchFoundModal.classList.remove('show');
+            radarView.style.display = 'none';
+            searchForm.style.display = 'block';
+        });
+
+    </script>
+</body>
+</html>
