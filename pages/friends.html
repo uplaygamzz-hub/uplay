@@ -1,53 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>uPlay - Friends & Squad</title>
-    
-    <!-- Fonts and Icons -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uPlay - Friends</title>
+    <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+
+    <meta name="title" content="UPlay - PES Tournament">
+    <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+    <meta property="og:title" content="UPlay - PES Tournament">
+    <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+    <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="UPlay - PES Tournament">
+    <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
+    <meta name="twitter:title" content="UPlay - PES Tournament">
+    <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+    <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
+
+    <!-- Fonts: Orbitron for Headings, Inter for Body -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/main.css">
 
     <style>
-        /* Base Themes */
-        :root {
-            --UPlay-yellow: #ffcc00;
-            --font-heading: 'Orbitron', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --bg-base: #121212;
-            --bg-surface: #1c1c1c;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --hover-bg: rgba(255, 255, 255, 0.05);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --in-game-color: #a855f7;
-        }
-
-        body.light-mode {
-            --bg-base: #f4f7fb;
-            --bg-surface: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border-color: #e5e7eb;
-            --hover-bg: #f3f4f6;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-base);
-            color: var(--text-primary);
+        main {
+            flex: 1;
             padding: 24px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-y: auto;
         }
 
-        button { cursor: pointer; border: none; background: none; font-family: inherit; }
+        /* Global Scrollbar Hiding */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
         /* --- Header & Search --- */
         .page-header {
@@ -289,201 +290,448 @@
 </head>
 <body>
 
-    <div class="page-header">
-        <h1 class="page-title"><i data-lucide="users" style="color: #3b82f6;"></i> Squad & Friends</h1>
-        <button class="btn-primary">
-            <i data-lucide="user-plus"></i> Add Friend
-        </button>
-    </div>
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="search-container">
-        <i data-lucide="search"></i>
-        <input type="text" class="search-input" placeholder="Search friends by name or uPlay ID...">
-    </div>
+    <!-- INVISIBLE SPACER -->
+    <div class="sidebar-spacer" id="sidebarSpacer"></div>
 
-    <div class="tabs">
-        <button class="tab-btn active" data-target="online">Online (3)</button>
-        <button class="tab-btn" data-target="all">All Friends (12)</button>
-        <button class="tab-btn" data-target="requests">Requests <span class="tab-badge">2</span></button>
-    </div>
-
-    <!-- ONLINE FRIENDS TAB -->
-    <div id="online" class="tab-content active">
-        <div class="friends-list">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
             
-            <!-- Friend 1 (In Game) -->
-            <div class="friend-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container" style="border-color: var(--in-game-color);">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Avatar">
-                        <div class="status-dot in-game"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>SarahGamer</h4>
-                        <p class="playing"><i data-lucide="swords" style="width: 12px; height: 12px;"></i> Playing Valorant</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
-                    <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
-                </div>
+            <!-- Sidebar Header (Desktop Toggle) -->
+            <div class="sidebar-header">
+                <button class="desktop-toggle" id="desktopMenuToggle" title="Toggle Sidebar">
+                    <i data-lucide="panel-left-close" class="icon-collapse"></i>
+                    <i data-lucide="menu" class="icon-expand" style="display: none;"></i>
+                </button>
             </div>
 
-            <!-- Friend 2 (Online) -->
-            <div class="friend-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar">
-                        <div class="status-dot online"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>Alex_Pro</h4>
-                        <p>Online</p>
-                    </div>
+            <!-- Profile Widget -->
+            <a href="profile.html" class="user-widget">
+                <img src="../images/icons/profile5.png" alt="User Avatar" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'">
+                <div class="user-info">
+                    <h4>Emmanuel Ovie</h4>
+                    <p>PRO TIER</p>
                 </div>
-                <div class="friend-actions">
-                    <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
-                    <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
-                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="sidebar-nav">
+                <div class="nav-section-title">General</div>
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i> <span>Dashboard</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="crosshair"></i> <span>Match Finder</span>
+                </a>
+                <a href="tournaments.html" class="nav-item active">
+                    <i data-lucide="trophy"></i> <span>Tournaments</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="bar-chart-2"></i> <span>Leaderboard</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="history"></i> <span>Match History</span>
+                </a>
+
+                <div class="nav-section-title" style="margin-top: 24px;">Community</div>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="users"></i> <span>Friends & Squad</span>
+                </a>
+
+                <div class="nav-section-title" style="margin-top: 24px;">Management</div>
+                <a href="settings.html" class="nav-item">
+                    <i data-lucide="user"></i> <span>Account Settings</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="wallet"></i> <span>Wallet & Funds</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="shield-alert"></i> <span>Support</span>
+                </a>
             </div>
 
-            <!-- Friend 3 (Online) -->
-            <div class="friend-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mike" alt="Avatar">
-                        <div class="status-dot online"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>MikeSniper</h4>
-                        <p>Online</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
-                    <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ALL FRIENDS TAB -->
-    <div id="all" class="tab-content">
-        <div class="friends-list">
-            <!-- (Re-using the 3 online friends + adding some offline ones) -->
-            <div class="friend-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container" style="border-color: var(--in-game-color);">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Avatar">
-                        <div class="status-dot in-game"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>SarahGamer</h4>
-                        <p class="playing"><i data-lucide="swords" style="width: 12px; height: 12px;"></i> Playing Valorant</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
-                    <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
-                </div>
-            </div>
-
-            <div class="friend-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar">
-                        <div class="status-dot online"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>Alex_Pro</h4>
-                        <p>Online</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
-                    <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
-                </div>
-            </div>
-
-            <!-- Offline Friend 1 -->
-            <div class="friend-card" style="opacity: 0.7;">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jessica" alt="Avatar" style="filter: grayscale(100%);">
-                        <div class="status-dot offline"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>Jess_Play</h4>
-                        <p>Last seen 2 hours ago</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
-                </div>
-            </div>
-
-            <!-- Offline Friend 2 -->
-            <div class="friend-card" style="opacity: 0.7;">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=David" alt="Avatar" style="filter: grayscale(100%);">
-                        <div class="status-dot offline"></div>
-                    </div>
-                    <div class="friend-details">
-                        <h4>Dave_11</h4>
-                        <p>Last seen 1 day ago</p>
-                    </div>
-                </div>
-                <div class="friend-actions">
-                    <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FRIEND REQUESTS TAB -->
-    <div id="requests" class="tab-content">
-        <div class="friends-list">
-            
-            <!-- Request 1 -->
-            <div class="friend-card request-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ninja" alt="Avatar">
-                    </div>
-                    <div class="friend-details">
-                        <h4>CyberNinja</h4>
-                        <p>Played together in: PES 2024</p>
-                    </div>
-                </div>
-                <div class="request-actions">
-                    <button class="req-btn accept">Accept</button>
-                    <button class="req-btn decline">Decline</button>
-                </div>
-            </div>
-
-            <!-- Request 2 -->
-            <div class="friend-card request-card">
-                <div class="friend-info-wrapper">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost" alt="Avatar">
-                    </div>
-                    <div class="friend-details">
-                        <h4>GhostRider99</h4>
-                        <p>Referred by @Alex_Pro</p>
-                    </div>
-                </div>
-                <div class="request-actions">
-                    <button class="req-btn accept">Accept</button>
-                    <button class="req-btn decline">Decline</button>
-                </div>
+            <!-- Bottom Logout Button -->
+            <div class="sidebar-footer">
+                <a href="../index.html" class="nav-item logout-item">
+                    <i data-lucide="log-out"></i> <span>Log Out</span>
+                </a>
             </div>
 
         </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-wrapper">
+        
+        <!-- TOP NAVIGATION BAR -->
+        <header class="topbar">
+            <!-- Left Side of Topbar -->
+            <div class="topbar-left">
+                <!-- Mobile Sidebar Toggle -->
+                <button class="mobile-toggle icon-btn" id="mobileMenuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+                
+                <!-- The Logo -->
+                <div class="topbar-logo">
+                    <img src="../images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
+                    <span style="display: none; margin-right: 8px;">🎮</span>
+                    uPlay
+                </div>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="topbar-right">
+                
+                <!-- Theme Toggle -->
+                <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Mode">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon" style="display: none;"></i>
+                </button>
+
+                <!-- Notifications Wrapper -->
+                <div class="notification-wrapper">
+                    <button class="icon-btn" id="notifToggle" title="Notifications">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-badge" id="notifBadge">3</span>
+                    </button>
+
+                    <div class="notification-dropdown" id="notifDropdown">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                            <div class="notif-top-actions">
+                                <button class="notif-action-btn" id="markAllReadBtn" title="Mark all as read">
+                                    <i data-lucide="check-check"></i>
+                                </button>
+                                <button class="notif-action-btn delete-all" id="deleteAllBtn" title="Delete all">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="notif-list">
+                            <!-- Unread 1 -->
+                            <div class="notif-item unread">
+                                <div class="notif-icon"><i data-lucide="trophy" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Tournament Starting Soon</h5>
+                                    <p>Your PES Open match begins in 15 minutes. Check in now!</p>
+                                    <span class="notif-time">10 mins ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Unread 2 -->
+                            <div class="notif-item unread">
+                                <div class="notif-icon"><i data-lucide="users" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Team Invite</h5>
+                                    <p>You have been invited to join "Neon Strikers" for the Valorant cup.</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Unread 3 -->
+                            <div class="notif-item unread">
+                                <div class="notif-icon"><i data-lucide="wallet" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Wallet Credited</h5>
+                                    <p>You successfully withdrew $50.00 to your linked account.</p>
+                                    <span class="notif-time">2 hours ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Read 1 -->
+                            <div class="notif-item">
+                                <div class="notif-icon"><i data-lucide="info" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Welcome to uPlay!</h5>
+                                    <p>Complete your profile setup to start joining tournaments.</p>
+                                    <span class="notif-time">1 day ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Wrapper -->
+                <div class="profile-wrapper">
+                    <button class="icon-btn" id="profileToggle" style="border: 2px solid var(--UPlay-yellow); overflow: hidden; padding: 0;">
+                        <img src="../images/icons/profile5.png" alt="Avatar" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'" style="width: 100%; height: 100%;">
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="profile-header-info">
+                            <img src="../images/icons/profile5.png" alt="User Avatar" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'">
+                            <div class="profile-user-details">
+                                <h4>Emmanuel Ovie</h4>
+                                <p>@emmanuel_o</p>
+                            </div>
+                        </div>
+                        <div class="profile-links">
+                            <a href="profile.html" class="profile-link-item">
+                                <i data-lucide="user"></i> My Profile
+                            </a>
+                            <a href="settings.html" class="profile-link-item">
+                                <i data-lucide="settings"></i> Account Settings
+                            </a>
+                        </div>
+                        <div class="profile-logout">
+                            <a href="../index.html" class="profile-link-item">
+                                <i data-lucide="log-out"></i> Log Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- MAIN TOURNAMENTS CONTENT -->
+         <main>
+
+             <div class="page-header">
+                 <h1 class="page-title"><i data-lucide="users" style="color: #3b82f6;"></i> Squad & Friends</h1>
+                 <button class="btn-primary">
+                     <i data-lucide="user-plus"></i> Add Friend
+                 </button>
+             </div>
+             
+             <div class="search-container">
+                 <i data-lucide="search"></i>
+                 <input type="text" class="search-input" placeholder="Search friends by name or uPlay ID...">
+             </div>
+             
+             <div class="tabs">
+                 <button class="tab-btn active" data-target="online">Online (3)</button>
+                 <button class="tab-btn" data-target="all">All Friends (12)</button>
+                 <button class="tab-btn" data-target="requests">Requests <span class="tab-badge">2</span></button>
+             </div>
+             
+             <!-- ONLINE FRIENDS TAB -->
+             <div id="online" class="tab-content active">
+                 <div class="friends-list">
+                     
+                     <!-- Friend 1 (In Game) -->
+                     <div class="friend-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container" style="border-color: var(--in-game-color);">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Avatar">
+                                 <div class="status-dot in-game"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>SarahGamer</h4>
+                                 <p class="playing"><i data-lucide="swords" style="width: 12px; height: 12px;"></i> Playing Valorant</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                             <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                     <!-- Friend 2 (Online) -->
+                     <div class="friend-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar">
+                                 <div class="status-dot online"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>Alex_Pro</h4>
+                                 <p>Online</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                             <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                     <!-- Friend 3 (Online) -->
+                     <div class="friend-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mike" alt="Avatar">
+                                 <div class="status-dot online"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>MikeSniper</h4>
+                                 <p>Online</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                             <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                 </div>
+             </div>
+             
+             <!-- ALL FRIENDS TAB -->
+             <div id="all" class="tab-content">
+                 <div class="friends-list">
+                     <!-- (Re-using the 3 online friends + adding some offline ones) -->
+                     <div class="friend-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container" style="border-color: var(--in-game-color);">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Avatar">
+                                 <div class="status-dot in-game"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>SarahGamer</h4>
+                                 <p class="playing"><i data-lucide="swords" style="width: 12px; height: 12px;"></i> Playing Valorant</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                             <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                     <div class="friend-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar">
+                                 <div class="status-dot online"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>Alex_Pro</h4>
+                                 <p>Online</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                             <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                     <!-- Offline Friend 1 -->
+                     <div class="friend-card" style="opacity: 0.7;">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jessica" alt="Avatar" style="filter: grayscale(100%);">
+                                 <div class="status-dot offline"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>Jess_Play</h4>
+                                 <p>Last seen 2 hours ago</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+             
+                     <!-- Offline Friend 2 -->
+                     <div class="friend-card" style="opacity: 0.7;">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=David" alt="Avatar" style="filter: grayscale(100%);">
+                                 <div class="status-dot offline"></div>
+                             </div>
+                             <div class="friend-details">
+                                 <h4>Dave_11</h4>
+                                 <p>Last seen 1 day ago</p>
+                             </div>
+                         </div>
+                         <div class="friend-actions">
+                             <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             
+             <!-- FRIEND REQUESTS TAB -->
+             <div id="requests" class="tab-content">
+                 <div class="friends-list">
+                     
+                     <!-- Request 1 -->
+                     <div class="friend-card request-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ninja" alt="Avatar">
+                             </div>
+                             <div class="friend-details">
+                                 <h4>CyberNinja</h4>
+                                 <p>Played together in: PES 2024</p>
+                             </div>
+                         </div>
+                         <div class="request-actions">
+                             <button class="req-btn accept">Accept</button>
+                             <button class="req-btn decline">Decline</button>
+                         </div>
+                     </div>
+             
+                     <!-- Request 2 -->
+                     <div class="friend-card request-card">
+                         <div class="friend-info-wrapper">
+                             <div class="avatar-container">
+                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost" alt="Avatar">
+                             </div>
+                             <div class="friend-details">
+                                 <h4>GhostRider99</h4>
+                                 <p>Referred by @Alex_Pro</p>
+                             </div>
+                         </div>
+                         <div class="request-actions">
+                             <button class="req-btn accept">Accept</button>
+                             <button class="req-btn decline">Decline</button>
+                         </div>
+                     </div>
+             
+                 </div>
+             </div>
+             
+             <div style="height: 40px;"></div> <!-- Spacer -->
+         </main>
     </div>
 
+    <!-- SCRIPTS -->
     <script>
+        // Render all icons on initial page load
+        lucide.createIcons();
+    </script>
+        <script>
         // Render Icons
         lucide.createIcons();
 
@@ -541,5 +789,7 @@
             if(declineBtn) declineBtn.addEventListener('click', () => handleRequest('Request Declined'));
         });
     </script>
+    <script src="../java/main.js"></script>
+    <!-- <script src="../java/tournaments.js"></script> -->
 </body>
 </html>
