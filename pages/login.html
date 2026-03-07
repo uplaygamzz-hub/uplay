@@ -1,228 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>uPlay Login</title>
-  <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uPlay - Log In</title>
+    <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
 
-  <meta name="title" content="UPlay - PES Tournament">
-  <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
-
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
-  <meta property="og:title" content="UPlay - PES Tournament">
-  <meta property="og:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
-  <meta property="og:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="UPlay - PES Tournament">
-  <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
-  <meta name="twitter:title" content="UPlay - PES Tournament">
-  <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
-  <meta name="twitter:image" content="https://uplaygamzz.github.io/pes_tournament/images/PES_flyer.png">
-  
-
-    <!-- Fonts and icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="../css/uplay.css">
-  <link rel="stylesheet" href="../css/preloader.css">
-  <link rel="stylesheet" href="../css/scroll-to-top.css">
-  <link rel="stylesheet" href="../css/page_style.css">
-  <link rel="stylesheet" href="../css/hide-content.css">
-</head>
-<body style="background: #191919">
-
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">
-        <img src="../images/logo/pad-logo.png" alt="Logo" />
-        uPlay
-        </div>
-
-        <!-- 1. DESKTOP MENU (Will hide on mobile) -->
-        <div class="desktop-menu">
-            <div class="nav-links-wrapper" style="display: flex; list-style: none; align-items: center;">
-            <ul class="nav-list">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../pages/coming_soon.html">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            </div>
-            <div class="nav-auth-wrapper">
-                <a class="cta-button4" href="./signup.html">Sign up</a>
-            </div>
-        </div>
-
-        <!-- 2. MOBILE MENU (Will hide on Desktop, acts as overlay on mobile) -->
-        <!-- Notice we kept id="nav-menu" so the JavaScript animation still works -->
-        <div class="mobile-menu" id="nav-menu">
-            
-            <div class="mobile-auth-wrapper">
-                <a class="mobile-btn-signup" href="./signup.html">Sign up</a>
-            </div>
-
-            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../pages/coming_soon.html">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <ul style="border-bottom: 1px solid rgba(255, 255, 255, 0.402);" class="mobile-nav-list">
-                <li><a href="">Help Center</a></li>
-            </ul>
-
-            <!-- You can easily add mobile-only text, social icons, etc. here! -->
-
-        </div>
-
-        <!-- Hamburger Icon -->
-        <div class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span><span></span><span></span>
-        </div>
-    </nav>
-
-  <header class="hero" id="heroo">
-    <section id="register">
-    <h1>Login</h1>
-    <p style="color: #ccc;">Login to continue uPlay</p>
-    <div class="form">
-  
-      <div class="form-inputs">
-        <label for="email">Email :</label>
-        <input id="loginEmail" type="email" placeholder="example@gmail.com">
-      </div>
-  
-      <!-- <div class="form-inputs">
-        <label for="whatsapp">WhatsApp No :</label>
-        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+123 4567 890..." required>
-      </div> -->
-  
-      <div class="form-inputs">
-        <label for="password">Password :</label>
-        <input id="loginPassword" type="password" placeholder="xxxxxx">
-      </div>
-  
-      <button class="" id="loginBtn">Login</button>
-      <!-- <div id="loadingSpinner" style="display: none; margin-top: 10px; color: #fff;">
-        ⏳ Submitting... Please wait
-      </div> -->
-      <!-- ===== Loading Overlay ===== -->
-      <div id="loadingOverlay">
-        <div class="loader-container">
-          <img src="../images/loading6.png" alt="Loading..." id="loadingIcon">
-          <!-- <p id="loadingText">Processing...</p> -->
-        </div>
-      </div>
-  
-  
-      <div class="form-inputs">
-        <p>Don't have an account? <a style="color: var(--UPlay-yellow);" href="signup.html">Sign up</a></p>
-      </div>
-    </div>
-  </section>
-  </header>
-
-    <a href="#" class="scrollToTop" id="scrollToTop" aria-label="Scroll to top">
-    <img src="../images/icons/scroll-to-top3.svg" alt="Scroll to Top" />
-  </a>
-<footer>
-    <h class="title" style="border: none; font-size: 30px;">uPlay<span style="color: #ffcc00;">Gammz</span></h><br>
-    <p>&copy; 2025 PES Tournament. All rights reserved.</p>
-</footer>
-
-<script src="../java/page.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const slider = document.querySelector('.tournament-cards');
-        const dots = document.querySelectorAll('.dot');
-
-        // 1. Update active dot based on scroll position
-        slider.addEventListener('scroll', () => {
-            const scrollLeft = slider.scrollLeft;
-            const cardWidth = slider.clientWidth;
-            
-            // Calculate which card is closest to the center
-            const activeIndex = Math.round(scrollLeft / cardWidth);
-
-            // Update classes on dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeIndex);
-            });
-        });
-
-        // 2. Allow clicking a dot to snap to that specific game card
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                slider.scrollTo({
-                    left: slider.clientWidth * index,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+    <!-- Fonts: Orbitron for Headings, Inter for Body -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
-    // Safely init AOS if it exists
-    if (typeof AOS !== 'undefined') {
-        AOS.init();
-    }
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Other CSS -->
+    <link rel="stylesheet" href="../css/signup&login.css">
+    <link rel="stylesheet" href="../css/index.css">
 
-    // ==========================================
-    // MOBILE NAV TOGGLE
-    // ==========================================
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const body = document.body;
+</head>
+<body>
 
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            // Toggle animation and menu
-            navToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- PUBLIC TOP NAVIGATION BAR (Matches Index/Signup) -->
+        <header class="public-topbar">
+            <!-- Left Side (Logo) -->
+            <div class="public-topbar-left">
+                <a href="../index.html" class="public-topbar-logo">
+                    <img src="../images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
+                    <span style="display: none; margin-right: 8px;">🎮</span>
+                    uPlay
+                </a>
+            </div>
 
-            // Stop background scrolling
-            if (navMenu.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
+            <!-- Center Side (Navigation Links) -->
+            <div class="public-topbar-center">
+                <a href="../index.html" class="public-nav-link">Home</a>
+                <a href="#" class="public-nav-link">About</a>
+                <a href="tournaments.html" class="public-nav-link">Tournaments</a>
+                <a href="coming_soon.html" class="public-nav-link">Leaderboard</a>
+            </div>
 
-        // Close menu when a link is clicked
-        const navLinks = document.querySelectorAll('.mobile-menu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
-    }
-});
-</script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="../java/auto_submit_and_respond.js"></script>
+            <!-- Right Side (Actions) -->
+            <div class="public-topbar-right">
+                <!-- Theme Toggle -->
+                <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Mode">
+                    <i data-lucide="sun" class="icon-sun"></i>
+                    <i data-lucide="moon" class="icon-moon" style="display: none;"></i>
+                </button>
 
+                <a href="signup.html" class="btn-primary">Sign Up</a>
 
-  <script>
-  function showLoading() {
-    const overlay = document.getElementById('loadingOverlay');
-    overlay.style.display = 'flex';
-    // auto-hide after 10s if stuck
-    // clearTimeout(window.loadingTimeout);
-    // window.loadingTimeout = setTimeout(hideLoading, 100);
-  }
+                <!-- Mobile Menu Toggle -->
+                <button class="landing-mobile-menu-btn icon-btn" id="landingMobileMenuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </header>
 
-  function hideLoading() {
-    document.getElementById('loadingOverlay').style.display = 'none';
-    clearTimeout(window.loadingTimeout);
-  }
-</script>
+        <!-- Right-Side Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Right-Side Mobile Sidebar -->
+        <aside class="mobile-sidebar" id="mobileSidebar">
+            <div class="sidebar-header">
+                <div class="public-topbar-left">
+                    <a href="../index.html" class="public-topbar-logo">
+                        <img src="../images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
+                        <span style="display: none; margin-right: 8px;">🎮</span>
+                        uPlay
+                    </a>
+                </div>
+                <button class="icon-btn" id="closeSidebarBtn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="nav-section-title">Navigation</div>
+                <a href="../index.html" class="nav-item">
+                    <i data-lucide="home"></i> <span>Home</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i data-lucide="info"></i> <span>About</span>
+                </a>
+                <a href="tournaments.html" class="nav-item">
+                    <i data-lucide="trophy"></i> <span>Tournaments</span>
+                </a>
+                <a href="coming_soon.html" class="nav-item">
+                    <i data-lucide="bar-chart-2"></i> <span>Leaderboard</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="signup.html" class="btn-primary" style="width: 100%; justify-content: center;">Sign Up</a>
+            </div>
+        </aside>
+
+        <!-- AUTHENTICATION CONTENT -->
+        <main class="auth-main">
+            <div class="auth-card">
+                
+                <div class="auth-header">
+                    <h1>Welcome Back</h1>
+                    <p>Log in to your account and step into the arena.</p>
+                </div>
+
+                <form id="loginForm">
+
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <div class="form-input-wrapper">
+                            <input type="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="form-input-wrapper">
+                            <input type="password" id="passwordInput" class="form-input" placeholder="Enter your password" required>
+                            <div class="password-toggle" id="togglePassword">
+                                <i data-lucide="eye"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="login-options">
+                        <div class="terms-wrapper" style="margin-bottom: 0;">
+                            <input type="checkbox" id="rememberCheck">
+                            <label for="rememberCheck" class="terms-text" style="cursor: pointer;">
+                                Remember me
+                            </label>
+                        </div>
+                        
+                        <a href="#" class="forgot-password-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Log In <i data-lucide="log-in"></i>
+                    </button>
+
+                </form>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="signup.html">Sign Up</a>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Shared Footer -->
+        <footer class="public-footer">
+            <p>&copy; 2026 uPlayGammz. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Render all icons on initial page load
+        lucide.createIcons();
+    </script>
+    <script src="../java/main.js"></script>
+    <script src="../java/login.js"></script>
 </body>
 </html>

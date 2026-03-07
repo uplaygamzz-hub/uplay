@@ -1,5 +1,5 @@
 /* =========================================
-   === #SIGNUP STYLE ===
+   === #LOGIN STYLE ===
    ========================================= */
 
 /* Override ALFA body flex-direction row for the public layout */
@@ -199,14 +199,8 @@ body {
 }
 
 .auth-header p {
-    color: var(--text-secondary);
+    color: #e0e0e0;
     font-size: 14px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
 }
 
 .form-group {
@@ -219,7 +213,7 @@ body {
     margin-bottom: 8px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: #e0e0e0;
 }
 
 .form-input-wrapper {
@@ -228,10 +222,11 @@ body {
 
 .form-input {
     width: 100%;
-    background-color: var(--bg-base);
-    border: 1px solid var(--border-color);
+    /* Slightly transparent inputs */
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
-    padding: 14px 16px; /* Removed left padding since there are no more front icons */
+    padding: 14px 16px; 
     border-radius: 12px;
     font-size: 14px;
     font-family: var(--font-body);
@@ -241,6 +236,7 @@ body {
 
 .form-input:focus {
     border-color: var(--UPlay-yellow);
+    background-color: rgba(0, 0, 0, 0.6);
     box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.1);
 }
 
@@ -261,27 +257,41 @@ body {
     color: var(--text-primary);
 }
 
-.terms-wrapper {
+/* Additional layout for Login Options (Remember Me & Forgot Password) */
+.login-options {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
 }
 
+.terms-wrapper {
+    display: flex;
+    align-items: center; /* Adjusted from flex-start for single-line text */
+    gap: 8px;
+}
+
 .terms-wrapper input[type="checkbox"] {
-    margin-top: 4px;
     cursor: pointer;
     accent-color: var(--UPlay-yellow);
 }
 
 .terms-text {
     font-size: 13px;
-    color: var(--text-secondary);
+    color: #e0e0e0;
     line-height: 1.5;
 }
 
-.terms-text a {
+.forgot-password-link {
+    font-size: 13px;
     color: var(--UPlay-yellow);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.forgot-password-link:hover {
+    color: var(--text-primary);
     text-decoration: underline;
 }
 
@@ -313,7 +323,7 @@ body {
     text-align: center;
     margin-top: 24px;
     font-size: 14px;
-    color: var(--text-secondary);
+    color: #e0e0e0;
 }
 
 .auth-footer a {
@@ -351,9 +361,5 @@ body {
     }
     .auth-card {
         padding: 32px 24px;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
     }
 }
