@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User
+from .models import User, UserProfile, Friendship, Squad
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=150, required=True)
@@ -32,3 +32,44 @@ class LoginForm(AuthenticationForm):
         'class': 'form-control',
         'placeholder': 'Password'
     }))
+
+class FriendRequestForm(forms.ModelForm):
+    class Meta:
+        model = Friendship
+        fields = ['receiver']
+        widgets = {
+            'receiver': forms.HiddenInput(),
+        }
+
+class SquadForm(forms.ModelForm):
+    class Meta:
+        model = Squad
+        fields = ['name', 'members']
+        widgets = {
+            'members': forms.CheckboxSelectMultiple(),
+        }
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name']
+
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar', 'bio']
+
+class GamingIDsForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['psn_id', 'xbox_id', 'riot_id', 'activision_id', 'ea_id']
+
+class PayoutDetailsForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bank_name', 'account_number', 'account_name']

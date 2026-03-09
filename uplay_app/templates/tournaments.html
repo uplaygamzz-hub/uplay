@@ -20,10 +20,10 @@
     </div>
     <select id="gameFilter" class="filter-input" style="flex: 1; min-width: 150px;">
         <option value="all">All Games</option>
-        <option value="pes">eFootball PES</option>
+        <option value="efootballpes">eFootball PES</option>
         <option value="valorant">Valorant</option>
-        <option value="codm">COD Mobile</option>
-        <option value="eafc">EA FC 24</option>
+        <option value="codmobile">COD Mobile</option>
+        <option value="eafc24">EA FC 24</option>
     </select>
     <select id="statusFilter" class="filter-input" style="flex: 1; min-width: 150px;">
         <option value="all">All Statuses</option>
@@ -36,157 +36,72 @@
 <!-- TOURNAMENTS GRID -->
 <div class="tournaments-grid" id="tournamentGrid">
 
-    <!-- Card 1: PES (Open) -->
-    <div class="tournament-card" data-game="pes" data-status="open">
+    {% for tournament in tournaments %}
+    <div class="tournament-card" data-game="{{ tournament.game.title|lower|cut:' ' }}"
+        data-status="{{ tournament.status }}">
         <div class="card-banner"
-            style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=600&auto=format&fit=crop');">
-            <span class="status-badge open">Registration Open</span>
+            style="background-image: url('{{ tournament.banner_image }}'); {% if tournament.status == 'completed' %}filter: grayscale(50%);{% endif %}">
+            <span class="status-badge {{ tournament.status }}">{{ tournament.get_status_display }}</span>
         </div>
         <div class="card-content">
-            <span class="game-tag">eFootball PES 2024</span>
-            <h3 class="tournament-title">PES 2024 Masters Open - Africa</h3>
+            <span class="game-tag">{{ tournament.game.title }}</span>
+            <h3 class="tournament-title">{{ tournament.title }}</h3>
 
             <div class="info-grid">
                 <div class="info-item">
                     <span class="info-label"><i data-lucide="calendar" style="width:12px; height:12px;"></i>
                         Date</span>
-                    <span class="info-value">Oct 25, 2:00 PM</span>
+                    <span class="info-value">
+                        {% if tournament.status == 'live' %}
+                        Today
+                        {% else %}
+                        {{ tournament.start_date|date:"M d, P" }}
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="info-item">
                     <span class="info-label"><i data-lucide="dollar-sign" style="width:12px; height:12px;"></i> Prize
                         Pool</span>
-                    <span class="info-value prize">₦500,000</span>
+                    <span class="info-value prize">{{ tournament.prize_pool }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label"><i data-lucide="users" style="width:12px; height:12px;"></i>
                         Format</span>
-                    <span class="info-value">1v1 Bracket</span>
+                    <span class="info-value">{{ tournament.tournament_format }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label"><i data-lucide="ticket" style="width:12px; height:12px;"></i>
-                        Entry Fee</span>
-                    <span class="info-value">₦5,000</span>
-                </div>
-            </div>
-
-            <div class="card-actions">
-                <button class="btn-full primary register-btn" data-tourney="PES 2024 Masters Open - Africa"
-                    data-price="₦5,000" data-link="https://paystack.com/pay/your-pes-link">
-                    Register Now
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card 2: Valorant (Open) -->
-    <div class="tournament-card" data-game="valorant" data-status="open">
-        <div class="card-banner"
-            style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop');">
-            <span class="status-badge open">Registration Open</span>
-        </div>
-        <div class="card-content">
-            <span class="game-tag">Valorant</span>
-            <h3 class="tournament-title">Valorant Campus Clash Series</h3>
-
-            <div class="info-grid">
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="calendar" style="width:12px; height:12px;"></i>
-                        Date</span>
-                    <span class="info-value">Oct 28, 6:00 PM</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="dollar-sign" style="width:12px; height:12px;"></i> Prize
-                        Pool</span>
-                    <span class="info-value prize">₦150,000</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="users" style="width:12px; height:12px;"></i>
-                        Format</span>
-                    <span class="info-value">5v5 Squads</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="ticket" style="width:12px; height:12px;"></i>
-                        Entry Fee</span>
-                    <span class="info-value">₦2,000</span>
-                </div>
-            </div>
-
-            <div class="card-actions">
-                <button class="btn-full primary register-btn" data-tourney="Valorant Campus Clash Series"
-                    data-price="₦2,000" data-link="https://paystack.com/pay/your-valorant-link">
-                    Register Squad
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card 3: COD Mobile (Live) -->
-    <div class="tournament-card" data-game="codm" data-status="live">
-        <div class="card-banner"
-            style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=600&auto=format&fit=crop');">
-            <span class="status-badge live">Live Now</span>
-        </div>
-        <div class="card-content">
-            <span class="game-tag">Call of Duty Mobile</span>
-            <h3 class="tournament-title">CODM Weekly Battle Royale</h3>
-
-            <div class="info-grid">
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="calendar" style="width:12px; height:12px;"></i>
-                        Date</span>
-                    <span class="info-value">Today</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="dollar-sign" style="width:12px; height:12px;"></i> Prize
-                        Pool</span>
-                    <span class="info-value prize">₦50,000</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="users" style="width:12px; height:12px;"></i>
-                        Format</span>
-                    <span class="info-value">100 Player BR</span>
-                </div>
-                <div class="info-item">
+                    {% if tournament.status == 'live' %}
                     <span class="info-label"><i data-lucide="activity" style="width:12px; height:12px;"></i>
                         Status</span>
                     <span class="info-value" style="color: var(--danger-color);">Match in Progress</span>
+                    {% else %}
+                    <span class="info-label"><i data-lucide="ticket" style="width:12px; height:12px;"></i>
+                        Entry Fee</span>
+                    <span class="info-value">₦{{ tournament.entry_fee|floatformat:0 }}</span>
+                    {% endif %}
                 </div>
             </div>
 
             <div class="card-actions">
+                {% if tournament.status == 'open' %}
+                <button class="btn-full primary register-btn" data-tourney="{{ tournament.title }}"
+                    data-price="₦{{ tournament.entry_fee|floatformat:0 }}"
+                    data-link="https://paystack.com/pay/your-link">
+                    Register Now
+                </button>
+                {% elif tournament.status == 'live' %}
                 <button class="btn-full">Watch Stream</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card 4: EA FC (Completed) -->
-    <div class="tournament-card" data-game="eafc" data-status="completed">
-        <div class="card-banner"
-            style="background-image: url('https://images.unsplash.com/photo-1524281300062-817ab56a9286?q=80&w=600&auto=format&fit=crop'); filter: grayscale(50%);">
-            <span class="status-badge completed">Completed</span>
-        </div>
-        <div class="card-content">
-            <span class="game-tag">EA FC 24</span>
-            <h3 class="tournament-title">EA FC Weekend League Draft</h3>
-
-            <div class="info-grid">
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="calendar" style="width:12px; height:12px;"></i>
-                        Date</span>
-                    <span class="info-value">Oct 15, 2024</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label"><i data-lucide="award" style="width:12px; height:12px;"></i>
-                        Winner</span>
-                    <span class="info-value">@Emmanuel_O</span>
-                </div>
-            </div>
-
-            <div class="card-actions">
+                {% elif tournament.status == 'completed' %}
                 <button class="btn-full">View Bracket & Results</button>
+                {% else %}
+                <button class="btn-full">View Details</button>
+                {% endif %}
             </div>
         </div>
     </div>
+    {% empty %}
+    <p>No tournaments available at the moment.</p>
+    {% endfor %}
 
     <!-- No Results Message -->
     <div id="noResults" class="no-results">

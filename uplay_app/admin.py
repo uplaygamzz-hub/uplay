@@ -1,22 +1,28 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Game, Tournament, PendingRegistration, Transaction, Category
+from .models import User, Game, Tournament, PendingRegistration, Transaction, Category, Friendship, Squad, UserProfile
 from django.utils.html import format_html
-
-# Basic Model Registrations
-admin.site.register(Game)
-admin.site.register(Tournament)
-admin.site.register(Category)
-
-# accounts/admin.py
-from django.contrib.auth.admin import UserAdmin
-from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ('Extra Info', {'fields': ('phone_number',)}),
     )
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'psn_id', 'xbox_id', 'bank_name', 'account_number']
+    search_fields = ['user__username', 'bank_name']
+
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category']
+    search_fields = ['title', 'category__name']
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description']
+    search_fields = ['name']
 
 @admin.action(description='Approve and Move to Transactions')
 def approve_and_record(modeladmin, request, queryset):
@@ -43,6 +49,7 @@ def approve_and_record(modeladmin, request, queryset):
     
     modeladmin.message_user(request, f"Successfully approved {count} players. Records moved to Transactions.")
 
+@admin.register(PendingRegistration)
 class PendingRegistrationAdmin(admin.ModelAdmin):
     list_display = ['player', 'tournament', 'view_receipt_thumbnail', 'submitted_at']
     actions = [approve_and_record]
@@ -63,6 +70,7 @@ class PendingRegistrationAdmin(admin.ModelAdmin):
     
     view_receipt_thumbnail.short_description = 'Receipt Preview'
 
+@admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ['player', 'tournament', 'timestamp']
     readonly_fields = ['player', 'tournament', 'receipt', 'timestamp']
@@ -71,9 +79,19 @@ class TransactionAdmin(admin.ModelAdmin):
     def has_add_permission(self, request): return False
     def has_change_permission(self, request, obj=None): return False
 
-admin.site.register(PendingRegistration, PendingRegistrationAdmin)
-admin.site.register(Transaction, TransactionAdmin)
+@admin.register(Friendship)
+class FriendshipAdmin(admin.ModelAdmin):
+    list_display = ['sender', 'receiver', 'status', 'created_at']
+    list_filter = ['status']
+    search_fields = ['sender__username', 'receiver__username']
 
+@admin.register(Squad)
+class SquadAdmin(admin.ModelAdmin):
+    list_display = ['name', 'leader', 'created_at']
+    filter_horizontal = ('members',)
+    search_fields = ['name', 'leader__username']
+
+@admin.register(Tournament)
 class TournamentAdmin(admin.ModelAdmin):
     # 'participant_count' is the custom method we define below
     list_display = ['title', 'game', 'status', 'participant_count', 'max_participants', 'start_date', 'end_date']
@@ -86,7 +104,3 @@ class TournamentAdmin(admin.ModelAdmin):
 
     # This sets the column header name in the admin table
     participant_count.short_description = 'Registered'
-
-# Unregister the simple version and register the enhanced version
-admin.site.unregister(Tournament)
-admin.site.register(Tournament, TournamentAdmin)

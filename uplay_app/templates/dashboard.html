@@ -72,29 +72,22 @@
 </div>
 <div class="friends-strip hide-scrollbar">
     <a href="{% url 'friends' %}" class="add-friend-btn" title="Add New Friend"><i data-lucide="plus"></i></a>
-    <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Alex');"
-        title="Alex_Pro (Online)">
+    {% for squad in squads %}
+    <div class="friend-avatar"
+        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed={{ squad.name }}'); border-color: var(--UPlay-yellow);"
+        title="{{ squad.name }} (Squad)">
+    </div>
+    {% endfor %}
+    {% for friend in friends %}
+    <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed={{ friend.username }}');"
+        title="{{ friend.username }} (Online)">
         <div class="status-dot online"></div>
     </div>
-    <div class="friend-avatar"
-        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'); border-color: #a855f7;"
-        title="SarahGamer (In Game: Valorant)">
-        <div class="status-dot in-game"></div>
-    </div>
-    <div class="friend-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Mike');"
-        title="MikeSniper (Online)">
-        <div class="status-dot online"></div>
-    </div>
-    <div class="friend-avatar"
-        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Jessica'); opacity: 0.5;"
-        title="Jess_Play (Offline)">
-        <div class="status-dot offline"></div>
-    </div>
-    <div class="friend-avatar"
-        style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=David'); opacity: 0.5;"
-        title="Dave_11 (Offline)">
-        <div class="status-dot offline"></div>
-    </div>
+    {% empty %}
+    {% if not squads %}
+    <p style="font-size: 12px; color: var(--text-secondary); margin-left: 10px;">No friends or squads yet.</p>
+    {% endif %}
+    {% endfor %}
 </div>
 
 <!-- TOURNAMENT ADS SLIDESHOW (Currencies updated to ₦) -->
