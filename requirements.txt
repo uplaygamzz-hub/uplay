@@ -1,0 +1,28 @@
+# Core Framework
+Django==6.0.2
+djangorestframework
+django-cors-headers
+
+# Database
+psycopg2-binary==2.9.11
+dj-database-url
+
+# Real-Time & ASGI (WebSockets)
+channels==4.3.2
+daphne
+asgiref==3.11.1
+
+# Production Server & Static Files
+gunicorn
+whitenoise
+
+# Utilities & Security
+python-dotenv==1.2.1
+Pillow
+bcrypt==5.0.0
+django-imagekitio-storage
+imagekitio==3.2.0
+django-cleanup
+
+sqlparse==0.5.5
+tzdata==2025.3

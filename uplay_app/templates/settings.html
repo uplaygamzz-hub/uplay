@@ -1,0 +1,320 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Settings{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title"><i data-lucide="settings" style="color: var(--text-secondary);"></i> Settings</h1>
+</div>
+
+<div class="settings-container">
+    
+    <!-- Settings Sidebar Navigation -->
+    <div class="settings-sidebar">
+        <div class="settings-tab active" data-target="profile-panel">
+            <i data-lucide="user"></i> Edit Profile
+        </div>
+        <div class="settings-tab" data-target="gaming-ids-panel">
+            <i data-lucide="gamepad-2"></i> Gaming IDs
+        </div>
+        <div class="settings-tab" data-target="account-panel">
+            <i data-lucide="shield"></i> Account & Security
+        </div>
+        <div class="settings-tab" data-target="payout-panel">
+            <i data-lucide="banknote"></i> Payout Details
+        </div>
+        <div class="settings-tab" data-target="preferences-panel">
+            <i data-lucide="sliders"></i> Preferences
+        </div>
+        <div class="settings-tab" data-target="notifications-panel">
+            <i data-lucide="bell"></i> Notifications
+        </div>
+    </div>
+
+    <!-- Settings Content Area -->
+    <div class="settings-content-area">
+        
+        <!-- 1. EDIT PROFILE PANEL -->
+        <div id="profile-panel" class="settings-panel active">
+            <form method="POST" action="{% url 'settings' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_profile">
+                <h2 class="panel-heading">Public Profile</h2>
+                <p class="panel-desc">This information will be displayed publicly on your uPlay profile.</p>
+
+                <div class="avatar-upload-section">
+                    {% if request.user.profile.avatar %}
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" class="avatar-preview" id="avatarPreviewImage">
+                    {% else %}
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ request.user.username }}" alt="Avatar" class="avatar-preview" id="avatarPreviewImage">
+                    {% endif %}
+                    <div>
+                        <input type="file" name="avatar" id="avatarUploadInput" accept="image/*" style="display: none;">
+                        <button type="button" class="btn-outline" style="margin-bottom: 8px;" onclick="document.getElementById('avatarUploadInput').click()">Change Avatar</button>
+                        <p style="font-size: 12px; color: var(--text-secondary);">JPG, GIF or PNG. Max size of 2MB.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Username (Gamer Tag)</label>
+                    <input type="text" name="username" class="form-input" id="usernameInput" value="{{ user_form.username.value|default:request.user.username }}">
+                </div>
+
+                <div style="display: flex; gap: 16px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="first_name" class="form-input" value="{{ user_form.first_name.value|default:request.user.first_name }}">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="last_name" class="form-input" value="{{ user_form.last_name.value|default:request.user.last_name }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bio / About Me</label>
+                    <textarea name="bio" class="form-input" rows="4" id="bioInput" placeholder="Tell everyone a bit about your gaming journey...">{{ profile_form.bio.value|default:request.user.profile.bio|default:'' }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
+                    <span class="btn-text">Save Profile</span>
+                    <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- GAMING IDs PANEL -->
+        <div id="gaming-ids-panel" class="settings-panel">
+            <form method="POST" action="{% url 'settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_gaming_ids">
+                <h2 class="panel-heading">Gaming IDs</h2>
+                <p class="panel-desc">Link your gaming accounts to participate in specific tournaments.</p>
+
+                <div class="form-group">
+                    <label class="form-label">PlayStation Network (PSN) ID</label>
+                    <input type="text" name="psn_id" class="form-input" placeholder="Enter your PSN ID" value="{{ gaming_ids_form.psn_id.value|default:request.user.profile.psn_id|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Xbox Live Gamertag</label>
+                    <input type="text" name="xbox_id" class="form-input" placeholder="Enter your Xbox Gamertag" value="{{ gaming_ids_form.xbox_id.value|default:request.user.profile.xbox_id|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Riot ID (Valorant)</label>
+                    <input type="text" name="riot_id" class="form-input" placeholder="e.g. PlayerOne#1234" value="{{ gaming_ids_form.riot_id.value|default:request.user.profile.riot_id|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Activision ID (Call of Duty)</label>
+                    <input type="text" name="activision_id" class="form-input" placeholder="e.g. PlayerOne#1234567" value="{{ gaming_ids_form.activision_id.value|default:request.user.profile.activision_id|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">EA ID (FC 24)</label>
+                    <input type="text" name="ea_id" class="form-input" placeholder="Enter your EA ID" value="{{ gaming_ids_form.ea_id.value|default:request.user.profile.ea_id|default:'' }}">
+                </div>
+
+                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
+                    <span class="btn-text">Save Gaming IDs</span>
+                    <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. ACCOUNT & SECURITY PANEL -->
+        <div id="account-panel" class="settings-panel">
+            <form method="POST" action="{% url 'settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_password">
+                <h2 class="panel-heading">Account Security</h2>
+                <p class="panel-desc">Manage your linked email, password, and security methods.</p>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="email" class="form-input" value="{{ request.user.email }}" disabled>
+                        <button type="button" class="btn-outline">Change</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" name="old_password" class="form-input" placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">New Password</label>
+                    <input type="password" name="new_password1" class="form-input" placeholder="Enter new password">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" name="new_password2" class="form-input" placeholder="Confirm new password">
+                </div>
+
+                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
+                    <span class="btn-text">Update Password</span>
+                    <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
+                </button>
+            </form>
+
+            <div class="danger-zone">
+                <h4 style="color: var(--danger-color); margin-bottom: 8px;">Delete Account</h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Once you delete your account, there is no going back. Please be certain.</p>
+                <button class="btn-danger">Delete My Account</button>
+            </div>
+        </div>
+
+        <!-- PAYOUT DETAILS PANEL -->
+        <div id="payout-panel" class="settings-panel">
+            <form method="POST" action="{% url 'settings' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_payout">
+                <h2 class="panel-heading">Payout Details</h2>
+                <p class="panel-desc">Add your bank account details for tournament prize withdrawals.</p>
+
+                <div class="form-group">
+                    <label class="form-label">Bank Name</label>
+                    <select name="bank_name" class="form-input">
+                        <option value="" {% if not payout_form.bank_name.value %}selected{% endif %} disabled>Select your bank</option>
+                        <option value="moniepoint" {% if payout_form.bank_name.value == "moniepoint" %}selected{% endif %}>Moniepoint MFB</option>
+                        <option value="opay" {% if payout_form.bank_name.value == "opay" %}selected{% endif %}>OPay</option>
+                        <option value="palmpay" {% if payout_form.bank_name.value == "palmpay" %}selected{% endif %}>PalmPay</option>
+                        <option value="kuda" {% if payout_form.bank_name.value == "kuda" %}selected{% endif %}>Kuda Bank</option>
+                        <option value="gtb" {% if payout_form.bank_name.value == "gtb" %}selected{% endif %}>Guaranty Trust Bank (GTB)</option>
+                        <option value="access" {% if payout_form.bank_name.value == "access" %}selected{% endif %}>Access Bank</option>
+                        <option value="firstbank" {% if payout_form.bank_name.value == "firstbank" %}selected{% endif %}>First Bank of Nigeria</option>
+                        <option value="zenith" {% if payout_form.bank_name.value == "zenith" %}selected{% endif %}>Zenith Bank</option>
+                        <option value="uba" {% if payout_form.bank_name.value == "uba" %}selected{% endif %}>United Bank for Africa (UBA)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Account Number</label>
+                    <input type="text" name="account_number" class="form-input" placeholder="e.g. 0123456789" maxlength="10" value="{{ payout_form.account_number.value|default:request.user.profile.account_number|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Account Name (Auto-filled)</label>
+                    <input type="text" name="account_name" class="form-input" placeholder="Enter Account Name" value="{{ payout_form.account_name.value|default:request.user.profile.account_name|default:'' }}">
+                    <p style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Your payout name must match your registered real name to prevent fraud.</p>
+                </div>
+
+                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
+                    <span class="btn-text">Save Payout Details</span>
+                    <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 3. PREFERENCES PANEL -->
+        <div id="preferences-panel" class="settings-panel">
+            <h2 class="panel-heading">App Preferences</h2>
+            <p class="panel-desc">Customize your uPlay experience.</p>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Dark Theme</h4>
+                    <p>Use dark mode as your default interface theme.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="settingsThemeToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Online Status</h4>
+                    <p>Allow friends to see when you are online or in-game.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Matchmaking Region</h4>
+                    <p>Prioritize servers in your local region for better ping.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 4. NOTIFICATIONS PANEL -->
+        <div id="notifications-panel" class="settings-panel">
+            <h2 class="panel-heading">Notification Settings</h2>
+            <p class="panel-desc">Choose what we notify you about.</p>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Tournament Updates</h4>
+                    <p>Reminders about upcoming tournaments you are registered for.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Friend Requests</h4>
+                    <p>Get notified when someone sends you a friend request.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Wallet Activity</h4>
+                    <p>Alerts for successful deposits, withdrawals, and entry fee deductions.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <div class="toggle-info">
+                    <h4>Marketing & Promos</h4>
+                    <p>Emails about new platform features and special events.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div style="height: 40px;"></div> <!-- Spacer -->
+
+<!-- TOAST NOTIFICATION -->
+<div id="toastNotification" class="toast">
+    <span id="toastIconWrapper"><i data-lucide="check-circle"></i></span>
+    <span id="toastMessage">Changes saved successfully!</span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'java/settings.js' %}"></script>
+{% endblock %}

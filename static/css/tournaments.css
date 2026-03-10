@@ -1,0 +1,570 @@
+        main {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* --- Header & Title --- */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        /* --- Filters Section --- */
+        .filter-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            background-color: var(--bg-surface);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .filter-input {
+            width: 100%;
+            background-color: var(--bg-base);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: var(--font-body);
+            transition: border-color 0.2s;
+            outline: none;
+            appearance: none;
+        }
+        
+        select.filter-input {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        .filter-input.search { 
+            padding-left: 40px; 
+        }
+
+        .filter-input:focus { 
+            border-color: var(--UPlay-yellow); 
+        }
+
+        /* --- Tournament Grid --- */
+        .tournaments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .tournament-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--UPlay-yellow);
+        }
+
+        .card-banner {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg-surface) 0%, transparent 100%);
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 2;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .status-badge.open { 
+            background-color: rgba(16, 185, 129, 0.9); 
+            color: white; 
+        }
+
+        .status-badge.live { 
+            background-color: rgba(239, 68, 68, 0.9); 
+            color: white; 
+            animation: pulse 2s infinite; 
+        }
+
+        .status-badge.completed { 
+            background-color: rgba(160, 160, 160, 0.9); 
+            color: white; 
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .card-content {
+            padding: 0 20px 20px 20px;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-tag {
+            font-size: 12px;
+            color: var(--UPlay-yellow);
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .tournament-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            margin: 0 0 16px 0;
+            line-height: 1.3;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .info-value.prize { 
+            color: var(--success-color); 
+        }
+
+        .card-actions {
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .btn-full {
+            width: 100%;
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-full.primary {
+            background-color: var(--UPlay-yellow);
+            color: #000;
+        }
+
+        .btn-full:hover { 
+            background-color: var(--text-secondary); 
+            color: white;
+        }
+
+        .btn-full.primary:hover { 
+            background-color: #e6b800; 
+            color: #000; 
+            transform: translateY(-2px);
+        }
+
+        /* No Results Message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            display: none;
+        }
+
+        /* --- Registration Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            padding: 32px;
+            position: relative;
+            transform: translateY(20px);
+            transition: 0.3s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-secondary);
+            transition: 0.2s;
+        }
+
+        .close-modal:hover { 
+            color: var(--text-primary); 
+        }
+
+        .modal-header { 
+            text-align: center; 
+            margin-bottom: 24px; 
+        }
+        
+        .modal-icon {
+            width: 60px; 
+            height: 60px;
+            background: rgba(234, 179, 8, 0.1);
+            color: var(--UPlay-yellow);
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin: 0 auto 16px auto;
+        }
+        
+        .modal-header h3 { 
+            font-family: var(--font-heading); 
+            font-size: 22px; 
+            margin: 0; 
+        }
+
+        .modal-body { 
+            text-align: center; 
+            margin-bottom: 24px; 
+        }
+        
+        .modal-tourney-title { 
+            font-size: 18px; 
+            color: var(--text-primary); 
+            margin: 8px 0 20px 0; 
+        }
+        
+        .modal-price-box {
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .modal-price { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: var(--success-color); 
+        }
+        
+        .modal-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        
+        .modal-note i { 
+            flex-shrink: 0; 
+            width: 16px; 
+            height: 16px; 
+            color: var(--success-color); 
+        }
+
+        /* Payment Options Styling */
+        .payment-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .payment-divider::before, 
+        .payment-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .payment-divider:not(:empty):before { 
+            margin-right: 10px; 
+        }
+
+        .payment-divider:not(:empty):after { 
+            margin-left: 10px; 
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .manual-transfer-box {
+            display: none;
+            background: var(--bg-base);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .manual-transfer-box.show {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bank-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .bank-detail:last-of-type { 
+            margin-bottom: 16px; 
+        }
+
+        .bank-detail .label { 
+            color: var(--text-secondary); 
+        }
+
+        .bank-detail .value { 
+            font-weight: bold; 
+            color: var(--text-primary); 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+        }
+        
+        .copy-btn {
+            color: var(--UPlay-yellow);
+            background: rgba(255, 204, 0, 0.1);
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--UPlay-yellow);
+            color: black;
+        }
+
+        .copy-toast {
+            display: none;
+            position: absolute;
+            bottom: -25px;
+            right: 0;
+            color: var(--success-color);
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* File Upload UI */
+        .upload-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-secondary);
+            text-align: center;
+            gap: 8px;
+        }
+
+        .upload-box:hover {
+            border-color: var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            background: rgba(255, 204, 0, 0.05);
+        }
+
+        .file-name-display {
+            font-size: 12px;
+            color: var(--success-color);
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+            word-break: break-all;
+        }
+
+        .btn-preview {
+            background: transparent;
+            border: 1px solid var(--UPlay-yellow);
+            color: var(--UPlay-yellow);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+            transition: 0.2s;
+            display: none; /* hidden by default */
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-preview:hover {
+            background: rgba(255, 204, 0, 0.1);
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fullscreen-content {
+            max-width: 90vw !important;
+            height: 90vh !important;
+            padding: 20px !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Tournaments Page Responsive --- */
+        @media (max-width: 768px) {
+            .filter-input { 
+                width: 100%; 
+            }
+            .filter-bar { 
+                flex-direction: column; 
+            }
+            .tournaments-grid { 
+                grid-template-columns: 1fr; 
+            }
+        }

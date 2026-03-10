@@ -1,0 +1,124 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    bio = models.TextField(blank=True, null=True)
+    # avatar handled by dicebear in frontend, but adding custom avatar support
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    
+    # Gaming IDs
+    psn_id = models.CharField(max_length=100, blank=True, null=True)
+    xbox_id = models.CharField(max_length=100, blank=True, null=True)
+    riot_id = models.CharField(max_length=100, blank=True, null=True)
+    activision_id = models.CharField(max_length=100, blank=True, null=True)
+    ea_id = models.CharField(max_length=100, blank=True, null=True)
+    
+    # Payout Details
+    bank_name = models.CharField(max_length=100, blank=True, null=True)
+    account_number = models.CharField(max_length=20, blank=True, null=True)
+    account_name = models.CharField(max_length=150, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+class Friendship(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_friend_requests', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='received_friend_requests', on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=[
+        ('pending', 'Pending Status'),
+        ('accepted', 'Accepted Status'),
+        ('rejected', 'Rejected Status'),
+        ('blocked', 'Blocked Status')
+    ], default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('sender', 'receiver')
+
+    def __str__(self):
+        return f"{self.sender.username} -> {self.receiver.username} ({self.status})"
+
+class Squad(models.Model):
+    name = models.CharField(max_length=100)
+    leader = models.ForeignKey(User, related_name='led_squads', on_delete=models.CASCADE)
+    members = models.ManyToManyField(User, related_name='joined_squads')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Game(models.Model):
+    title = models.CharField(max_length=100, unique=True)
+
+    category = models.ForeignKey(
+        'Category', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name="games"
+    )
+
+    def __str__(self):
+        return self.title
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+class Tournament(models.Model):
+    title = models.CharField(max_length=200)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="tournaments")
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    participants = models.ManyToManyField(User, related_name="joined_tournaments", blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+
+    is_paid = models.BooleanField(default=False)
+    entry_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    prize_pool = models.TextField(blank=True, null=True, help_text="e.g. 1st: $100, 2nd: $50")
+
+    max_participants = models.PositiveIntegerField(default=16)
+    
+    banner_image = models.URLField(max_length=500, blank=True, null=True)
+    tournament_format = models.CharField(max_length=100, default="1v1 Bracket")
+
+    STATUS_CHOICES = [
+        ('open', 'Registration Open'),
+        ('live', 'Live Now'),
+        ('completed', 'Completed'),
+        ('full', 'Tournament Full'),
+        ('ongoing', 'In Progress'),
+        ('cancelled', 'Cancelled'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
+
+    def __str__(self):
+        return self.title
+    
+
+class PendingRegistration(models.Model):
+    player = models.ForeignKey('User', on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    receipt = models.FileField(upload_to='payment_receipts/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.player.username} - {self.tournament.title}"
+    
+class Transaction(models.Model):
+    player = models.ForeignKey('User', on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    receipt = models.FileField(upload_to='permanent_receipts/')
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment: {self.player.username} - {self.tournament.title}"

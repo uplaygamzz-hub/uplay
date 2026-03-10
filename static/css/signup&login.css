@@ -1,0 +1,225 @@
+/* =========================================
+   === #AUTHENTICATION SPECIFIC STYLE ===
+   ========================================= */
+
+.sidebar-overlay.show {
+    display: block;
+}
+
+/* --- AUTHENTICATION CARDS & FORMS --- */
+.auth-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 5%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+}
+
+.auth-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--UPlay-yellow), transparent);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.auth-header h1 {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-input-wrapper {
+    position: relative;
+}
+
+.form-input {
+    width: 100%;
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 14px 16px; 
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    transition: all 0.3s;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: var(--UPlay-yellow);
+    box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.1);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: var(--text-primary);
+}
+
+/* --- LOGIN SPECIFIC OPTIONS --- */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.forgot-password-link {
+    font-size: 13px;
+    color: var(--UPlay-yellow);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.forgot-password-link:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
+/* --- TERMS & CHECKBOXES --- */
+.terms-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+/* Adjustment for single-line terms in the login screen */
+.login-options .terms-wrapper {
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.terms-wrapper input[type="checkbox"] {
+    margin-top: 4px;
+    cursor: pointer;
+    accent-color: var(--UPlay-yellow);
+}
+
+/* Revert margin-top for centered login option checkboxes */
+.login-options .terms-wrapper input[type="checkbox"] {
+    margin-top: 0;
+}
+
+.terms-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.terms-text a {
+    color: var(--UPlay-yellow);
+    text-decoration: underline;
+}
+
+/* --- BUTTONS --- */
+.btn-submit {
+    width: 100%;
+    background-color: var(--UPlay-yellow);
+    color: #000;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 204, 0, 0.3);
+    background-color: var(--UPlay-yellow-hover);
+}
+
+/* --- AUTH FOOTER --- */
+.auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: var(--UPlay-yellow);
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+    color: var(--text-primary);
+}
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 768px) { 
+    .auth-card {
+        padding: 32px 24px;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

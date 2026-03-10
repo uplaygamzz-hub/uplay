@@ -1,0 +1,539 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Tournaments{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tournaments.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title"><i data-lucide="trophy" style="color: var(--UPlay-yellow);"></i> Tournaments</h1>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <div class="search-input-wrapper">
+        <i data-lucide="search"></i>
+        <input type="text" id="searchInput" class="filter-input search" placeholder="Search tournaments...">
+    </div>
+    <select id="gameFilter" class="filter-input" style="flex: 1; min-width: 150px;">
+        <option value="all">All Games</option>
+        <option value="efootballpes">eFootball PES</option>
+        <option value="valorant">Valorant</option>
+        <option value="codmobile">COD Mobile</option>
+        <option value="eafc24">EA FC 24</option>
+    </select>
+    <select id="statusFilter" class="filter-input" style="flex: 1; min-width: 150px;">
+        <option value="all">All Statuses</option>
+        <option value="open">Registration Open</option>
+        <option value="live">Live Now</option>
+        <option value="completed">Completed</option>
+    </select>
+</div>
+
+<!-- TOURNAMENTS GRID -->
+<div class="tournaments-grid" id="tournamentGrid">
+
+    {% for tournament in tournaments %}
+    <div class="tournament-card" data-game="{{ tournament.game.title|lower|cut:' ' }}"
+        data-status="{{ tournament.status }}">
+        <div class="card-banner"
+            style="background-image: url('{{ tournament.banner_image }}'); {% if tournament.status == 'completed' %}filter: grayscale(50%);{% endif %}">
+            <span class="status-badge {{ tournament.status }}">{{ tournament.get_status_display }}</span>
+        </div>
+        <div class="card-content">
+            <span class="game-tag">{{ tournament.game.title }}</span>
+            <h3 class="tournament-title">{{ tournament.title }}</h3>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label"><i data-lucide="calendar" style="width:12px; height:12px;"></i>
+                        Date</span>
+                    <span class="info-value">
+                        {% if tournament.status == 'live' %}
+                        Today
+                        {% else %}
+                        {{ tournament.start_date|date:"M d, P" }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i data-lucide="dollar-sign" style="width:12px; height:12px;"></i> Prize
+                        Pool</span>
+                    <span class="info-value prize">{{ tournament.prize_pool }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i data-lucide="users" style="width:12px; height:12px;"></i>
+                        Format</span>
+                    <span class="info-value">{{ tournament.tournament_format }}</span>
+                </div>
+                <div class="info-item">
+                    {% if tournament.status == 'live' %}
+                    <span class="info-label"><i data-lucide="activity" style="width:12px; height:12px;"></i>
+                        Status</span>
+                    <span class="info-value" style="color: var(--danger-color);">Match in Progress</span>
+                    {% else %}
+                    <span class="info-label"><i data-lucide="ticket" style="width:12px; height:12px;"></i>
+                        Entry Fee</span>
+                    <span class="info-value">₦{{ tournament.entry_fee|floatformat:0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-actions">
+                {% if tournament.status == 'open' %}
+                <button class="btn-full primary register-btn" data-tourney="{{ tournament.title }}"
+                    data-price="₦{{ tournament.entry_fee|floatformat:0 }}"
+                    data-link="https://paystack.com/pay/your-link">
+                    Register Now
+                </button>
+                {% elif tournament.status == 'live' %}
+                <button class="btn-full">Watch Stream</button>
+                {% elif tournament.status == 'completed' %}
+                <button class="btn-full">View Bracket & Results</button>
+                {% else %}
+                <button class="btn-full">View Details</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No tournaments available at the moment.</p>
+    {% endfor %}
+
+    <!-- No Results Message -->
+    <div id="noResults" class="no-results">
+        <i data-lucide="search-x" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+        <p>No tournaments found matching your filters.</p>
+        <button onclick="resetFilters()"
+            style="color: var(--UPlay-yellow); font-weight: bold; margin-top: 12px; text-decoration: underline;">Clear
+            Filters</button>
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- DUAL PAYMENT / REGISTRATION MODAL -->
+<!-- ===================================== -->
+<div id="paymentModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" id="closeModalBtn"><i data-lucide="x"></i></button>
+
+        <!-- REGISTRATION VIEW -->
+        <div id="registrationView">
+            <div class="modal-header">
+                <div class="modal-icon"><i data-lucide="credit-card"></i></div>
+                <h3>Secure Registration</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: 0;">You are about to register for:
+                </p>
+                <h4 id="modalTourneyName" class="modal-tourney-title">Tournament Name</h4>
+
+                <div class="modal-price-box">
+                    <span style="color: var(--text-secondary); font-size: 14px;">Entry Fee:</span>
+                    <span id="modalTourneyPrice" class="modal-price">₦0</span>
+                </div>
+
+                <div class="modal-note">
+                    <i data-lucide="shield-check"></i>
+                    <span>Securely book your slot in the bracket. Choose your preferred payment method
+                        below.</span>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="text-align: center;">
+                <!-- OPTION 1: PAYSTACK -->
+                <a href="#" id="proceedPaymentBtn" class="btn-full primary" target="_blank">
+                    <i data-lucide="credit-card" style="width: 18px; height: 18px;"></i> Pay Online
+                    (Paystack)
+                </a>
+
+                <div class="payment-divider">OR</div>
+
+                <!-- OPTION 2: MANUAL TRANSFER -->
+                <button id="manualTransferBtn" class="btn-full btn-outline">
+                    <i data-lucide="landmark" style="width: 18px; height: 18px;"></i> Manual Bank Transfer
+                </button>
+
+                <!-- Hidden Manual Transfer Details -->
+                <div id="manualTransferDetails" class="manual-transfer-box">
+                    <div class="bank-detail">
+                        <span class="label">Bank:</span>
+                        <span class="value">Moniepoint MFB</span>
+                    </div>
+                    <div class="bank-detail" style="position: relative;">
+                        <span class="label">Account No:</span>
+                        <span class="value">
+                            <span id="accNumber">8123456789</span>
+                            <div class="copy-btn" onclick="copyAccountNumber()" title="Copy Account Number">
+                                <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+                            </div>
+                            <span id="copyToast" class="copy-toast">Copied!</span>
+                        </span>
+                    </div>
+                    <div class="bank-detail">
+                        <span class="label">Name:</span>
+                        <span class="value">uPlay Tournaments Ltd</span>
+                    </div>
+
+                    <!-- NEW RECEIPT UPLOAD UI -->
+                    <div class="upload-section"
+                        style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Upload
+                            your payment receipt below:</p>
+
+                        <!-- Backend team can simply grab files from this ID -->
+                        <input type="file" id="receiptUpload" hidden accept="image/*,.pdf" />
+
+                        <!-- Updated label for dynamic preview -->
+                        <label for="receiptUpload" class="upload-box" id="uploadBox">
+                            <div id="uploadContent"
+                                style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                <div id="uploadIconWrapper"><i data-lucide="upload-cloud"
+                                        style="width: 24px; height: 24px;"></i></div>
+                                <span id="uploadText">Click to browse or drag file here</span>
+                            </div>
+                            <img id="receiptPreview" src="" alt="Receipt Preview"
+                                style="display: none; max-width: 100%; max-height: 140px; border-radius: 8px; object-fit: contain;">
+                        </label>
+
+                        <div id="fileNameDisplay" class="file-name-display"></div>
+
+                        <button id="viewFullScreenBtn" class="btn-preview" type="button">
+                            <i data-lucide="maximize" style="width: 16px; height: 16px;"></i> View Full
+                            Screen Preview
+                        </button>
+
+                        <button id="submitReceiptBtn" class="btn-full primary"
+                            style="margin-top: 16px; opacity: 0.5; cursor: not-allowed;" disabled>
+                            <span id="submitBtnText">Submit Registration</span>
+                            <i id="submitBtnSpinner" data-lucide="loader-2" class="spin"
+                                style="display: none; width: 18px; height: 18px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUCCESS VIEW (Hidden initially) -->
+        <div id="successView" style="display: none; text-align: center; padding: 20px 0;">
+            <div class="modal-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success-color);">
+                <i data-lucide="check-circle" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 8px;">Receipt
+                Submitted!</h3>
+            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 24px;">
+                Your registration request has been sent to our admins for verification. You will be notified
+                once approved.</p>
+            <button class="btn-full btn-outline"
+                onclick="document.getElementById('paymentModal').classList.remove('show')">Close
+                Window</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- FULL SCREEN PREVIEW MODAL -->
+<div id="fullScreenModal" class="modal-overlay" style="z-index: 3000;">
+    <div class="modal-content fullscreen-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="font-family: var(--font-heading); font-size: 18px; margin: 0;">Document Preview</h3>
+            <button class="close-modal" id="closeFullScreenBtn" style="position: static;"><i
+                    data-lucide="x"></i></button>
+        </div>
+        <div id="fullScreenContainer"
+            style="flex: 1; overflow: hidden; display: flex; justify-content: center; align-items: center; background: var(--bg-base); border-radius: 12px; border: 1px solid var(--border-color);">
+            <img id="fullScreenImg" src=""
+                style="display: none; max-width: 100%; max-height: 100%; object-fit: contain;" />
+            <iframe id="fullScreenPdf" src=""
+                style="display: none; width: 100%; height: 100%; border: none; border-radius: 12px;"></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Render Icons
+    lucide.createIcons();
+
+    // Theme Synchronization with Shell
+    window.addEventListener('message', (event) => {
+        if (event.data === 'theme-light') {
+            document.body.classList.add('light-mode');
+        } else if (event.data === 'theme-dark') {
+            document.body.classList.remove('light-mode');
+        }
+    });
+
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+
+    // ==========================================
+    // FILTER LOGIC
+    // ==========================================
+    const searchInput = document.getElementById('searchInput');
+    const gameFilter = document.getElementById('gameFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const cards = document.querySelectorAll('.tournament-card');
+    const noResults = document.getElementById('noResults');
+
+    function filterTournaments() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedGame = gameFilter.value;
+        const selectedStatus = statusFilter.value;
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const title = card.querySelector('.tournament-title').textContent.toLowerCase();
+            const game = card.getAttribute('data-game');
+            const status = card.getAttribute('data-status');
+
+            const matchesSearch = title.includes(searchTerm);
+            const matchesGame = selectedGame === 'all' || game === selectedGame;
+            const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
+
+            if (matchesSearch && matchesGame && matchesStatus) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Show "No Results" message if everything is hidden
+        if (visibleCount === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+
+    function resetFilters() {
+        searchInput.value = '';
+        gameFilter.value = 'all';
+        statusFilter.value = 'all';
+        filterTournaments();
+    }
+
+    searchInput.addEventListener('input', filterTournaments);
+    gameFilter.addEventListener('change', filterTournaments);
+    statusFilter.addEventListener('change', filterTournaments);
+
+
+    // ==========================================
+    // PAYMENT MODAL & UPLOAD LOGIC
+    // ==========================================
+    const modal = document.getElementById('paymentModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const registerBtns = document.querySelectorAll('.register-btn');
+
+    const modalTitle = document.getElementById('modalTourneyName');
+    const modalPrice = document.getElementById('modalTourneyPrice');
+    const proceedBtn = document.getElementById('proceedPaymentBtn');
+
+    const manualBtn = document.getElementById('manualTransferBtn');
+    const manualDetails = document.getElementById('manualTransferDetails');
+
+    const regView = document.getElementById('registrationView');
+    const successView = document.getElementById('successView');
+
+    // Upload Elements
+    const receiptUpload = document.getElementById('receiptUpload');
+    const uploadBox = document.getElementById('uploadBox');
+    const uploadContent = document.getElementById('uploadContent');
+    const uploadIconWrapper = document.getElementById('uploadIconWrapper');
+    const uploadText = document.getElementById('uploadText');
+    const receiptPreview = document.getElementById('receiptPreview');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const viewFullScreenBtn = document.getElementById('viewFullScreenBtn');
+    const submitReceiptBtn = document.getElementById('submitReceiptBtn');
+    const submitBtnText = document.getElementById('submitBtnText');
+    const submitBtnSpinner = document.getElementById('submitBtnSpinner');
+
+    // Full Screen Elements
+    const fullScreenModal = document.getElementById('fullScreenModal');
+    const closeFullScreenBtn = document.getElementById('closeFullScreenBtn');
+    const fullScreenImg = document.getElementById('fullScreenImg');
+    const fullScreenPdf = document.getElementById('fullScreenPdf');
+
+    let fileObjUrl = null;
+
+    // 1. Open Modal when "Register Now" is clicked
+    registerBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Reset views to default
+            regView.style.display = 'block';
+            successView.style.display = 'none';
+            manualDetails.classList.remove('show');
+            manualBtn.style.display = 'flex';
+
+            // Reset Upload UI
+            receiptUpload.value = '';
+            fileNameDisplay.style.display = 'none';
+            viewFullScreenBtn.style.display = 'none';
+            if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+
+            // Reset preview logic
+            receiptPreview.style.display = 'none';
+            receiptPreview.src = '';
+            uploadContent.style.display = 'flex';
+            uploadBox.style.padding = '20px';
+            uploadIconWrapper.innerHTML = '<i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>';
+            uploadText.innerHTML = 'Click to browse or drag file here';
+            lucide.createIcons();
+
+            // Disable submit button
+            submitReceiptBtn.setAttribute('disabled', 'true');
+            submitReceiptBtn.style.opacity = '0.5';
+            submitReceiptBtn.style.cursor = 'not-allowed';
+            submitBtnText.style.display = 'inline-block';
+            submitBtnSpinner.style.display = 'none';
+
+            // Populate dynamic data
+            modalTitle.textContent = btn.getAttribute('data-tourney');
+            modalPrice.textContent = btn.getAttribute('data-price');
+            proceedBtn.href = btn.getAttribute('data-link');
+
+            modal.classList.add('show');
+        });
+    });
+
+    // 2. Toggle Manual Transfer Dropdown
+    manualBtn.addEventListener('click', () => {
+        manualDetails.classList.add('show');
+        manualBtn.style.display = 'none';
+    });
+
+    // 3. Handle File Selection (With Image Preview)
+    receiptUpload.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            const file = this.files[0];
+            fileNameDisplay.textContent = `Selected: ${file.name}`;
+            fileNameDisplay.style.display = 'block';
+            viewFullScreenBtn.style.display = 'flex';
+
+            if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+            fileObjUrl = URL.createObjectURL(file);
+
+            // If it is an image, preview it
+            if (file.type.startsWith('image/')) {
+                receiptPreview.src = fileObjUrl;
+                receiptPreview.style.display = 'block';
+                uploadContent.style.display = 'none';
+                uploadBox.style.padding = '10px';
+
+                fullScreenImg.src = fileObjUrl;
+                fullScreenImg.style.display = 'block';
+                fullScreenPdf.style.display = 'none';
+            } else if (file.type === 'application/pdf') {
+                // Fallback for PDFs and other non-image files
+                receiptPreview.style.display = 'none';
+                uploadContent.style.display = 'flex';
+                uploadBox.style.padding = '20px';
+                uploadIconWrapper.innerHTML = '<i data-lucide="file-text" style="width: 24px; height: 24px; color: var(--danger-color);"></i>';
+                uploadText.innerHTML = 'PDF Document Selected <br><span style="font-size: 10px; text-decoration: underline;">Click to change</span>';
+                lucide.createIcons();
+
+                fullScreenPdf.src = fileObjUrl;
+                fullScreenPdf.style.display = 'block';
+                fullScreenImg.style.display = 'none';
+            } else {
+                // Other non-image/pdf files
+                receiptPreview.style.display = 'none';
+                uploadContent.style.display = 'flex';
+                uploadBox.style.padding = '20px';
+                uploadIconWrapper.innerHTML = '<i data-lucide="file-text" style="width: 24px; height: 24px;"></i>';
+                uploadText.innerHTML = 'Document Selected <br><span style="font-size: 10px; text-decoration: underline;">Click to change</span>';
+                lucide.createIcons();
+                viewFullScreenBtn.style.display = 'none'; // Only allow preview for Image/PDF
+            }
+
+            // Enable Submit Button
+            submitReceiptBtn.removeAttribute('disabled');
+            submitReceiptBtn.style.opacity = '1';
+            submitReceiptBtn.style.cursor = 'pointer';
+        } else {
+            // Return to default if they cancel file selection
+            fileNameDisplay.style.display = 'none';
+            viewFullScreenBtn.style.display = 'none';
+            if (fileObjUrl) URL.revokeObjectURL(fileObjUrl);
+
+            receiptPreview.style.display = 'none';
+            receiptPreview.src = '';
+            uploadContent.style.display = 'flex';
+            uploadBox.style.padding = '20px';
+            uploadIconWrapper.innerHTML = '<i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>';
+            uploadText.innerHTML = 'Click to browse or drag file here';
+            lucide.createIcons();
+
+            submitReceiptBtn.setAttribute('disabled', 'true');
+            submitReceiptBtn.style.opacity = '0.5';
+            submitReceiptBtn.style.cursor = 'not-allowed';
+        }
+    });
+
+    // Full Screen Preview Listeners
+    viewFullScreenBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        fullScreenModal.classList.add('show');
+    });
+
+    closeFullScreenBtn.addEventListener('click', () => {
+        fullScreenModal.classList.remove('show');
+    });
+
+    // 4. Handle Mock Form Submission
+    submitReceiptBtn.addEventListener('click', function () {
+        // Show loading state
+        submitBtnText.style.display = 'none';
+        submitBtnSpinner.style.display = 'inline-block';
+        this.setAttribute('disabled', 'true');
+
+        // MOCK API CALL (2 seconds)
+        setTimeout(() => {
+            // Switch to Success View
+            regView.style.display = 'none';
+            successView.style.display = 'block';
+        }, 2000);
+    });
+
+    // 5. Copy Account Number Function
+    window.copyAccountNumber = function () {
+        const accNum = document.getElementById('accNumber').textContent;
+        const toast = document.getElementById('copyToast');
+
+        const input = document.createElement('textarea');
+        input.value = accNum;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
+    };
+
+    // 6. Close Modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+        if (e.target === fullScreenModal) {
+            fullScreenModal.classList.remove('show');
+        }
+    });
+</script>
+{% endblock %}

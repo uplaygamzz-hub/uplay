@@ -1,0 +1,22 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Coming Soon{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/coming_soon.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="coming-soon-wrapper">
+    <i data-lucide="cone" class="coming-soon-icon"></i>
+    <h1 class="coming-soon-title">Under Construction</h1>
+    <p class="coming-soon-text">
+        This feature is currently being built by our backend engineers. 
+        We are working hard to bring it to life! Check back soon.
+    </p>
+    <a href="{% url 'dashboard' %}" class="back-btn">
+        <i data-lucide="arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+{% endblock %}

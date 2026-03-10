@@ -1,0 +1,341 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Friends & Squad{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/friends.css' %}">
+<style>
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        background: var(--bg-card, #1a1a1a);
+        margin: 10% auto;
+        padding: 24px;
+        border: 1px solid var(--border-color, #333);
+        width: 90%;
+        max-width: 500px;
+        border-radius: 12px;
+        color: var(--text-primary, #fff);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .close {
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-secondary);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    .form-group input[type="text"], .form-group input[type="email"], .form-group select {
+        width: 100%;
+        padding: 10px;
+        background: var(--bg-body, #0a0a0a);
+        border: 1px solid var(--border-color, #333);
+        border-radius: 6px;
+        color: #fff;
+    }
+    .friends-selection-list {
+        max-height: 150px;
+        overflow-y: auto;
+        background: var(--bg-body, #0a0a0a);
+        padding: 10px;
+        border-radius: 6px;
+    }
+    .friend-selection-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        cursor: pointer;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+    .avatar-container img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title"><i data-lucide="users" style="color: #3b82f6;"></i> Squad & Friends</h1>
+    <button class="btn-primary" onclick="openModal('addFriendModal')">
+        <i data-lucide="user-plus"></i> Add Friend
+    </button>
+</div>
+
+<div class="search-container">
+    <i data-lucide="search"></i>
+    <input type="text" class="search-input" id="friendSearch" placeholder="Search friends by name or uPlay ID...">
+</div>
+
+<div class="tabs">
+    <button class="tab-btn active" data-target="online">Online ({{ friends|length }})</button>
+    <button class="tab-btn" data-target="all">All Friends ({{ friends|length }})</button>
+    <button class="tab-btn" data-target="requests">
+        Requests
+        {% if pending_requests %}
+            <span class="tab-badge">
+                {{ pending_requests|length }}
+            </span>
+        {% endif %}
+    </button>
+    <button class="tab-btn" data-target="squads">Squads ({{ squads|length }})</button>
+</div>
+
+<!-- ONLINE FRIENDS TAB -->
+<div id="online" class="tab-content active">
+    <div class="friends-list">
+        {% for friend in friends %}
+        <div class="friend-card">
+            <div class="friend-info-wrapper">
+                <div class="avatar-container">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ friend.username }}" alt="Avatar">
+                    <div class="status-dot online"></div>
+                </div>
+                <div class="friend-details">
+                    <h4>{{ friend.username }}</h4>
+                    <p>Online</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                <button class="action-btn invite" title="Invite to Squad"><i data-lucide="plus" style="width: 18px; height: 18px;"></i></button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="empty-state">No friends online.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ALL FRIENDS TAB -->
+<div id="all" class="tab-content">
+    <div class="friends-list">
+        {% for friend in friends %}
+        <div class="friend-card">
+            <div class="friend-info-wrapper">
+                <div class="avatar-container">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ friend.username }}" alt="Avatar">
+                    <div class="status-dot online"></div>
+                </div>
+                <div class="friend-details">
+                    <h4>{{ friend.username }}</h4>
+                    <p>Online</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="action-btn message" title="Send Message"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></button>
+                <button class="action-btn" title="More"><i data-lucide="more-vertical" style="width: 18px; height: 18px;"></i></button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="empty-state">You haven't added any friends yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- FRIEND REQUESTS TAB -->
+<div id="requests" class="tab-content">
+    <div class="friends-list">
+        {% for req in pending_requests %}
+        <div class="friend-card request-card" id="req-{{ req.id }}">
+            <div class="friend-info-wrapper">
+                <div class="avatar-container">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ req.sender.username }}" alt="Avatar">
+                </div>
+                <div class="friend-details">
+                    <h4>{{ req.sender.username }}</h4>
+                    <p>Wants to be your friend</p>
+                </div>
+            </div>
+            <div class="request-actions">
+                <form action="{% url 'accept_friend_request' req.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="req-btn accept">Accept</button>
+                </form>
+                <button class="req-btn decline">Decline</button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="empty-state">No pending friend requests.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- SQUADS TAB -->
+<div id="squads" class="tab-content">
+    <div class="page-header" style="margin-top: 0; padding-top: 0; justify-content: flex-end;">
+        <button class="btn-primary" onclick="openModal('createSquadModal')">
+            <i data-lucide="plus"></i> Create Squad
+        </button>
+    </div>
+    <div class="friends-list">
+        {% for squad in squads %}
+        <div class="friend-card">
+            <div class="friend-info-wrapper">
+                <div class="avatar-container">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ squad.name }}" alt="Avatar">
+                </div>
+                <div class="friend-details">
+                    <h4>{{ squad.name }}</h4>
+                    <p>{{ squad.members.count }} Members</p>
+                </div>
+            </div>
+            <div class="friend-actions">
+                <button class="action-btn" title="View Squad"><i data-lucide="eye" style="width: 18px; height: 18px;"></i></button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="empty-state">You are not in any squads.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ADD FRIEND MODAL -->
+<div id="addFriendModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add Friend</h3>
+            <span class="close" onclick="closeModal('addFriendModal')">&times;</span>
+        </div>
+        <form id="addFriendForm" onsubmit="submitFriendRequest(event)">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Enter uPlay Username</label>
+                <input type="text" name="username" id="usernameInput" required placeholder="e.g. ProGamer123">
+            </div>
+            <div id="friendRequestMsg" style="margin-top: 10px; font-size: 0.9rem;"></div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Send Request</button>
+        </form>
+    </div>
+</div>
+
+<!-- CREATE SQUAD MODAL -->
+<div id="createSquadModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Create Squad</h3>
+            <span class="close" onclick="closeModal('createSquadModal')">&times;</span>
+        </div>
+        <form action="{% url 'create_squad' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Squad Name</label>
+                <input type="text" name="name" required placeholder="My Awesome Squad">
+            </div>
+
+            <div class="form-group">
+                <label>Invite Friends</label>
+                <div class="friends-selection-list">
+                    {% for friend in friends %}
+                    <label class="friend-selection-item">
+                        <input type="checkbox" name="members" value="{{ friend.id }}">
+                        <span>{{ friend.username }}</span>
+                    </label>
+                    {% empty %}
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Add friends first to invite them.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Create Squad</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Render Icons
+    lucide.createIcons();
+
+    // Tab Switching Logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            const targetId = btn.getAttribute('data-target');
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.classList.add('active');
+        });
+    });
+
+    // Modal Logic
+    function openModal(id) {
+        document.getElementById(id).style.display = 'block';
+    }
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    // Close on outside click
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+        }
+    }
+
+    // Async Friend Request
+    function submitFriendRequest(event) {
+        event.preventDefault();
+        const username = document.getElementById('usernameInput').value;
+        const msgDiv = document.getElementById('friendRequestMsg');
+        
+        fetch("{% url 'send_friend_request' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: `username=${encodeURIComponent(username)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                msgDiv.style.color = '#10b981';
+                msgDiv.textContent = 'Friend request sent!';
+                setTimeout(() => {
+                    closeModal('addFriendModal');
+                    msgDiv.textContent = '';
+                    document.getElementById('usernameInput').value = '';
+                }, 2000);
+            } else {
+                msgDiv.style.color = '#ef4444';
+                msgDiv.textContent = data.message || 'Failed to send request.';
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -6,8 +6,11 @@ __pycache__/
 # Virtual environment
 venv/
 env/
+.env
 .venv/
 
 # IDE files
 .vscode/
 .idea/
+
+db.sqlite3
