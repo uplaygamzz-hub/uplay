@@ -1,16 +1,9 @@
 # Core Framework
 Django==6.0.2
-djangorestframework
-django-cors-headers
 
 # Database
 psycopg2-binary==2.9.11
 dj-database-url
-
-# Real-Time & ASGI (WebSockets)
-channels==4.3.2
-daphne
-asgiref==3.11.1
 
 # Production Server & Static Files
 gunicorn
