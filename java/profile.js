@@ -95,3 +95,24 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 });
+
+// Logic to handle the "Share Profile" button
+window.copyProfileLink = function() {
+    // In production, the backend will dynamically insert the actual user's profile URL here
+    const profileUrl = "https://uplaygammz.com/u/" + (localStorage.getItem('userUsername') || "emmanuel_o").toLowerCase();
+    
+    // Fallback copy method to ensure it works inside iframes/Canvas
+    const input = document.createElement('textarea');
+    input.value = profileUrl;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    
+    // Trigger the global toast notification from main.js
+    if (typeof showToast === 'function') {
+        showToast('Profile link copied to clipboard!');
+    } else {
+        alert('Profile link copied!');
+    }
+};
