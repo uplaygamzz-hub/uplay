@@ -1,54 +1,121 @@
+/* =========================================
+   === #MAIN JS (Global Core) ===
+   ========================================= */
+   
 // 1. Sidebar Active State Logic
 const navItems = document.querySelectorAll('.nav-item:not(.logout-item)');
+const sidebarNavContainer = document.querySelector('.sidebar-nav');
+
+// Automatically scroll active item to the top on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const activeItem = document.querySelector('.nav-item.active');
+    if (activeItem && sidebarNavContainer) {
+        // Scroll the active item into view, aligning it to the top
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+
 navItems.forEach(item => {
     item.addEventListener('click', function() {
         navItems.forEach(nav => nav.classList.remove('active'));
         this.classList.add('active');
         if (window.innerWidth <= 768) {
-            if (typeof toggleMobileSidebar === 'function') toggleMobileSidebar();
+            if (typeof toggleMobileSidebar === 'function') {
+                toggleMobileSidebar();
+            }
         }
     });
 });
 
-// 2. Desktop Sidebar Toggle Logic (Safeguarded)
+// 2. Desktop Sidebar Toggle & Memory Logic
 const desktopToggle = document.getElementById('desktopMenuToggle');
 const iconCollapse = document.querySelector('.icon-collapse');
 const iconExpand = document.querySelector('.icon-expand');
 const sidebar = document.getElementById('sidebar');
 const sidebarSpacer = document.getElementById('sidebarSpacer');
 
-if (desktopToggle && sidebar) {
-    desktopToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        if (sidebarSpacer) sidebarSpacer.classList.toggle('collapsed');
-        
-        if (sidebar.classList.contains('collapsed')) {
-            if(iconCollapse) iconCollapse.style.display = 'none';
-            if(iconExpand) iconExpand.style.display = 'block';
-        } else {
-            if(iconCollapse) iconCollapse.style.display = 'block';
-            if(iconExpand) iconExpand.style.display = 'none';
-        }
-    });
-}
-
-// 3. Mobile Sidebar Toggle Logic (Safeguarded to prevent conflict with landing page)
-const mobileToggle = document.getElementById('mobileMenuToggle');
-const overlay = document.getElementById('sidebarOverlay');
-
-function toggleMobileSidebar() {
-    // Only fire this logic if the dashboard sidebar exists
-    if(sidebar) {
-        sidebar.classList.toggle('show');
-        if(overlay) overlay.classList.toggle('show');
+function applySidebarState(isCollapsed) {
+    if (!sidebar) return;
+    
+    if (isCollapsed) {
+        sidebar.classList.add('collapsed');
+        if (sidebarSpacer) sidebarSpacer.classList.add('collapsed');
+        if (iconCollapse) iconCollapse.style.display = 'none';
+        if (iconExpand) iconExpand.style.display = 'block';
+        localStorage.setItem('sidebarState', 'collapsed');
+    } else {
+        sidebar.classList.remove('collapsed');
+        if (sidebarSpacer) sidebarSpacer.classList.remove('collapsed');
+        if (iconCollapse) iconCollapse.style.display = 'block';
+        if (iconExpand) iconExpand.style.display = 'none';
+        localStorage.setItem('sidebarState', 'expanded');
     }
 }
 
-if(mobileToggle) mobileToggle.addEventListener('click', toggleMobileSidebar);
-// Only bind the overlay click to the dashboard sidebar if we are actually on a dashboard page
-if(overlay && sidebar) overlay.addEventListener('click', toggleMobileSidebar);
+if (sidebar) {
+    // Check memory: Default to true (collapsed) if no memory exists for first visit
+    const savedState = localStorage.getItem('sidebarState');
+    const shouldCollapse = savedState === null ? true : (savedState === 'collapsed');
+    
+    // Disable animation temporarily on initial load to prevent sliding glitch
+    sidebar.style.transition = 'none';
+    if (sidebarSpacer) sidebarSpacer.style.transition = 'none';
+    
+    applySidebarState(shouldCollapse);
+    
+    // Re-enable animation immediately after applying the state
+    requestAnimationFrame(() => {
+        sidebar.style.transition = '';
+        if (sidebarSpacer) sidebarSpacer.style.transition = '';
+    });
+}
 
-// 4. Theme Toggle Logic 
+if (desktopToggle && sidebar) {
+    desktopToggle.addEventListener('click', () => {
+        const isCurrentlyCollapsed = sidebar.classList.contains('collapsed');
+        applySidebarState(!isCurrentlyCollapsed);
+    });
+}
+
+// 3. Mobile Sidebar Toggle Logic
+const mobileToggle = document.getElementById('mobileMenuToggle');
+const landingMobileMenuToggle = document.getElementById('landingMobileMenuToggle');
+const mobileSidebar = document.getElementById('mobileSidebar');
+const overlay = document.getElementById('sidebarOverlay');
+const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+function toggleMobileSidebar() {
+    if (sidebar) {
+        sidebar.classList.toggle('show');
+    }
+    if (mobileSidebar) {
+        mobileSidebar.classList.toggle('show');
+    }
+    if (overlay) {
+        overlay.classList.toggle('show');
+    }
+}
+
+if (mobileToggle) {
+    mobileToggle.addEventListener('click', toggleMobileSidebar);
+}
+
+if (landingMobileMenuToggle) {
+    landingMobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMobileSidebar();
+    });
+}
+
+if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', toggleMobileSidebar);
+}
+
+if (overlay) {
+    overlay.addEventListener('click', toggleMobileSidebar);
+}
+
+// 4. Theme Toggle Logic
 const themeToggle = document.getElementById('themeToggle');
 const iconSun = document.querySelector('.icon-sun');
 const iconMoon = document.querySelector('.icon-moon');
@@ -58,34 +125,59 @@ const settingsThemeToggle = document.getElementById('settingsThemeToggle');
 function applyTheme(isLight) {
     if (isLight) {
         body.classList.add('light-mode');
-        if(iconSun) iconSun.style.display = 'none';
-        if(iconMoon) iconMoon.style.display = 'block';
+        if (iconSun) iconSun.style.display = 'none';
+        if (iconMoon) iconMoon.style.display = 'block';
         localStorage.setItem('theme', 'light');
-        if(settingsThemeToggle) settingsThemeToggle.checked = false;
+        if (settingsThemeToggle) settingsThemeToggle.checked = false;
     } else {
         body.classList.remove('light-mode');
-        if(iconSun) iconSun.style.display = 'block';
-        if(iconMoon) iconMoon.style.display = 'none';
+        if (iconSun) iconSun.style.display = 'block';
+        if (iconMoon) iconMoon.style.display = 'none';
         localStorage.setItem('theme', 'dark');
-        if(settingsThemeToggle) settingsThemeToggle.checked = true;
+        if (settingsThemeToggle) settingsThemeToggle.checked = true;
     }
 }
 
 applyTheme(localStorage.getItem('theme') === 'light');
 
-if(themeToggle) {
+if (themeToggle) {
     themeToggle.addEventListener('click', () => {
         applyTheme(!body.classList.contains('light-mode'));
     });
 }
 
-if(settingsThemeToggle) {
+if (settingsThemeToggle) {
     settingsThemeToggle.addEventListener('change', (e) => {
         applyTheme(!e.target.checked); 
     });
 }
 
-// 5. Notifications & Profile Dropdown Logic
+// 5. Global Password Visibility Toggle
+function setupPasswordToggle(toggleId, inputId) {
+    const toggleBtn = document.getElementById(toggleId);
+    const passInput = document.getElementById(inputId);
+
+    if (toggleBtn && passInput) {
+        toggleBtn.addEventListener('click', function() {
+            const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passInput.setAttribute('type', type);
+            
+            if (type === 'password') {
+                this.innerHTML = '<i data-lucide="eye"></i>';
+            } else {
+                this.innerHTML = '<i data-lucide="eye-off"></i>';
+            }
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    }
+}
+
+setupPasswordToggle('togglePassword', 'passwordInput');
+setupPasswordToggle('toggleConfirmPassword', 'confirmPasswordInput');
+
+// 6. Notifications & Profile Dropdown
 const notifToggle = document.getElementById('notifToggle');
 const notifDropdown = document.getElementById('notifDropdown');
 const markAllReadBtn = document.getElementById('markAllReadBtn');
@@ -97,45 +189,48 @@ const profileDropdown = document.getElementById('profileDropdown');
 
 function updateBadgeCount() {
     if (!notifBadge) return;
+    
     const unreadCount = document.querySelectorAll('.notif-item.unread').length;
     const totalCount = document.querySelectorAll('.notif-item').length;
 
+    // THE FIX: Specifically setting display none and flex 
     if (unreadCount > 0) {
         notifBadge.textContent = unreadCount;
-        notifBadge.classList.remove('hidden');
-        if(markAllReadBtn) markAllReadBtn.style.display = 'flex';
+        notifBadge.style.display = 'flex';
+        if (markAllReadBtn) markAllReadBtn.style.display = 'flex';
     } else {
-        notifBadge.classList.add('hidden');
-        if(markAllReadBtn) markAllReadBtn.style.display = 'none';
+        notifBadge.style.display = 'none';
+        if (markAllReadBtn) markAllReadBtn.style.display = 'none';
     }
 
     if (totalCount > 0) {
-        if(deleteAllBtn) deleteAllBtn.style.display = 'flex';
+        if (deleteAllBtn) deleteAllBtn.style.display = 'flex';
     } else {
-        if(deleteAllBtn) deleteAllBtn.style.display = 'none';
+        if (deleteAllBtn) deleteAllBtn.style.display = 'none';
     }
 }
 
+// Initial badge check on load
 updateBadgeCount();
 
-if(notifToggle) {
+if (notifToggle) {
     notifToggle.addEventListener('click', (e) => {
         e.stopPropagation(); 
-        if(notifDropdown) notifDropdown.classList.toggle('show');
-        if(profileDropdown) profileDropdown.classList.remove('show');
+        if (notifDropdown) notifDropdown.classList.toggle('show');
+        if (profileDropdown) profileDropdown.classList.remove('show');
         document.querySelectorAll('.notif-options.show').forEach(opt => opt.classList.remove('show'));
     });
 }
 
-if(profileToggle) {
+if (profileToggle) {
     profileToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        if(profileDropdown) profileDropdown.classList.toggle('show');
-        if(notifDropdown) notifDropdown.classList.remove('show');
+        if (profileDropdown) profileDropdown.classList.toggle('show');
+        if (notifDropdown) notifDropdown.classList.remove('show');
     });
 }
 
-if(markAllReadBtn) {
+if (markAllReadBtn) {
     markAllReadBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         document.querySelectorAll('.notif-item.unread').forEach(item => {
@@ -145,15 +240,17 @@ if(markAllReadBtn) {
     });
 }
 
-if(deleteAllBtn) {
+if (deleteAllBtn) {
     deleteAllBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if(notifList) notifList.innerHTML = '<div style="padding: 30px 20px; text-align: center; color: var(--text-secondary); font-size: 14px;">No new notifications</div>';
+        if (notifList) {
+            notifList.innerHTML = '<div style="padding: 30px 20px; text-align: center; color: var(--text-secondary); font-size: 14px;">No new notifications</div>';
+        }
         updateBadgeCount();
     });
 }
 
-if(notifList) {
+if (notifList) {
     notifList.addEventListener('click', (e) => {
         const item = e.target.closest('.notif-item');
         if (!item) return;
@@ -162,7 +259,9 @@ if(notifList) {
         if (moreBtn) {
             e.stopPropagation();
             document.querySelectorAll('.notif-options.show').forEach(opt => {
-                if (opt !== moreBtn.nextElementSibling) opt.classList.remove('show');
+                if (opt !== moreBtn.nextElementSibling) {
+                    opt.classList.remove('show');
+                }
             });
             moreBtn.nextElementSibling.classList.toggle('show');
             return;
@@ -181,15 +280,14 @@ if(notifList) {
                     notifList.innerHTML = '<div style="padding: 30px 20px; text-align: center; color: var(--text-secondary); font-size: 14px;">No new notifications</div>';
                 }
             }
-            if(optBtn.closest('.notif-options')) optBtn.closest('.notif-options').classList.remove('show');
+            if (optBtn.closest('.notif-options')) {
+                optBtn.closest('.notif-options').classList.remove('show');
+            }
             updateBadgeCount();
             return;
         }
 
-        if (e.target.closest('.notif-options')) {
-            e.stopPropagation();
-            return;
-        }
+        if (e.target.closest('.notif-options')) return;
 
         if (item.classList.contains('unread')) {
             item.classList.remove('unread');
@@ -200,9 +298,11 @@ if(notifList) {
 
 document.addEventListener('click', (e) => {
     document.querySelectorAll('.notif-options.show').forEach(opt => opt.classList.remove('show'));
+    
     if (notifDropdown && notifToggle && !notifDropdown.contains(e.target) && !notifToggle.contains(e.target)) {
         notifDropdown.classList.remove('show');
     }
+    
     if (profileDropdown && profileToggle && !profileDropdown.contains(e.target) && !profileToggle.contains(e.target)) {
         profileDropdown.classList.remove('show');
     }
@@ -211,38 +311,45 @@ document.addEventListener('click', (e) => {
 const profileLinks = document.querySelectorAll('.profile-link-item');
 profileLinks.forEach(link => {
     link.addEventListener('click', () => {
-        if(profileDropdown) profileDropdown.classList.remove('show');
+        if (profileDropdown) profileDropdown.classList.remove('show');
     });
 });
 
-// 6. GLOBAL AVATAR PERSIST LOGIC
+// 7. GLOBAL AVATAR PERSIST LOGIC
 const topbarAvatar = document.querySelector('#profileToggle img');
 const sidebarAvatar = document.querySelector('.user-widget img');
 const dropdownAvatar = document.querySelector('.profile-header-info img'); 
 
 const savedAvatar = localStorage.getItem('userAvatar');
 if (savedAvatar) {
-    if(topbarAvatar) topbarAvatar.src = savedAvatar;
-    if(sidebarAvatar) sidebarAvatar.src = savedAvatar;
-    if(dropdownAvatar) dropdownAvatar.src = savedAvatar;
-    
+    if (topbarAvatar) topbarAvatar.src = savedAvatar;
+    if (sidebarAvatar) sidebarAvatar.src = savedAvatar;
+    if (dropdownAvatar) dropdownAvatar.src = savedAvatar;
     const avatarPreviewImage = document.getElementById('avatarPreviewImage');
-    if(avatarPreviewImage) avatarPreviewImage.src = savedAvatar;
+    if (avatarPreviewImage) avatarPreviewImage.src = savedAvatar;
 }
 
-// 7. GLOBAL PROFILE TEXT PERSIST LOGIC
+// 8. GLOBAL PROFILE TEXT PERSIST LOGIC
 const savedFullName = localStorage.getItem('userFullName') || 'Emmanuel Ovie';
 const savedUsername = localStorage.getItem('userUsername') || 'Emmanuel_O';
 
-const sidebarName = document.getElementById('sidebarNameDisplay');
-if(sidebarName) sidebarName.textContent = savedFullName;
+const sidebarName = document.getElementById('sidebarNameDisplay') || document.querySelector('.user-info h4');
+if (sidebarName) {
+    sidebarName.textContent = savedFullName;
+}
 
-const dropdownName = document.querySelector('.dropdown-name-display');
-const dropdownUsername = document.querySelector('.dropdown-username-display');
-if(dropdownName) dropdownName.textContent = savedFullName;
-if(dropdownUsername) dropdownUsername.textContent = '@' + savedUsername.toLowerCase();
+const dropdownName = document.querySelector('.dropdown-name-display') || document.querySelector('.profile-user-details h4');
+const dropdownUsername = document.querySelector('.dropdown-username-display') || document.querySelector('.profile-user-details p');
 
-// 8. GLOBAL TOAST NOTIFICATION LOGIC
+if (dropdownName) {
+    dropdownName.textContent = savedFullName;
+}
+
+if (dropdownUsername) {
+    dropdownUsername.textContent = '@' + savedUsername.toLowerCase();
+}
+
+// 9. GLOBAL TOAST NOTIFICATION LOGIC
 const toastNotification = document.getElementById('toastNotification');
 const toastMessage = document.getElementById('toastMessage');
 const toastIconWrapper = document.getElementById('toastIconWrapper');
@@ -251,15 +358,23 @@ function showToast(message, isError = false) {
     if (!toastNotification) return;
 
     toastMessage.textContent = message;
+    
     if (isError) {
         toastNotification.style.backgroundColor = 'var(--danger-color)';
-        if(toastIconWrapper) toastIconWrapper.innerHTML = '<i data-lucide="x-circle"></i>';
+        if (toastIconWrapper) {
+            toastIconWrapper.innerHTML = '<i data-lucide="x-circle"></i>';
+        }
     } else {
         toastNotification.style.backgroundColor = 'var(--success-color)';
-        if(toastIconWrapper) toastIconWrapper.innerHTML = '<i data-lucide="check-circle"></i>';
+        if (toastIconWrapper) {
+            toastIconWrapper.innerHTML = '<i data-lucide="check-circle"></i>';
+        }
     }
     
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    
     toastNotification.classList.add('show');
     
     setTimeout(() => {
@@ -267,13 +382,14 @@ function showToast(message, isError = false) {
     }, 3000);
 }
 
-// 9. AUTO-SLIDING TOURNAMENT BANNER
-const promoSlider = document.getElementById('promoSlider');
+// 10. GLOBAL SLIDESHOW LOGIC
+const promoSlider = document.querySelector('.promo-slideshow') || document.getElementById('promoSlider');
 let autoSlideInterval;
 let isTransitioning = false;
 
 function startAutoSlide() {
     if (!promoSlider) return;
+    
     autoSlideInterval = setInterval(() => {
         if (!promoSlider || isTransitioning) return;
         
@@ -281,7 +397,6 @@ function startAutoSlide() {
         if (!firstSlide) return;
 
         const slideWidth = firstSlide.clientWidth + 20; 
-        
         promoSlider.scrollBy({ left: slideWidth, behavior: 'smooth' });
         isTransitioning = true;
 
@@ -299,12 +414,11 @@ function startAutoSlide() {
             
             isTransitioning = false;
         }, 800); 
-
     }, 3500); 
 }
 
-function stopAutoSlide() {
-    clearInterval(autoSlideInterval);
+function stopAutoSlide() { 
+    clearInterval(autoSlideInterval); 
 }
 
 if (promoSlider) {

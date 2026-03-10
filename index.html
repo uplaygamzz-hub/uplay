@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>uPlay</title>
-    <link sizes="32x32" rel="icon" href="../images/logo/pad-logo-title.png" type="image/png">
+    <link sizes="32x32" rel="icon" href="./images/logo/pad-logo-title.png" type="image/png">
 
     <meta name="title" content="UPlay - PES Tournament">
-    <meta name="decription" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
+    <meta name="description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
@@ -19,7 +19,7 @@
     <meta property="og:image:height" content="630">
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="UPlay - PES Tournament">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://uplaygamzz.github.io/pes_tournament/index.html">
     <meta name="twitter:title" content="UPlay - PES Tournament">
     <meta name="twitter:description" content="Join the ultimate PES Tournament on UPlay. Compete, win, and rise to the top of the leaderboard!">
@@ -31,9 +31,8 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Main CSS -->
+    <!-- Global & Page CSS -->
     <link rel="stylesheet" href="./css/main.css">
-    <!-- Index CSS -->
     <link rel="stylesheet" href="./css/index.css">
 
 </head>
@@ -63,7 +62,7 @@
 
             <!-- Right Side (Actions) -->
             <div class="public-topbar-right">
-                <!-- Theme Toggle (Visible on Desktop and Mobile) -->
+                <!-- Theme Toggle -->
                 <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Mode">
                     <i data-lucide="sun" class="icon-sun"></i>
                     <i data-lucide="moon" class="icon-moon" style="display: none;"></i>
@@ -72,7 +71,7 @@
                 <a href="pages/login.html" class="btn-outline">Login</a>
                 <a href="pages/signup.html" class="btn-primary">Sign Up</a>
 
-                <!-- Mobile Menu Toggle (Specific to Landing Page) -->
+                <!-- Mobile Menu Toggle -->
                 <button class="landing-mobile-menu-btn icon-btn" id="landingMobileMenuToggle">
                     <i data-lucide="menu"></i>
                 </button>
@@ -86,8 +85,8 @@
         <aside class="mobile-sidebar" id="mobileSidebar">
             <div class="sidebar-header">
                 <div class="public-topbar-left">
-                    <a href="../index.html" class="public-topbar-logo">
-                        <img src="../images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
+                    <a href="index.html" class="public-topbar-logo">
+                        <img src="./images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
                         <span style="display: none; margin-right: 8px;">🎮</span>
                         uPlay
                     </a>
@@ -134,7 +133,7 @@
                 <!-- 3D REAL ANIMATED GAMEPAD IMAGE -->
                 <div class="welcome-visual">
                     <div class="gamepad-float-wrapper">
-                        <img src="./images/Xbox_Pad2.png" alt="PS5 Controller" class="animated-gamepad">
+                        <img src="./images/Xbox_pad2.png" alt="Xbox Controller" class="animated-gamepad" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4c/PlayStation_5_DualSense_controller.png'">
                     </div>
                 </div>
             </div>
@@ -241,7 +240,7 @@
         </main>
 
         <footer class="public-footer">
-            <p>&copy; 2025 uPlayGammz. All rights reserved.</p>
+            <p>&copy; 2026 uPlayGammz. All rights reserved.</p>
         </footer>
     </div>
 

@@ -1,0 +1,233 @@
+/* =========================================
+   === (friends.css) ===
+   ========================================= */
+
+.search-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    width: 20px;
+    height: 20px;
+}
+
+.search-input {
+    width: 100%;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 14px 16px 14px 46px;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: var(--UPlay-yellow);
+}
+
+.tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 4px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    color: var(--UPlay-yellow);
+    border-bottom-color: var(--UPlay-yellow);
+}
+
+.tab-badge {
+    background: var(--danger-color);
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.friends-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.friend-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: border-color 0.2s, transform 0.2s;
+    box-shadow: var(--card-shadow);
+}
+
+.friend-card:hover {
+    border-color: var(--UPlay-yellow);
+    transform: translateY(-2px);
+}
+
+.friend-info-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar-container {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--hover-bg);
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.friend-details h4 {
+    margin: 0;
+    margin-bottom: 4px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.friend-details p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.friend-details p.playing {
+    color: var(--in-game-color);
+    font-weight: 500;
+}
+
+.friend-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--hover-bg);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-base);
+}
+
+.action-btn.invite:hover {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.action-btn.message:hover {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.request-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.req-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.req-btn.accept {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.req-btn.accept:hover {
+    background-color: #059669;
+}
+
+.req-btn.decline {
+    background-color: var(--hover-bg);
+    color: var(--text-secondary);
+}
+
+.req-btn.decline:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+@media (max-width: 768px) {
+    .friends-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .request-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .friend-card.request-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .req-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

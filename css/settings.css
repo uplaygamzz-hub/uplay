@@ -1,26 +1,6 @@
-main {
-    flex: 1;
-    padding: 24px;
-    overflow-y: auto;
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.page-title {
-    font-family: var(--font-heading);
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-}
+/* =========================================
+   === (settings.css) ===
+   ========================================= */
 
 .settings-container {
     display: flex;
@@ -29,7 +9,6 @@ main {
     margin: 0 auto;
 }
 
-/* Settings Sidebar */
 .settings-sidebar {
     width: 240px;
     background: var(--bg-surface);
@@ -63,7 +42,6 @@ main {
     border-left-color: var(--UPlay-yellow);
 }
 
-/* Settings Content Area */
 .settings-content-area {
     flex: 1;
     background: var(--bg-surface);
@@ -86,6 +64,7 @@ main {
     font-family: var(--font-heading);
     font-size: 20px;
     margin-bottom: 8px;
+    margin-top: 0;
     color: var(--text-primary);
 }
 
@@ -93,56 +72,11 @@ main {
     color: var(--text-secondary);
     font-size: 14px;
     margin-bottom: 24px;
+    margin-top: 0;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border-color);
 }
 
-/* Form Elements */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-
-.form-input {
-    width: 100%;
-    background-color: var(--bg-base);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: var(--font-body);
-    transition: border-color 0.2s;
-    outline: none;
-}
-
-.form-input:focus {
-    border-color: var(--UPlay-yellow);
-}
-
-.form-input:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-select.form-input {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-/* Avatar Upload Area */
 .avatar-upload-section {
     display: flex;
     align-items: center;
@@ -158,7 +92,6 @@ select.form-input {
     object-fit: cover;
 }
 
-/* Toggle Switches */
 .toggle-row {
     display: flex;
     justify-content: space-between;
@@ -174,10 +107,12 @@ select.form-input {
 .toggle-info h4 {
     font-size: 15px;
     margin-bottom: 4px;
+    margin-top: 0;
 }
 
 .toggle-info p {
     font-size: 12px;
+    margin: 0;
     color: var(--text-secondary);
 }
 
@@ -227,7 +162,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-/* Danger Zone */
 .danger-zone {
     border: 1px solid rgba(239, 68, 68, 0.3);
     border-radius: 8px;
@@ -249,6 +183,323 @@ input:checked + .slider:before {
 .btn-danger:hover {
     background-color: var(--danger-color);
     color: white;
+}
+
+.add-id-section {
+    background-color: var(--bg-base);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.add-id-header {
+    margin-bottom: 12px;
+    margin-top: 0;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.add-id-inputs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.add-id-inputs .form-select {
+    flex: 1;
+    min-width: 150px;
+}
+
+.add-id-inputs .form-input {
+    flex: 2;
+    min-width: 200px;
+}
+
+.gaming-ids-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.gaming-id-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+.gaming-id-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.gaming-id-icon-box {
+    background-color: var(--hover-bg);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--UPlay-yellow);
+}
+
+.gaming-id-icon-box img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.gaming-id-platform {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.gaming-id-tag {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.remove-id-btn {
+    color: var(--danger-color);
+    background-color: rgba(239, 68, 68, 0.1);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.remove-id-btn:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.empty-ids-msg {
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: center;
+    padding: 30px 20px;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+}
+
+.social-connect-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+
+.social-connect-box:hover {
+    border-color: var(--text-secondary);
+}
+
+.social-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.social-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.social-icon img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.social-icon.discord {
+    background-color: #5865F2;
+}
+
+.social-icon.twitch {
+    background-color: #9146FF;
+}
+
+.social-icon.google {
+    background-color: #EA4335;
+}
+
+.social-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.social-status {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.social-status.connected {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+/* --- PAYOUT DETAILS STYLING --- */
+.saved-payout-card {
+    background: linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(0,0,0,0) 100%), var(--bg-surface);
+    border: 1px solid var(--UPlay-yellow);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.saved-payout-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.saved-payout-card .bank-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 204, 0, 0.2);
+    color: var(--UPlay-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active-badge {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.bank-details h3 {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    margin-bottom: 4px;
+    margin-top: 0;
+    color: var(--text-primary);
+}
+
+.bank-details .acc-name {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    margin-top: 0;
+}
+
+.bank-details .acc-num {
+    font-family: monospace;
+    font-size: 16px;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.btn-danger-outline {
+    background: transparent;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 20px;
+}
+
+.btn-danger-outline:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+.security-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background-color: rgba(255, 204, 0, 0.05);
+    border: 1px solid rgba(255, 204, 0, 0.2);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.security-notice p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* SEARCHABLE BANK DROPDOWN STYLES */
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: var(--card-shadow);
+}
+
+.custom-select-dropdown.show {
+    display: block;
+}
+
+.bank-option {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.bank-option:hover {
+    background-color: var(--hover-bg);
+    color: var(--UPlay-yellow);
 }
 
 @media (max-width: 992px) {
