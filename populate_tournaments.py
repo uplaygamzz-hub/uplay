@@ -82,7 +82,7 @@ def populate():
             'is_paid': False,
             'tournament_format': "Draft",
             'status': 'completed',
-            'banner_image': "https://images.unsplash.com/photo-1524281300062-817ab56a9286?q=80&w=600&auto=format&fit=crop"
+            'banner_image': "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=600&auto=format&fit=crop"
         }
     )
 

@@ -1,12 +1,15 @@
-#!/usr/bin/env bash
-# exit on error
-set -o errexit
+#!/bin/bash
+
+# Install Python 3.12
+uv python install 3.12
+uv python pin 3.12
+
+# Create and use virtual environment
+uv venv .venv
+source .venv/bin/activate
 
 # Install dependencies
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 
-# Collect static files (Required for Admin and Whitenoise)
-python manage.py collectstatic --no-input
-
-# Run migrations to set up the DB
-python manage.py migrate
+# Collect static files
+python manage.py collectstatic --noinput
