@@ -7,6 +7,43 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
+    // --- BALANCE HIDE/SHOW LOGIC ---
+    const toggleBalanceBtn = document.getElementById('toggleBalanceBtn');
+    const mainBalanceDisplay = document.getElementById('mainBalanceDisplay');
+    const bonusBalanceDisplay = document.getElementById('bonusBalanceDisplay');
+
+    if (toggleBalanceBtn && mainBalanceDisplay && bonusBalanceDisplay) {
+        // Check memory for user preference
+        const isHidden = localStorage.getItem('hideWalletBalance') === 'true';
+        
+        const rawMain = mainBalanceDisplay.getAttribute('data-raw-value');
+        const rawBonus = bonusBalanceDisplay.getAttribute('data-raw-value');
+
+        function applyBalanceState(hide) {
+            if (hide) {
+                mainBalanceDisplay.textContent = '****';
+                bonusBalanceDisplay.textContent = '****';
+                toggleBalanceBtn.innerHTML = '<i data-lucide="eye-off" style="width: 18px; height: 18px;"></i>';
+            } else {
+                mainBalanceDisplay.textContent = rawMain;
+                bonusBalanceDisplay.textContent = rawBonus;
+                toggleBalanceBtn.innerHTML = '<i data-lucide="eye" style="width: 18px; height: 18px;"></i>';
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Apply initial state
+        applyBalanceState(isHidden);
+
+        // Toggle on click
+        toggleBalanceBtn.addEventListener('click', () => {
+            const currentlyHidden = localStorage.getItem('hideWalletBalance') === 'true';
+            const newState = !currentlyHidden;
+            localStorage.setItem('hideWalletBalance', newState);
+            applyBalanceState(newState);
+        });
+    }
+
     // --- MODAL LOGIC ---
     const depositModal = document.getElementById('depositModal');
     const withdrawModal = document.getElementById('withdrawModal');

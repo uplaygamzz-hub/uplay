@@ -27,6 +27,7 @@ if (avatarUploadInput) {
                 const base64Image = e.target.result;
                 const avatarPreviewImage = document.getElementById('avatarPreviewImage');
                 
+                // Show the preview to the user instantly
                 if (avatarPreviewImage) {
                     avatarPreviewImage.src = base64Image;
                 }
@@ -39,7 +40,8 @@ if (avatarUploadInput) {
                 if (sidebarAvatar) sidebarAvatar.src = base64Image;
                 if (dropdownAvatar) dropdownAvatar.src = base64Image;
                 
-                localStorage.setItem('userAvatar', base64Image);
+                // REMOVED: localStorage.setItem('userAvatar', base64Image);
+                // We leave it to the backend to upload the actual file on form submit.
             }
             
             reader.readAsDataURL(file);
@@ -74,7 +76,7 @@ if (bioInput) {
     bioInput.value = localStorage.getItem('userBio') || '';
 }
 
-// --- DYNAMIC GAMING IDS LOGIC (UNBREAKABLE LOGOS UPGRADE) ---
+// --- DYNAMIC GAMING IDS LOGIC ---
 const addGamingIdBtn = document.getElementById('addGamingIdBtn');
 const platformSelect = document.getElementById('platformSelect');
 const gamerTagInput = document.getElementById('gamerTagInput');
@@ -120,10 +122,9 @@ function renderGamingIds() {
         let isCustomImage = false;
         let iconRef = ""; 
         let customImgUrl = "";
-        let fallbackLucideIcon = "gamepad-2"; // Default fallback
-        let invertClass = "invert-on-light"; // Default inversion for white SVGs
+        let fallbackLucideIcon = "gamepad-2"; 
+        let invertClass = "invert-on-light"; 
         
-        // Smart Logo Resolution
         if (plat.includes('playstation') || plat.includes('psn')) iconRef = "playstation";
         else if (plat.includes('xbox')) iconRef = "xbox";
         else if (plat.includes('steam') || plat.includes('pc')) iconRef = "steam";
@@ -138,17 +139,15 @@ function renderGamingIds() {
         else if (plat.includes('pubg')) {
             isSimpleIcon = false;
             isCustomImage = true;
-            // Reliable white filled PNG for PUBG
             customImgUrl = "https://img.icons8.com/ios-filled/50/ffffff/player-unknowns-battlegrounds.png"; 
             fallbackLucideIcon = "crosshair";
         }
         else if (plat.includes('free fire')) {
             isSimpleIcon = false;
             isCustomImage = true;
-            // Reliable colored logo for Free Fire (Does not need inversion)
             customImgUrl = "https://seeklogo.com/images/F/free-fire-logo-5D1A0FE09B-seeklogo.com.png";
             fallbackLucideIcon = "flame";
-            invertClass = ""; // Remove inversion so colors stay true
+            invertClass = ""; 
         }
         else {
             isSimpleIcon = false;
@@ -156,8 +155,6 @@ function renderGamingIds() {
         }
 
         let iconHtml = "";
-        // Build the HTML with the unbreakable onerror fallback mechanism
-        // Using var(--text-primary) directly via style or relying on default color inheritance
         if (isSimpleIcon) {
             iconHtml = `<img src="https://cdn.simpleicons.org/${iconRef}/white" alt="${idObj.platform}" class="${invertClass}" style="width: 24px; height: 24px; object-fit: contain;" onerror="this.outerHTML='<i data-lucide=\\'gamepad-2\\' style=\\'width: 24px; height: 24px; color: var(--text-primary);\\'></i>'; typeof lucide !== 'undefined' && lucide.createIcons();">`;
         } else if (isCustomImage) {
@@ -165,7 +162,6 @@ function renderGamingIds() {
         } else {
              iconHtml = `<i data-lucide="${iconRef}" style="width: 24px; height: 24px; color: var(--text-primary);"></i>`;
         }
-
 
         const itemDiv = document.createElement('div');
         itemDiv.className = 'gaming-id-item';
@@ -229,7 +225,7 @@ if (addGamingIdBtn) {
     });
 }
 
-// --- PAYOUT DETAILS LOGIC (LIVE PAYSTACK API FETCH & ERROR INTENT) ---
+// --- PAYOUT DETAILS LOGIC (LIVE PAYSTACK API FETCH) ---
 const bankNameInput = document.getElementById('bankNameInput');
 const bankDropdownList = document.getElementById('bankDropdownList');
 const accNumInput = document.getElementById('accNumInput');
@@ -244,10 +240,8 @@ const displayAccName = document.getElementById('displayAccName');
 const displayAccNumber = document.getElementById('displayAccNumber');
 const removePayoutBtn = document.getElementById('removePayoutBtn');
 
-// Will be populated dynamically from Paystack
 let nigerianBanks = [];
 
-// Fetch live bank list from Paystack Public API
 async function fetchLiveBanks() {
     try {
         bankNameInput.placeholder = "Loading banks...";
@@ -267,7 +261,6 @@ async function fetchLiveBanks() {
     }
 }
 
-// Verification with Strict Name Matching Anti-Fraud Logic & Specific Mock Patterns
 function attemptVerification() {
     if (accNumInput.value.length === 10 && bankNameInput.value.trim() !== "") {
         accNameInput.placeholder = "Contacting Bank API...";
@@ -278,44 +271,25 @@ function attemptVerification() {
             const savedFName = localStorage.getItem('userFirstName') || 'Emmanuel';
             const savedLName = localStorage.getItem('userLastName') || 'Ovie';
             
-            // The combinations we expect to be valid for this user
             const expectedName1 = `${savedFName} ${savedLName}`.toUpperCase();
             const expectedName2 = `${savedLName} ${savedFName}`.toUpperCase();
 
             let fetchedName = "";
             let isApiError = false;
 
-            // --- SIMULATE DETERMINISTIC BACKEND RESPONSES ---
-            
-            // 1. Exact "0123456789" = Success Match
             if (num === "0123456789") {
                 fetchedName = expectedName1; 
-                
-            // 2. Exactly 10 of the SAME digits (e.g. 1111111111, 2222222222) = Mismatch Fraud Test
-            // This RegExp ^(\d)\1{9}$ checks if the string consists of the exact same digit 10 times.
             } else if (/^(\d)\1{9}$/.test(num)) {
                 const mockNames = [
-                    "CHUKWUEMEKA OKAFOR", // For 0000000000
-                    "AISHA BELLO",        // For 1111111111
-                    "OLUMIDE BADEJO",     // For 2222222222
-                    "FATIMA MUSA",        // For 3333333333
-                    "CHIDINMA EZE",       // For 4444444444
-                    "JOHN DOE",           // For 5555555555
-                    "DAVID ADEBAYO",      // For 6666666666
-                    "SARAH CHUKWU",       // For 7777777777
-                    "MICHAEL OBI",        // For 8888888888
-                    "ZAINAB SANI"         // For 9999999999
+                    "CHUKWUEMEKA OKAFOR", "AISHA BELLO", "OLUMIDE BADEJO", "FATIMA MUSA", "CHIDINMA EZE",
+                    "JOHN DOE", "DAVID ADEBAYO", "SARAH CHUKWU", "MICHAEL OBI", "ZAINAB SANI"
                 ];
-                // Grab the single digit being used (e.g. "1") and turn it into an index
                 const nameIndex = parseInt(num.charAt(0)); 
                 fetchedName = mockNames[nameIndex]; 
-                
-            // 3. Any other random 10 digits = API Integration Required
             } else {
                 isApiError = true; 
             }
 
-            // --- EVALUATE FETCHED DATA ---
             if (isApiError) {
                 accNameInput.value = "";
                 accNameInput.placeholder = "Backend Integration Required";
@@ -325,14 +299,11 @@ function attemptVerification() {
             } else {
                 accNameInput.value = fetchedName;
                 
-                // --- ANTI-FRAUD NAME MATCHING LOGIC ---
                 if (fetchedName === expectedName1 || fetchedName === expectedName2) {
-                    // Success: Name perfectly matches profile
                     accNameVerifiedMsg.innerHTML = '<i data-lucide="check-circle" style="width:12px; height:12px; display:inline-block; vertical-align:middle; margin-right: 4px;"></i> Name verified successfully.';
                     accNameVerifiedMsg.style.color = "var(--success-color)";
                     accNameVerifiedMsg.style.display = 'block';
                 } else {
-                    // Fraud Block: Name does not match profile
                     accNameVerifiedMsg.innerHTML = `<i data-lucide="x-circle" style="width:12px; height:12px; display:inline-block; vertical-align:middle; margin-right: 4px;"></i> Security Alert: Account name (${fetchedName}) does not match your profile name (${expectedName1}). Third-party accounts are not allowed.`;
                     accNameVerifiedMsg.style.color = "var(--danger-color)";
                     accNameVerifiedMsg.style.display = 'block';
@@ -343,17 +314,14 @@ function attemptVerification() {
 
         }, 1000);
     } else {
-        // Reset when input is less than 10 digits
         accNameInput.value = "";
         accNameInput.placeholder = "Account name will be verified automatically";
         accNameVerifiedMsg.style.display = 'none';
     }
 }
 
-// Searchable Bank Logic
 if (bankNameInput && bankDropdownList) {
-    
-    fetchLiveBanks(); // Call API on page load
+    fetchLiveBanks(); 
     
     function populateBankDropdown(banksToRender) {
         bankDropdownList.innerHTML = '';
@@ -368,13 +336,12 @@ if (bankNameInput && bankDropdownList) {
             div.addEventListener('click', () => {
                 bankNameInput.value = bank;
                 bankDropdownList.classList.remove('show');
-                attemptVerification(); // Trigger check right after selection
+                attemptVerification(); 
             });
             bankDropdownList.appendChild(div);
         });
     }
 
-    // Show all on click
     bankNameInput.addEventListener('focus', () => {
         if(nigerianBanks.length > 0) {
             populateBankDropdown(nigerianBanks);
@@ -382,19 +349,15 @@ if (bankNameInput && bankDropdownList) {
         }
     });
 
-    // Filter on type
     bankNameInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
         const filtered = nigerianBanks.filter(bank => bank.toLowerCase().includes(searchTerm));
         populateBankDropdown(filtered);
         bankDropdownList.classList.add('show');
-        
-        // Clear verification if bank text changes manually
         accNameInput.value = "";
         accNameVerifiedMsg.style.display = 'none';
     });
 
-    // Hide dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!bankNameInput.contains(e.target) && !bankDropdownList.contains(e.target)) {
             bankDropdownList.classList.remove('show');
@@ -402,23 +365,19 @@ if (bankNameInput && bankDropdownList) {
     });
 }
 
-// Account Number Input Logic
 if (accNumInput) {
     accNumInput.addEventListener('input', (e) => {
-        // Strict Number only
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
-        attemptVerification(); // Trigger check while typing
+        attemptVerification(); 
     });
 }
 
-// Function to render saved payout UI
 function renderPayoutUI() {
     const savedPayoutData = JSON.parse(localStorage.getItem('userPayoutData'));
     
     if (savedPayoutData && savedPayoutCard && payoutFormSection) {
         displayBankName.textContent = savedPayoutData.bank;
         displayAccName.textContent = savedPayoutData.name;
-        // Mask the account number for security viewing
         const maskedNum = "**** **** **** " + savedPayoutData.number.slice(-4);
         displayAccNumber.textContent = maskedNum;
         
@@ -431,7 +390,6 @@ function renderPayoutUI() {
 }
 renderPayoutUI();
 
-// Save Payout Button Logic
 if (savePayoutBtn) {
     savePayoutBtn.addEventListener('click', function() {
         if (!bankNameInput.value || accNumInput.value.length !== 10) {
@@ -439,13 +397,11 @@ if (savePayoutBtn) {
             return;
         }
         
-        // Prevent saving if backend isn't linked yet
         if (accNameInput.value === "" || accNameInput.placeholder.includes("Required")) {
             if (typeof showToast === "function") showToast('Account name must be verified via API before saving.', true);
             return;
         }
 
-        // --- PREVENT SAVING IF NAME DOES NOT MATCH ---
         const savedFName = localStorage.getItem('userFirstName') || 'Emmanuel';
         const savedLName = localStorage.getItem('userLastName') || 'Ovie';
         const expected1 = `${savedFName} ${savedLName}`.toUpperCase();
@@ -481,7 +437,6 @@ if (savePayoutBtn) {
             };
             localStorage.setItem('userPayoutData', JSON.stringify(payoutData));
             
-            // Clear form for next time
             bankNameInput.value = "";
             accNumInput.value = "";
             accNameInput.value = "";
@@ -494,7 +449,6 @@ if (savePayoutBtn) {
     });
 }
 
-// Remove Payout Logic
 if (removePayoutBtn) {
     removePayoutBtn.addEventListener('click', () => {
         localStorage.removeItem('userPayoutData');
@@ -503,7 +457,6 @@ if (removePayoutBtn) {
     });
 }
 
-// General Save Buttons Logic (for profile, security)
 const generalSaveBtns = document.querySelectorAll('.save-action-btn:not(#savePayoutBtn)');
 
 generalSaveBtns.forEach(btn => {
@@ -559,7 +512,6 @@ generalSaveBtns.forEach(btn => {
     });
 });
 
-// 2FA Toggle memory 
 const twoFactorToggle = document.getElementById('twoFactorToggle');
 if (twoFactorToggle) {
     const is2faEnabled = localStorage.getItem('user2FA') === 'true';

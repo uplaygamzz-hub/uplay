@@ -264,8 +264,13 @@
                 <div class="balance-card main-balance">
                     <div class="card-glow"></div>
                     <div class="balance-info">
-                        <p class="balance-label">Main Balance <i data-lucide="info" style="width:14px; height:14px; cursor:pointer;" title="Available for withdrawals and entry fees"></i></p>
-                        <h2 class="balance-amount">₦12,500.00</h2>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <p class="balance-label" style="margin: 0;">Main Balance <i data-lucide="info" style="width:14px; height:14px; cursor:pointer;" title="Available for withdrawals and entry fees"></i></p>
+                            <button id="toggleBalanceBtn" style="color: var(--text-secondary); display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 4px; transition: 0.2s;">
+                                <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                        <h2 class="balance-amount" id="mainBalanceDisplay" data-raw-value="₦12,500.00" style="margin-top: 8px;">₦12,500.00</h2>
                     </div>
                     <div class="balance-actions">
                         <button class="btn-primary" id="openDepositBtn">
@@ -280,7 +285,7 @@
                 <div class="balance-card bonus-balance">
                     <div class="balance-info">
                         <p class="balance-label">Bonus Balance <i data-lucide="info" style="width:14px; height:14px; cursor:pointer;" title="Can be used for entry fees, but cannot be withdrawn directly"></i></p>
-                        <h2 class="balance-amount">₦1,200.00</h2>
+                        <h2 class="balance-amount" id="bonusBalanceDisplay" data-raw-value="₦1,200.00">₦1,200.00</h2>
                     </div>
                     <div class="bonus-tag">Promo</div>
                 </div>

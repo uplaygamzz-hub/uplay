@@ -193,7 +193,6 @@ function updateBadgeCount() {
     const unreadCount = document.querySelectorAll('.notif-item.unread').length;
     const totalCount = document.querySelectorAll('.notif-item').length;
 
-    // THE FIX: Specifically setting display none and flex 
     if (unreadCount > 0) {
         notifBadge.textContent = unreadCount;
         notifBadge.style.display = 'flex';
@@ -258,12 +257,25 @@ if (notifList) {
         const moreBtn = e.target.closest('.more-btn');
         if (moreBtn) {
             e.stopPropagation();
+            
+            const optionsMenu = moreBtn.nextElementSibling;
+            const markReadOpt = optionsMenu.querySelector('.mark-read-opt');
+            const markUnreadOpt = optionsMenu.querySelector('.mark-unread-opt');
+            
+            if (item.classList.contains('unread')) {
+                if (markReadOpt) markReadOpt.style.display = 'flex';
+                if (markUnreadOpt) markUnreadOpt.style.display = 'none';
+            } else {
+                if (markReadOpt) markReadOpt.style.display = 'none';
+                if (markUnreadOpt) markUnreadOpt.style.display = 'flex';
+            }
+
             document.querySelectorAll('.notif-options.show').forEach(opt => {
-                if (opt !== moreBtn.nextElementSibling) {
+                if (opt !== optionsMenu) {
                     opt.classList.remove('show');
                 }
             });
-            moreBtn.nextElementSibling.classList.toggle('show');
+            optionsMenu.classList.toggle('show');
             return;
         }
 
@@ -315,21 +327,7 @@ profileLinks.forEach(link => {
     });
 });
 
-// 7. GLOBAL AVATAR PERSIST LOGIC
-const topbarAvatar = document.querySelector('#profileToggle img');
-const sidebarAvatar = document.querySelector('.user-widget img');
-const dropdownAvatar = document.querySelector('.profile-header-info img'); 
-
-const savedAvatar = localStorage.getItem('userAvatar');
-if (savedAvatar) {
-    if (topbarAvatar) topbarAvatar.src = savedAvatar;
-    if (sidebarAvatar) sidebarAvatar.src = savedAvatar;
-    if (dropdownAvatar) dropdownAvatar.src = savedAvatar;
-    const avatarPreviewImage = document.getElementById('avatarPreviewImage');
-    if (avatarPreviewImage) avatarPreviewImage.src = savedAvatar;
-}
-
-// 8. GLOBAL PROFILE TEXT PERSIST LOGIC
+// 7. GLOBAL PROFILE TEXT PERSIST LOGIC
 const savedFullName = localStorage.getItem('userFullName') || 'Emmanuel Ovie';
 const savedUsername = localStorage.getItem('userUsername') || 'Emmanuel_O';
 
@@ -349,7 +347,7 @@ if (dropdownUsername) {
     dropdownUsername.textContent = '@' + savedUsername.toLowerCase();
 }
 
-// 9. GLOBAL TOAST NOTIFICATION LOGIC
+// 8. GLOBAL TOAST NOTIFICATION LOGIC
 const toastNotification = document.getElementById('toastNotification');
 const toastMessage = document.getElementById('toastMessage');
 const toastIconWrapper = document.getElementById('toastIconWrapper');
@@ -382,7 +380,7 @@ function showToast(message, isError = false) {
     }, 3000);
 }
 
-// 10. GLOBAL SLIDESHOW LOGIC
+// 9. GLOBAL SLIDESHOW LOGIC
 const promoSlider = document.querySelector('.promo-slideshow') || document.getElementById('promoSlider');
 let autoSlideInterval;
 let isTransitioning = false;

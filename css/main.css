@@ -783,7 +783,7 @@ select.form-select {
 
 /* --- PUBLIC PAGES UI (Index, Login, Signup) --- */
 .public-topbar {
-    height: 80px;
+    height: 70px;
     background-color: var(--bg-surface);
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -809,10 +809,10 @@ select.form-select {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--UPlay-yellow);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0px;
     text-decoration: none;
 }
 
@@ -900,7 +900,7 @@ select.form-select {
 }
 
 .mobile-sidebar .sidebar-header {
-    height: 80px;
+    height: 70px;
     padding: 0 20px;
     display: flex;
     align-items: center;
