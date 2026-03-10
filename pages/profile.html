@@ -31,6 +31,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-inner">
             
+            <!-- Sidebar Header (Desktop Toggle) -->
             <div class="sidebar-header">
                 <button class="desktop-toggle" id="desktopMenuToggle" title="Toggle Sidebar">
                     <i data-lucide="panel-left-close" class="icon-collapse"></i>
@@ -98,10 +99,14 @@
         
         <!-- TOP NAVIGATION BAR -->
         <header class="topbar">
+            <!-- Left Side of Topbar -->
             <div class="topbar-left">
+                <!-- Mobile Sidebar Toggle -->
                 <button class="mobile-toggle icon-btn" id="mobileMenuToggle">
                     <i data-lucide="menu"></i>
                 </button>
+                
+                <!-- The Logo -->
                 <div class="topbar-logo">
                     <img src="../images/logo/pad-logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
                     <span style="display: none; margin-right: 8px;">🎮</span>
@@ -109,7 +114,10 @@
                 </div>
             </div>
 
+            <!-- Right Actions -->
             <div class="topbar-right">
+                
+                <!-- Theme Toggle -->
                 <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Mode">
                     <i data-lucide="sun" class="icon-sun"></i>
                     <i data-lucide="moon" class="icon-moon" style="display: none;"></i>
@@ -121,18 +129,94 @@
                         <i data-lucide="bell"></i>
                         <span class="notification-badge" id="notifBadge">3</span>
                     </button>
-                    <!-- Dropdown kept minimal for structure -->
+
                     <div class="notification-dropdown" id="notifDropdown">
                         <div class="notif-header">
                             <h4>Notifications</h4>
+                            <div class="notif-top-actions">
+                                <button class="notif-action-btn" id="markAllReadBtn" title="Mark all as read">
+                                    <i data-lucide="check-check"></i>
+                                </button>
+                                <button class="notif-action-btn delete-all" id="deleteAllBtn" title="Delete all">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
                         </div>
+
                         <div class="notif-list">
+                            <!-- Unread 1 -->
                             <div class="notif-item unread">
                                 <div class="notif-icon"><i data-lucide="trophy" style="width: 16px; height: 16px;"></i></div>
                                 <div class="notif-content">
                                     <h5>Tournament Starting Soon</h5>
-                                    <p>Your PES Open match begins in 15 minutes.</p>
+                                    <p>Your PES Open match begins in 15 minutes. Check in now!</p>
                                     <span class="notif-time">10 mins ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Unread 2 -->
+                            <div class="notif-item unread">
+                                <div class="notif-icon"><i data-lucide="users" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Team Invite</h5>
+                                    <p>You have been invited to join "Neon Strikers" for the Valorant cup.</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Unread 3 -->
+                            <div class="notif-item unread">
+                                <div class="notif-icon"><i data-lucide="wallet" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Wallet Credited</h5>
+                                    <p>You successfully withdrew $50.00 to your linked account.</p>
+                                    <span class="notif-time">2 hours ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Read 1 -->
+                            <div class="notif-item">
+                                <div class="notif-icon"><i data-lucide="info" style="width: 16px; height: 16px;"></i></div>
+                                <div class="notif-content">
+                                    <h5>Welcome to uPlay!</h5>
+                                    <p>Complete your profile setup to start joining tournaments.</p>
+                                    <span class="notif-time">1 day ago</span>
+                                </div>
+                                <div class="notif-item-actions">
+                                    <button class="more-btn"><i data-lucide="more-vertical"></i></button>
+                                    <div class="notif-options">
+                                        <button class="opt-btn view-opt"><i data-lucide="eye"></i> View details</button>
+                                        <button class="opt-btn mark-read-opt"><i data-lucide="check"></i> Mark as read</button>
+                                        <button class="opt-btn mark-unread-opt"><i data-lucide="mail"></i> Mark as unread</button>
+                                        <button class="opt-btn delete-opt"><i data-lucide="trash-2"></i> Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,11 +276,11 @@
                     </div>
 
                     <div class="profile-actions">
-                        <button class="btn-primary">
-                            <i data-lucide="swords" style="width: 18px; height: 18px;"></i> Challenge
-                        </button>
-                        <button class="btn-outline">
-                            <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i> Add Friend
+                        <a href="settings.html" class="btn-primary">
+                            <i data-lucide="edit-3" style="width: 18px; height: 18px;"></i> Edit Profile
+                        </a>
+                        <button class="btn-outline" onclick="copyProfileLink()">
+                            <i data-lucide="share-2" style="width: 18px; height: 18px;"></i> Share Profile
                         </button>
                     </div>
                 </div>
