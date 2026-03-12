@@ -9,36 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // Attempt to pull user data from LocalStorage to dynamically populate the profile 
-    // (This links the Settings form to the Public Profile view)
-    const savedFName = localStorage.getItem('userFirstName');
-    const savedLName = localStorage.getItem('userLastName');
-    const savedUsername = localStorage.getItem('userUsername');
-    const savedBio = localStorage.getItem('userBio');
-    const savedAvatar = localStorage.getItem('userAvatar');
+    // Backend Team Note: LocalStorage fetching has been removed.
+    // The profile names, bio, and images should be rendered directly in the HTML via the database query before the page loads.
 
-    const profileNameEl = document.getElementById('mainProfileName');
-    const profileUsernameEl = document.getElementById('mainProfileUsername');
-    const profileBioEl = document.getElementById('mainProfileBio');
-    const profileImgEl = document.getElementById('mainProfileImage');
-
-    if (savedFName && savedLName && profileNameEl) {
-        profileNameEl.textContent = `${savedFName} ${savedLName}`;
-    }
-
-    if (savedUsername && profileUsernameEl) {
-        profileUsernameEl.textContent = `@${savedUsername.toLowerCase()}`;
-    }
-
-    if (savedBio && profileBioEl) {
-        profileBioEl.textContent = savedBio;
-    }
-
-    if (savedAvatar && profileImgEl) {
-        profileImgEl.src = savedAvatar;
-    }
-
-    // Advanced Logo Resolution Logic (Reused from Settings to display correct IDs)
+    // Advanced Logo Resolution Logic (Parses DOM data attributes to render appropriate game icons)
     const idContainers = document.querySelectorAll('.id-icon');
     
     idContainers.forEach(container => {
@@ -99,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Logic to handle the "Share Profile" button
 window.copyProfileLink = function() {
     // In production, the backend will dynamically insert the actual user's profile URL here
-    const profileUrl = "https://uplaygammz.com/u/" + (localStorage.getItem('userUsername') || "emmanuel_o").toLowerCase();
+    const profileUrl = "https://uplaygammz.com/u/emmanuel_o"; 
     
     // Fallback copy method to ensure it works inside iframes/Canvas
     const input = document.createElement('textarea');
