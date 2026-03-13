@@ -248,6 +248,13 @@ def verify_account_details(request):
         account_number = request.POST.get('account_number')
         bank_code = request.POST.get('bank_code')
 
+        #check if account number is empty, has 10 digits, and is numeric
+        if not account_number or len(account_number) != 10 or not account_number.isdigit():
+            return JsonResponse({
+                'success': False, 
+                'message': 'Please enter a valid 10-digit account number.'
+            }, status=400)
+
         url = f"https://api.paystack.co/bank/resolve?account_number={account_number}&bank_code={bank_code}"
         headers = {
             "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
