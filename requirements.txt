@@ -19,3 +19,4 @@ django-cleanup
 
 sqlparse==0.5.5
 tzdata==2025.3
+requests
