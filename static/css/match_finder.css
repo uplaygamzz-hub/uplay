@@ -1,0 +1,305 @@
+/* =========================================
+   === (match_finder.css) ===
+   ========================================= */
+
+.match-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.panel {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.game-select-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.game-option {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    background: var(--bg-base);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.game-option:hover {
+    border-color: var(--UPlay-yellow);
+}
+
+.game-option.active {
+    border-color: var(--UPlay-yellow);
+    background: rgba(255, 204, 0, 0.1);
+    color: var(--UPlay-yellow);
+}
+
+.btn-find {
+    width: 100%;
+    background-color: var(--UPlay-yellow);
+    color: #000;
+    padding: 16px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-find:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+}
+
+.radar-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.radar {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 204, 0, 0.3);
+    overflow: hidden;
+    background: radial-gradient(circle, rgba(255,204,0,0.1) 0%, rgba(0,0,0,0) 70%);
+    margin-bottom: 20px;
+}
+
+.radar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, transparent 70%, rgba(255, 204, 0, 0.8) 100%);
+    transform-origin: 0 0;
+    animation: radar-spin 2s linear infinite;
+}
+
+.radar::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: var(--UPlay-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--UPlay-yellow);
+}
+
+@keyframes radar-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.lobby-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.filter-chip {
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.2s;
+    color: var(--text-secondary);
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.lobby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lobby-card {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.lobby-card:hover {
+    border-color: var(--UPlay-yellow);
+}
+
+.lobby-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lobby-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background-color: var(--hover-bg);
+    background-size: cover;
+    position: relative;
+}
+
+.game-icon-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: var(--bg-surface);
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lobby-details h4 {
+    font-size: 15px;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lobby-details p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.lobby-action {
+    text-align: right;
+}
+
+.lobby-stake {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--success-color);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.btn-challenge {
+    background: transparent;
+    border: 1px solid var(--UPlay-yellow);
+    color: var(--UPlay-yellow);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-challenge:hover {
+    background: var(--UPlay-yellow);
+    color: black;
+}
+
+.versus-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 0;
+    padding: 20px;
+    background: var(--bg-base);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.vs-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+.vs-text {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    color: var(--danger-color);
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media (max-width: 992px) {
+    .match-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .lobby-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .lobby-action {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .lobby-stake {
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,158 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Player Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- 1. Profile Hero Section -->
+<div class="profile-hero">
+    <div class="hero-banner"></div>
+    <div class="hero-content">
+        <div class="profile-avatar-container">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ request.user.username }}" alt="Player Avatar" class="profile-avatar" id="mainProfileImage">
+            <span class="online-status online" title="Online"></span>
+        </div>
+        
+        <div class="profile-info-block">
+            <div class="name-tier-row">
+                <h1 class="profile-name" id="mainProfileName">{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                <span class="tier-badge"><i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Pro Tier</span>
+            </div>
+            <p class="profile-username" id="mainProfileUsername">@{{ request.user.username }}</p>
+            <p class="profile-bio" id="mainProfileBio">{{ request.user.profile.bio|default:"Aspiring esports champion. Catch me in the PES Arena or sniping in CODM. Let's run a match!" }}</p>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{% url 'settings' %}" class="btn-primary">
+                <i data-lucide="edit-3" style="width: 18px; height: 18px;"></i> Edit Profile
+            </a>
+            <button class="btn-outline" onclick="copyProfileLink()">
+                <i data-lucide="share-2" style="width: 18px; height: 18px;"></i> Share Profile
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Profile Grid Layout -->
+<div class="profile-grid">
+    
+    <!-- Left Column (Stats & Gaming IDs) -->
+    <div class="profile-col-left">
+        
+        <!-- Stats Card -->
+        <div class="profile-card">
+            <h3 class="card-title"><i data-lucide="bar-chart-2"></i> Player Stats</h3>
+            <div class="stats-mini-grid">
+                <div class="stat-box">
+                    <p class="stat-label">Matches Played</p>
+                    <h4 class="stat-value">0</h4>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Win Rate</p>
+                    <h4 class="stat-value" style="color: var(--success-color);">0%</h4>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Tournaments Won</p>
+                    <h4 class="stat-value" style="color: var(--UPlay-yellow);">0</h4>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Total Winnings</p>
+                    <h4 class="stat-value" style="color: var(--success-color);">₦0</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gaming IDs Card -->
+        <div class="profile-card">
+            <h3 class="card-title"><i data-lucide="gamepad-2"></i> Connected IDs</h3>
+            <div class="public-ids-list" id="publicIdsList">
+                {% if request.user.profile.psn_id %}
+                <div class="public-id-item">
+                    <div class="id-icon" data-platform="playstation"><i data-lucide="gamepad-2"></i></div>
+                    <div class="id-details">
+                        <p class="id-platform">PlayStation (PSN)</p>
+                        <p class="id-tag">{{ request.user.profile.psn_id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if request.user.profile.xbox_id %}
+                <div class="public-id-item">
+                    <div class="id-icon" data-platform="xbox"><i data-lucide="gamepad-2"></i></div>
+                    <div class="id-details">
+                        <p class="id-platform">Xbox Live</p>
+                        <p class="id-tag">{{ request.user.profile.xbox_id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if request.user.profile.pubg_id %}
+                <div class="public-id-item">
+                    <div class="id-icon" data-platform="pubg"><i data-lucide="smartphone"></i></div>
+                    <div class="id-details">
+                        <p class="id-platform">PUBG Mobile</p>
+                        <p class="id-tag">{{ request.user.profile.pubg_id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if request.user.profile.codm_id %}
+                <div class="public-id-item">
+                    <div class="id-icon" data-platform="codm"><i data-lucide="smartphone"></i></div>
+                    <div class="id-details">
+                        <p class="id-platform">COD Mobile</p>
+                        <p class="id-tag">{{ request.user.profile.codm_id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if request.user.profile.freefire_id %}
+                <div class="public-id-item">
+                    <div class="id-icon" data-platform="freefire"><i data-lucide="smartphone"></i></div>
+                    <div class="id-details">
+                        <p class="id-platform">Free Fire</p>
+                        <p class="id-tag">{{ request.user.profile.freefire_id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not request.user.profile.psn_id and not request.user.profile.xbox_id and not request.user.profile.pubg_id and not request.user.profile.codm_id and not request.user.profile.freefire_id %}
+                <p style="color: var(--text-secondary); font-size: 14px; text-align: center; padding: 20px 0;">No gaming IDs connected yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Right Column (Match History) -->
+    <div class="profile-col-right">
+        
+        <div class="profile-card">
+            <h3 class="card-title"><i data-lucide="history"></i> Recent Matches</h3>
+            
+            <div class="history-list">
+                <!-- Example Match History will be populated here -->
+                <p style="color: var(--text-secondary); font-size: 14px; text-align: center; padding: 20px 0;">No recent matches.</p>
+
+                <a href="{% url 'coming_soon' %}" class="view-all-link">View Full Match History <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div style="height: 40px;"></div> <!-- Spacer -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    lucide.createIcons();
+    function copyProfileLink() {
+        // Dummy function for copying profile link
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert("Profile link copied to clipboard!");
+        });
+    }
+</script>
+{% endblock %}

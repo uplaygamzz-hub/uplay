@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-
+from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('', views.index, name='index'),
     path('login/', views.login_view, name='login'),
@@ -19,4 +20,9 @@ urlpatterns = [
     path('friends/accept/<int:request_id>/', views.accept_friend_request, name='accept_friend_request'),
     path('squads/create/', views.create_squad, name='create_squad'),
     path('ai-dashboard-v2/', views.ai_dashboard_v2, name='ai_dashboard_v2'),
+    path('profile/', login_required(TemplateView.as_view(template_name='profile.html')), name='profile'),
+    path('match-finder/', login_required(TemplateView.as_view(template_name='match_finder.html')), name='match_finder'),
+    path('wallet/', login_required(TemplateView.as_view(template_name='wallet.html')), name='wallet'),
+    path('privacy/', TemplateView.as_view(template_name='privacy.html'), name='privacy'),
+    path('terms/', TemplateView.as_view(template_name='terms.html'), name='terms'),
 ]

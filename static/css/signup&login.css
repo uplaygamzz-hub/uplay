@@ -1,23 +1,31 @@
-/* =========================================
-   === #AUTHENTICATION SPECIFIC STYLE ===
-   ========================================= */
+/* =========================================================
+   === #AUTHENTICATION SPECIFIC STYLE (signup&login.css) ===
+   ========================================================= */
 
-.sidebar-overlay.show {
-    display: block;
+body {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
 }
 
-/* --- AUTHENTICATION CARDS & FORMS --- */
+.main-wrapper {
+    padding-top: 80px;
+    overflow: visible !important;
+}
+
 .auth-main {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 60px 5%;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+    /* background: linear-gradient(rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.9)), url('https://th.bing.com/th/id/OIP.FXOkoTtcuq_e4ffZp6ilFAHaHa?w=198&h=108&c=7&qlt=90&bgcl=f3b040&r=0&o=6&dpr=1.5&pid=13.1') center center / cover no-repeat; */
 }
 
 .auth-card {
-    background-color: var(--bg-surface);
+    background: var(--bg-surface);
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 40px;
@@ -47,6 +55,7 @@
     font-family: var(--font-heading);
     font-size: 28px;
     margin-bottom: 8px;
+    color: var(--text-primary);
 }
 
 .auth-header p {
@@ -54,43 +63,19 @@
     font-size: 14px;
 }
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 600;
+/* Glassmorphism Form Overrides */
+.auth-card .form-label {
     color: var(--text-secondary);
 }
 
-.form-input-wrapper {
-    position: relative;
-}
-
-.form-input {
-    width: 100%;
+.auth-card .form-input {
     background-color: var(--bg-base);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    padding: 14px 16px; 
     border-radius: 12px;
-    font-size: 14px;
-    font-family: var(--font-body);
-    transition: all 0.3s;
-    outline: none;
 }
 
-.form-input:focus {
+.auth-card .form-input:focus {
     border-color: var(--UPlay-yellow);
     box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.1);
 }
@@ -112,7 +97,6 @@
     color: var(--text-primary);
 }
 
-/* --- LOGIN SPECIFIC OPTIONS --- */
 .login-options {
     display: flex;
     justify-content: space-between;
@@ -120,31 +104,11 @@
     margin-bottom: 24px;
 }
 
-.forgot-password-link {
-    font-size: 13px;
-    color: var(--UPlay-yellow);
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.forgot-password-link:hover {
-    color: var(--text-primary);
-    text-decoration: underline;
-}
-
-/* --- TERMS & CHECKBOXES --- */
 .terms-wrapper {
     display: flex;
     align-items: flex-start;
     gap: 10px;
     margin-bottom: 24px;
-}
-
-/* Adjustment for single-line terms in the login screen */
-.login-options .terms-wrapper {
-    align-items: center;
-    margin-bottom: 0;
 }
 
 .terms-wrapper input[type="checkbox"] {
@@ -153,7 +117,6 @@
     accent-color: var(--UPlay-yellow);
 }
 
-/* Revert margin-top for centered login option checkboxes */
 .login-options .terms-wrapper input[type="checkbox"] {
     margin-top: 0;
 }
@@ -169,7 +132,6 @@
     text-decoration: underline;
 }
 
-/* --- BUTTONS --- */
 .btn-submit {
     width: 100%;
     background-color: var(--UPlay-yellow);
@@ -194,7 +156,6 @@
     background-color: var(--UPlay-yellow-hover);
 }
 
-/* --- AUTH FOOTER --- */
 .auth-footer {
     text-align: center;
     margin-top: 24px;
@@ -213,13 +174,22 @@
     color: var(--text-primary);
 }
 
+.forgot-password-link {
+    font-size: 13px;
+    color: var(--UPlay-yellow);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.forgot-password-link:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
 /* --- RESPONSIVENESS --- */
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
     .auth-card {
         padding: 32px 24px;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
     }
 }

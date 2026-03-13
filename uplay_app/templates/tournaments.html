@@ -210,8 +210,10 @@
                         <button id="submitReceiptBtn" class="btn-full primary"
                             style="margin-top: 16px; opacity: 0.5; cursor: not-allowed;" disabled>
                             <span id="submitBtnText">Submit Registration</span>
-                            <i id="submitBtnSpinner" data-lucide="loader-2" class="spin"
-                                style="display: none; width: 18px; height: 18px;"></i>
+                            <!-- WRAPPED IN A SPAN TO PREVENT LUCIDE FROM DETACHING IT -->
+                            <span id="submitBtnSpinner" style="display: none; margin-left: 8px; align-items: center; justify-content: center;">
+                                <i data-lucide="loader-2" class="spin" style="width: 18px; height: 18px;"></i>
+                            </span>
                         </button>
                     </div>
                 </div>
