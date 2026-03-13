@@ -1,0 +1,217 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Match Finder{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/match_finder.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title"><i data-lucide="crosshair" style="color: var(--danger-color);"></i> Match Finder</h1>
+    <button class="btn-outline">
+        <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i> Create Custom Lobby
+    </button>
+</div>
+
+<div class="match-layout">
+    
+    <!-- LEFT PANEL: QUICK MATCH -->
+    <div class="panel">
+        
+        <div id="searchForm">
+            <h2 class="section-title"><i data-lucide="zap" style="color: var(--UPlay-yellow);"></i> Quick Play</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Select Game</label>
+                <div class="game-select-grid">
+                    <div class="game-option active" data-game="pes">eFootball PES</div>
+                    <div class="game-option" data-game="eafc">EA FC 24</div>
+                    <div class="game-option" data-game="codm">COD Mobile</div>
+                    <div class="game-option" data-game="valorant">Valorant</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Match Format</label>
+                <select class="form-select">
+                    <option>1v1 Ranked</option>
+                    <option>1v1 Unranked (Friendly)</option>
+                    <option>2v2 Co-op</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Stake / Entry Fee</label>
+                <select class="form-select">
+                    <option>Free (XP Only)</option>
+                    <option>₦500</option>
+                    <option>₦1,000</option>
+                    <option>₦5,000 (High Roller)</option>
+                </select>
+            </div>
+
+            <button id="findMatchBtn" class="btn-find">
+                <i data-lucide="search"></i> Find Opponent
+            </button>
+        </div>
+
+        <!-- RADAR ANIMATION (Hidden initially) -->
+        <div id="radarView" class="radar-container" style="display: none;">
+            <div class="radar"></div>
+            <h3 style="font-family: var(--font-heading); margin-bottom: 8px;">Scanning Sector...</h3>
+            <p style="color: var(--text-secondary); font-size: 13px;">Looking for players matching your criteria.</p>
+            <p id="timer" style="font-family: monospace; font-size: 18px; color: var(--UPlay-yellow); margin-top: 16px;">00:00</p>
+            <button id="cancelSearchBtn" style="color: var(--danger-color); font-weight: bold; text-decoration: underline; background: transparent; border: none; cursor: pointer; margin-top: 24px; font-size: 14px;">Cancel Search</button>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: OPEN LOBBIES -->
+    <div class="panel">
+        <h2 class="section-title"><i data-lucide="list" style="color: var(--info-color);"></i> Open Lobbies</h2>
+        
+        <div class="lobby-filters hide-scrollbar">
+            <div class="filter-chip active">All Games</div>
+            <div class="filter-chip">PES Only</div>
+            <div class="filter-chip">High Stakes</div>
+            <div class="filter-chip">Free Play</div>
+        </div>
+
+        <div class="lobby-list">
+            
+            <!-- Lobby 1 -->
+            <div class="lobby-card">
+                <div class="lobby-info">
+                    <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost');">
+                        <div class="game-icon-badge"><i data-lucide="gamepad-2" style="width: 14px; height: 14px; color: #3b82f6;"></i></div>
+                    </div>
+                    <div class="lobby-details">
+                        <h4>GhostRider_99 <span style="font-size: 10px; background: rgba(16, 185, 129, 0.2); color: var(--success-color); padding: 2px 6px; border-radius: 4px;">Host</span></h4>
+                        <p>EA FC 24 • 1v1 Ultimate Team</p>
+                    </div>
+                </div>
+                <div class="lobby-action">
+                    <span class="lobby-stake">₦1,000</span>
+                    <button class="btn-challenge">Challenge</button>
+                </div>
+            </div>
+
+            <!-- Lobby 2 -->
+            <div class="lobby-card">
+                <div class="lobby-info">
+                    <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Ninja');">
+                        <div class="game-icon-badge"><i data-lucide="crosshair" style="width: 14px; height: 14px; color: var(--danger-color);"></i></div>
+                    </div>
+                    <div class="lobby-details">
+                        <h4>SniperKing</h4>
+                        <p>COD Mobile • 1v1 Sniper Only (Killhouse)</p>
+                    </div>
+                </div>
+                <div class="lobby-action">
+                    <span class="lobby-stake" style="color: var(--text-primary);">Free Play</span>
+                    <button class="btn-challenge">Challenge</button>
+                </div>
+            </div>
+
+            <!-- Lobby 3 -->
+            <div class="lobby-card">
+                <div class="lobby-info">
+                    <div class="lobby-avatar" style="background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=ProGamer');">
+                        <div class="game-icon-badge"><i data-lucide="swords" style="width: 14px; height: 14px; color: var(--UPlay-yellow);"></i></div>
+                    </div>
+                    <div class="lobby-details">
+                        <h4>FifaLord <i data-lucide="badge-check" style="width: 14px; height: 14px; color: var(--UPlay-yellow);"></i></h4>
+                        <p>eFootball PES • Best of 3</p>
+                    </div>
+                </div>
+                <div class="lobby-action">
+                    <span class="lobby-stake">₦5,000</span>
+                    <button class="btn-challenge">Challenge</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- MATCH FOUND MODAL -->
+<div id="matchFoundModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 style="font-family: var(--font-heading); color: var(--success-color); font-size: 28px; margin-bottom: 8px;">MATCH FOUND!</h2>
+        <p style="color: var(--text-secondary); font-size: 14px;">Get ready to dominate.</p>
+        
+        <div class="versus-container">
+            <div style="text-align: center;">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ request.user.username }}" class="vs-avatar" style="border-color: var(--success-color);">
+                <p style="font-size: 12px; font-weight: bold; margin-top: 8px;">You</p>
+            </div>
+            
+            <div class="vs-text">VS</div>
+            
+            <div style="text-align: center;">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Opponent" class="vs-avatar" style="border-color: var(--danger-color);">
+                <p style="font-size: 12px; font-weight: bold; margin-top: 8px;">@ToxicPlayer</p>
+            </div>
+        </div>
+
+        <div style="background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 24px;">
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Game: <span style="color: white; font-weight: bold;">eFootball PES (1v1)</span></p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Stake: <span style="color: var(--success-color); font-weight: bold;">₦500</span></p>
+        </div>
+
+        <button id="enterLobbyBtn" class="btn-find" style="margin-top: 0;">
+            <i data-lucide="log-in"></i> Enter Match Lobby
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    lucide.createIcons();
+    // Radar UI View Toggle logic could go here or in a separate file
+    const findMatchBtn = document.getElementById('findMatchBtn');
+    const searchForm = document.getElementById('searchForm');
+    const radarView = document.getElementById('radarView');
+    const cancelSearchBtn = document.getElementById('cancelSearchBtn');
+    const matchFoundModal = document.getElementById('matchFoundModal');
+    const enterLobbyBtn = document.getElementById('enterLobbyBtn');
+
+    if (findMatchBtn) {
+        findMatchBtn.addEventListener('click', () => {
+            searchForm.style.display = 'none';
+            radarView.style.display = 'block';
+            
+            // Mock Match Finding
+            setTimeout(() => {
+                matchFoundModal.classList.add('show');
+            }, 3000);
+        });
+    }
+
+    if (cancelSearchBtn) {
+        cancelSearchBtn.addEventListener('click', () => {
+            radarView.style.display = 'none';
+            searchForm.style.display = 'block';
+        });
+    }
+
+    if (enterLobbyBtn) {
+        enterLobbyBtn.addEventListener('click', () => {
+            matchFoundModal.classList.remove('show');
+            radarView.style.display = 'none';
+            searchForm.style.display = 'block'; // Reset for demo
+        });
+    }
+
+    // Modal Close behavior
+    window.addEventListener('click', (e) => {
+        if(e.target === matchFoundModal) {
+            matchFoundModal.classList.remove('show');
+        }
+    });
+</script>
+{% endblock %}

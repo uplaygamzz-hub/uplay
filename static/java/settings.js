@@ -39,9 +39,6 @@ if (avatarUploadInput) {
                 if(topbarAvatar) topbarAvatar.src = base64Image;
                 if(sidebarAvatar) sidebarAvatar.src = base64Image;
                 if(dropdownAvatar) dropdownAvatar.src = base64Image;
-                
-                // Save to localStorage so it survives a refresh
-                localStorage.setItem('userAvatar', base64Image);
             }
             
             reader.readAsDataURL(file);

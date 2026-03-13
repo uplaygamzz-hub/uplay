@@ -95,7 +95,7 @@
 </h3>
 <div class="promo-slideshow hide-scrollbar">
     <!-- Slide 1 -->
-    <a href="#" class="promo-slide"
+    <a href="{% url 'tournaments' %}" class="promo-slide"
         style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop');">
         <div class="promo-content">
             <div>
@@ -110,7 +110,7 @@
     </a>
 
     <!-- Slide 2 -->
-    <a href="#" class="promo-slide"
+    <a href="{% url 'tournaments' %}" class="promo-slide"
         style="background-image: url('https://images.unsplash.com/photo-1518605368461-1ebce51f67f2?q=80&w=1200&auto=format&fit=crop');">
         <div class="promo-content">
             <div>
@@ -125,7 +125,7 @@
     </a>
 
     <!-- Slide 3 -->
-    <a href="#" class="promo-slide"
+    <a href="{% url 'tournaments' %}" class="promo-slide"
         style="background-image: url('https://images.unsplash.com/photo-1589241062272-c0a000072dfa?q=80&w=1200&auto=format&fit=crop');">
         <div class="promo-content">
             <div>
@@ -170,19 +170,19 @@
 
 <h3 class="section-heading"><i data-lucide="zap" style="color: #a855f7;"></i> Quick Actions</h3>
 <div class="actions-grid">
-    <a href="#" class="action-card">
+    <a href="{% url 'match_finder' %}" class="action-card">
         <div class="icon-wrapper"><i data-lucide="crosshair" style="color: var(--danger-color);"></i></div>
         <h3>Find Match</h3>
     </a>
-    <a href="#" class="action-card">
+    <a href="{% url 'friends' %}" class="action-card">
         <div class="icon-wrapper"><i data-lucide="users" style="color: #3b82f6;"></i></div>
         <h3>Create Team</h3>
     </a>
-    <a href="#" class="action-card">
+    <a href="{% url 'coming_soon' %}" class="action-card">
         <div class="icon-wrapper"><i data-lucide="history" style="color: #f59e0b;"></i></div>
         <h3>Match History</h3>
     </a>
-    <a href="#" class="action-card">
+    <a href="{% url 'coming_soon' %}" class="action-card">
         <div class="icon-wrapper"><i data-lucide="shield" style="color: var(--success-color);"></i></div>
         <h3>Anti-Cheat Status</h3>
     </a>
@@ -192,7 +192,7 @@
 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
     <h3 class="section-heading" style="margin-bottom: 0;"><i data-lucide="history"
             style="color: var(--text-secondary);"></i> Recent Matches</h3>
-    <a href="#" style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">View
+    <a href="{% url 'coming_soon' %}" style="color: var(--UPlay-yellow); font-size: 13px; font-weight: bold; text-decoration: none;">View
         All</a>
 </div>
 

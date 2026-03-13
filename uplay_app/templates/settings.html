@@ -60,20 +60,29 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">First Name</label>
+                        <div class="form-input-wrapper">
+                            <input type="text" name="first_name" class="form-input" id="firstNameInput" value="{{ user_form.first_name.value|default:request.user.first_name }}">
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Last Name</label>
+                        <div class="form-input-wrapper">
+                            <input type="text" name="last_name" class="form-input" id="lastNameInput" value="{{ user_form.last_name.value|default:request.user.last_name }}">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">Username (Gamer Tag)</label>
                     <input type="text" name="username" class="form-input" id="usernameInput" value="{{ user_form.username.value|default:request.user.username }}">
                 </div>
 
-                <div style="display: flex; gap: 16px;">
-                    <div class="form-group" style="flex: 1;">
-                        <label class="form-label">First Name</label>
-                        <input type="text" name="first_name" class="form-input" value="{{ user_form.first_name.value|default:request.user.first_name }}">
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label class="form-label">Last Name</label>
-                        <input type="text" name="last_name" class="form-input" value="{{ user_form.last_name.value|default:request.user.last_name }}">
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">WhatsApp No</label>
+                    <input type="tel" name="whatsapp_no" class="form-input" id="whatsappInput" value="{{ user_form.phone_number.value|default:request.user.phone_number|default:'' }}">
                 </div>
 
                 <div class="form-group">
@@ -94,7 +103,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="action" value="update_gaming_ids">
                 <h2 class="panel-heading">Gaming IDs</h2>
-                <p class="panel-desc">Link your gaming accounts to participate in specific tournaments.</p>
+                <p class="panel-desc">Link your specific gaming accounts to participate in tournaments.</p>
 
                 <div class="form-group">
                     <label class="form-label">PlayStation Network (PSN) ID</label>
@@ -128,93 +137,157 @@
             </form>
         </div>
 
-        <!-- 2. ACCOUNT & SECURITY PANEL -->
+        <!-- 3. ACCOUNT & SECURITY PANEL -->
         <div id="account-panel" class="settings-panel">
+            <h2 class="panel-heading">Account Security</h2>
+            <p class="panel-desc">Manage your linked email, password, and overall account security.</p>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <div style="display: flex; gap: 12px;">
+                    <input type="email" class="form-input" value="{{ request.user.email }}" disabled>
+                    <button class="btn-outline">Change</button>
+                </div>
+            </div>
+
+            <!-- 2FA TOGGLE SECTION -->
+            <div class="toggle-row" style="padding: 20px 0; border-top: 1px solid var(--border-color); margin-top: 12px;">
+                <div class="toggle-info">
+                    <h4>Two-Factor Authentication (2FA)</h4>
+                    <p>Protect your wallet and tournament winnings with an extra layer of security.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="twoFactorToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
             <form method="POST" action="{% url 'settings' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="update_password">
-                <h2 class="panel-heading">Account Security</h2>
-                <p class="panel-desc">Manage your linked email, password, and security methods.</p>
+                <div style="border-top: 1px solid var(--border-color); padding-top: 24px; margin-top: 8px;">
+                    <h4 style="margin-bottom: 16px; font-size: 15px;">Change Password</h4>
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" name="old_password" class="form-input" placeholder="••••••••">
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <div style="display: flex; gap: 12px;">
-                        <input type="email" class="form-input" value="{{ request.user.email }}" disabled>
-                        <button type="button" class="btn-outline">Change</button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">New Password</label>
+                            <input type="password" name="new_password1" class="form-input" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm New Password</label>
+                            <input type="password" name="new_password2" class="form-input" placeholder="Confirm new password">
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Current Password</label>
-                    <input type="password" name="old_password" class="form-input" placeholder="••••••••">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">New Password</label>
-                    <input type="password" name="new_password1" class="form-input" placeholder="Enter new password">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Confirm New Password</label>
-                    <input type="password" name="new_password2" class="form-input" placeholder="Confirm new password">
-                </div>
-
-                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
-                    <span class="btn-text">Update Password</span>
+                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 8px;">
+                    <span class="btn-text">Update Security</span>
                     <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
                 </button>
             </form>
 
-            <div class="danger-zone">
+            <!-- CONNECTED ACCOUNTS -->
+            <div style="border-top: 1px solid var(--border-color); padding-top: 24px; margin-top: 32px;">
+                <h4 style="margin-bottom: 6px; font-size: 15px;">Connected Accounts</h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Link your social accounts for quick login and verified status.</p>
+                
+                <div class="social-connect-box">
+                    <div class="social-info">
+                        <div class="social-icon discord">
+                            <img src="https://cdn.simpleicons.org/discord/white" alt="Discord" class="invert-on-light" onerror="this.outerHTML='<i data-lucide=\'message-square\' style=\'width: 24px; height: 24px; color: var(--text-primary);\'></i>'; typeof lucide !== 'undefined' && lucide.createIcons();">
+                        </div>
+                        <div>
+                            <div class="social-name">Discord</div>
+                            <div class="social-status connected">Connected</div>
+                        </div>
+                    </div>
+                    <button class="btn-outline" style="font-size: 12px; padding: 6px 12px;">Disconnect</button>
+                </div>
+
+                <div class="social-connect-box">
+                    <div class="social-info">
+                        <div class="social-icon google">
+                            <img src="https://cdn.simpleicons.org/google/white" alt="Google" class="invert-on-light" onerror="this.outerHTML='<i data-lucide=\'mail\' style=\'width: 24px; height: 24px; color: var(--text-primary);\'></i>'; typeof lucide !== 'undefined' && lucide.createIcons();">
+                        </div>
+                        <div>
+                            <div class="social-name">Google</div>
+                            <div class="social-status">Not connected</div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="font-size: 12px; padding: 6px 12px;">Connect</button>
+                </div>
+            </div>
+
+            <div class="danger-zone" style="margin-top: 32px;">
                 <h4 style="color: var(--danger-color); margin-bottom: 8px;">Delete Account</h4>
                 <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Once you delete your account, there is no going back. Please be certain.</p>
                 <button class="btn-danger">Delete My Account</button>
             </div>
         </div>
 
-        <!-- PAYOUT DETAILS PANEL -->
+        <!-- 4. PAYOUT DETAILS PANEL -->
         <div id="payout-panel" class="settings-panel">
-            <form method="POST" action="{% url 'settings' %}">
+            <h2 class="panel-heading">Payout Details</h2>
+            <p class="panel-desc">Manage your bank account details for receiving tournament prize withdrawals securely.</p>
+            
+            <div class="saved-payout-card" id="savedPayoutCard" style="display: none;">
+                <div class="card-header">
+                    <div class="bank-icon"><i data-lucide="landmark"></i></div>
+                    <span class="active-badge">Active Method</span>
+                </div>
+                <div class="bank-details">
+                    <h3 id="displayBankName">Bank Name</h3>
+                    <p id="displayAccName" class="acc-name">Account Name</p>
+                    <p id="displayAccNumber" class="acc-num">**** **** **** 1234</p>
+                </div>
+                <button type="button" class="btn-danger-outline" id="removePayoutBtn">Remove Account</button>
+            </div>
+
+            <form method="POST" action="{% url 'settings' %}" id="payoutFormSection">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="update_payout">
-                <h2 class="panel-heading">Payout Details</h2>
-                <p class="panel-desc">Add your bank account details for tournament prize withdrawals.</p>
+                <h4 style="margin-bottom: 16px; font-size: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Add / Update Bank Account</h4>
+                
+                <div class="security-notice">
+                    <i data-lucide="info" style="color: var(--UPlay-yellow); width: 20px; height: 20px; flex-shrink: 0;"></i>
+                    <p>Please ensure your bank details are accurate. <strong>You are entirely responsible</strong> for any funds sent to the incorrect account.</p>
+                </div>
 
                 <div class="form-group">
                     <label class="form-label">Bank Name</label>
-                    <select name="bank_name" class="form-input">
-                        <option value="" {% if not payout_form.bank_name.value %}selected{% endif %} disabled>Select your bank</option>
-                        <option value="moniepoint" {% if payout_form.bank_name.value == "moniepoint" %}selected{% endif %}>Moniepoint MFB</option>
-                        <option value="opay" {% if payout_form.bank_name.value == "opay" %}selected{% endif %}>OPay</option>
-                        <option value="palmpay" {% if payout_form.bank_name.value == "palmpay" %}selected{% endif %}>PalmPay</option>
-                        <option value="kuda" {% if payout_form.bank_name.value == "kuda" %}selected{% endif %}>Kuda Bank</option>
-                        <option value="gtb" {% if payout_form.bank_name.value == "gtb" %}selected{% endif %}>Guaranty Trust Bank (GTB)</option>
-                        <option value="access" {% if payout_form.bank_name.value == "access" %}selected{% endif %}>Access Bank</option>
-                        <option value="firstbank" {% if payout_form.bank_name.value == "firstbank" %}selected{% endif %}>First Bank of Nigeria</option>
-                        <option value="zenith" {% if payout_form.bank_name.value == "zenith" %}selected{% endif %}>Zenith Bank</option>
-                        <option value="uba" {% if payout_form.bank_name.value == "uba" %}selected{% endif %}>United Bank for Africa (UBA)</option>
-                    </select>
+                    <div class="custom-select-wrapper">
+                        <!-- We keep the name attribute for Django but matching frontend JS id -->
+                        <input type="text" name="bank_name" class="form-input" id="bankNameInput" placeholder="Loading banks..." autocomplete="off" value="{{ payout_form.bank_name.value|default:request.user.profile.bank_name|default:'' }}">
+                        <i data-lucide="chevron-down" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); width: 16px; pointer-events: none;"></i>
+                        <div class="custom-select-dropdown" id="bankDropdownList">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Account Number</label>
-                    <input type="text" name="account_number" class="form-input" placeholder="e.g. 0123456789" maxlength="10" value="{{ payout_form.account_number.value|default:request.user.profile.account_number|default:'' }}">
+                    <input type="text" name="account_number" class="form-input" id="accNumInput" placeholder="e.g. 0123456789" maxlength="10" value="{{ payout_form.account_number.value|default:request.user.profile.account_number|default:'' }}">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Account Name (Auto-filled)</label>
-                    <input type="text" name="account_name" class="form-input" placeholder="Enter Account Name" value="{{ payout_form.account_name.value|default:request.user.profile.account_name|default:'' }}">
-                    <p style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Your payout name must match your registered real name to prevent fraud.</p>
+                    <label class="form-label">Account Name</label>
+                    <input type="text" name="account_name" class="form-input" id="accNameInput" placeholder="Account name" value="{{ payout_form.account_name.value|default:request.user.profile.account_name|default:'' }}">
+                    <p style="font-size: 11px; color: var(--success-color); margin-top: 6px; display: none;" id="accNameVerifiedMsg">
+                    </p>
                 </div>
 
-                <button type="submit" class="btn-primary save-action-btn" style="margin-top: 16px;">
+                <button type="submit" class="btn-primary" id="savePayoutBtn" style="margin-top: 16px;">
                     <span class="btn-text">Save Payout Details</span>
                     <i data-lucide="loader-2" class="spin btn-spinner" style="display: none; width: 18px; height: 18px; margin-left: 4px;"></i>
                 </button>
             </form>
         </div>
 
-        <!-- 3. PREFERENCES PANEL -->
+        <!-- 5. PREFERENCES PANEL -->
         <div id="preferences-panel" class="settings-panel">
             <h2 class="panel-heading">App Preferences</h2>
             <p class="panel-desc">Customize your uPlay experience.</p>
@@ -253,7 +326,7 @@
             </div>
         </div>
 
-        <!-- 4. NOTIFICATIONS PANEL -->
+        <!-- 6. NOTIFICATIONS PANEL -->
         <div id="notifications-panel" class="settings-panel">
             <h2 class="panel-heading">Notification Settings</h2>
             <p class="panel-desc">Choose what we notify you about.</p>

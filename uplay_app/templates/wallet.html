@@ -1,0 +1,214 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}uPlay - Wallet & Funds{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/wallet.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title"><i data-lucide="wallet" style="color: var(--text-secondary);"></i> Wallet & Funds</h1>
+</div>
+
+<!-- WALLET BALANCES -->
+<div class="wallet-grid">
+    
+    <div class="balance-card main-balance">
+        <div class="card-glow"></div>
+        <div class="balance-info">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <p class="balance-label" style="margin: 0;">Main Balance <i data-lucide="info" style="width:14px; height:14px; cursor:pointer;" title="Available for withdrawals and entry fees"></i></p>
+                <button id="toggleBalanceBtn" style="color: var(--text-secondary); display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 4px; transition: 0.2s;">
+                    <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+            <h2 class="balance-amount" id="mainBalanceDisplay" data-raw-value="₦0.00" style="margin-top: 8px;">₦0.00</h2>
+        </div>
+        <div class="balance-actions">
+            <button class="btn-primary" id="openDepositBtn">
+                <i data-lucide="arrow-down-to-line" style="width: 18px; height: 18px;"></i> Deposit
+            </button>
+            <button class="btn-outline light-text" id="openWithdrawBtn">
+                <i data-lucide="arrow-up-from-line" style="width: 18px; height: 18px;"></i> Withdraw
+            </button>
+        </div>
+    </div>
+
+    <div class="balance-card bonus-balance">
+        <div class="balance-info">
+            <p class="balance-label">Bonus Balance <i data-lucide="info" style="width:14px; height:14px; cursor:pointer;" title="Can be used for entry fees, but cannot be withdrawn directly"></i></p>
+            <h2 class="balance-amount" id="bonusBalanceDisplay" data-raw-value="₦0.00">₦0.00</h2>
+        </div>
+        <div class="bonus-tag">Promo</div>
+    </div>
+
+</div>
+
+<!-- TRANSACTIONS SECTION -->
+<div class="transactions-section">
+    <div class="tx-header">
+        <h3 class="section-heading" style="margin: 0;"><i data-lucide="history"></i> Recent Transactions</h3>
+        
+        <div class="tx-tabs">
+            <button class="tx-tab active" data-filter="all">All</button>
+            <button class="tx-tab" data-filter="in">Money In</button>
+            <button class="tx-tab" data-filter="out">Money Out</button>
+        </div>
+    </div>
+
+    <div class="tx-list">
+        <!-- Backend to populate transactions later. For demo, show empty state -->
+        <p style="color: var(--text-secondary); text-align: center; font-size: 14px; margin-top: 20px;">No recent transactions.</p>
+    </div>
+    
+    <button class="btn-outline" style="width: 100%; margin-top: 16px;">View Full History</button>
+</div>
+
+<div style="height: 40px;"></div> <!-- Spacer -->
+
+<!-- MODALS -->
+
+<!-- Deposit Modal -->
+<div class="modal-overlay" id="depositModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeDepositBtn"><i data-lucide="x"></i></button>
+        <div class="modal-header">
+            <div class="modal-icon"><i data-lucide="arrow-down-to-line"></i></div>
+            <h3>Fund Your Wallet</h3>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Enter the amount you wish to deposit via Paystack.</p>
+        </div>
+        
+        <form id="depositForm">
+            <div class="form-group">
+                <label class="form-label">Amount (NGN)</label>
+                <div class="form-input-wrapper">
+                    <span class="currency-prefix">₦</span>
+                    <input type="number" class="form-input with-prefix" id="depositAmount" placeholder="0.00" min="500" required>
+                </div>
+                <p style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Minimum deposit is ₦500.</p>
+            </div>
+            
+            <div class="quick-amounts">
+                <button type="button" class="quick-amt-btn" data-val="1000">₦1k</button>
+                <button type="button" class="quick-amt-btn" data-val="2500">₦2.5k</button>
+                <button type="button" class="quick-amt-btn" data-val="5000">₦5k</button>
+                <button type="button" class="quick-amt-btn" data-val="10000">₦10k</button>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 24px;" id="confirmDepositBtn">
+                <span id="depositBtnText">Proceed to Paystack</span>
+                <i data-lucide="loader-2" class="spin" id="depositSpinner" style="display: none;"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal-overlay" id="withdrawModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeWithdrawBtn"><i data-lucide="x"></i></button>
+        <div class="modal-header">
+            <div class="modal-icon" style="color: var(--text-primary); background: var(--hover-bg);"><i data-lucide="arrow-up-from-line"></i></div>
+            <h3>Withdraw Funds</h3>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Available to withdraw: <strong>₦0.00</strong></p>
+        </div>
+        
+        <form id="withdrawForm">
+            <div class="form-group">
+                <label class="form-label">Amount to Withdraw (NGN)</label>
+                <div class="form-input-wrapper">
+                    <span class="currency-prefix">₦</span>
+                    <input type="number" class="form-input with-prefix" id="withdrawAmount" placeholder="0.00" min="1000" max="0" required>
+                </div>
+                <p style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Minimum withdrawal is ₦1,000.</p>
+            </div>
+
+            <div class="payout-summary">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 12px; color: var(--text-secondary);">Payout Method</span>
+                    <a href="{% url 'settings' %}" style="font-size: 11px; color: var(--UPlay-yellow); text-decoration: underline;">Change in Settings</a>
+                </div>
+                <!-- Logic to populate bank here -->
+                <div class="bank-pill">
+                    <i data-lucide="landmark" style="color: var(--text-secondary); width: 16px;"></i>
+                    <div>
+                        <p style="font-size: 13px; font-weight: bold; margin:0;">
+                            {% if request.user.profile.bank_name %}
+                                {{ request.user.profile.bank_name }}
+                            {% else %}
+                                No bank added
+                            {% endif %}
+                        </p>
+                        <p style="font-size: 11px; color: var(--text-secondary); margin:0;">
+                            {% if request.user.profile.account_number %}
+                                **** **** **** {{ request.user.profile.account_number|slice:"-4:" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 24px;" id="confirmWithdrawBtn" disabled>
+                <span id="withdrawBtnText">Request Withdrawal</span>
+                <i data-lucide="loader-2" class="spin" id="withdrawSpinner" style="display: none;"></i>
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    lucide.createIcons();
+    // Modal & Deposit UI Handlers
+    const openDepositBtn = document.getElementById('openDepositBtn');
+    const depositModal = document.getElementById('depositModal');
+    const closeDepositBtn = document.getElementById('closeDepositBtn');
+    const depositAmountInput = document.getElementById('depositAmount');
+    const quickAmtBtns = document.querySelectorAll('.quick-amt-btn');
+
+    if (openDepositBtn) {
+        openDepositBtn.addEventListener('click', () => {
+            depositModal.classList.add('show');
+        });
+    }
+
+    if (closeDepositBtn) {
+        closeDepositBtn.addEventListener('click', () => {
+            depositModal.classList.remove('show');
+        });
+    }
+
+    quickAmtBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            depositAmountInput.value = btn.getAttribute('data-val');
+        });
+    });
+
+    const openWithdrawBtn = document.getElementById('openWithdrawBtn');
+    const withdrawModal = document.getElementById('withdrawModal');
+    const closeWithdrawBtn = document.getElementById('closeWithdrawBtn');
+
+    if (openWithdrawBtn) {
+        openWithdrawBtn.addEventListener('click', () => {
+            withdrawModal.classList.add('show');
+        });
+    }
+
+    if (closeWithdrawBtn) {
+        closeWithdrawBtn.addEventListener('click', () => {
+            withdrawModal.classList.remove('show');
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === depositModal) depositModal.classList.remove('show');
+        if (e.target === withdrawModal) withdrawModal.classList.remove('show');
+    });
+
+</script>
+{% endblock %}

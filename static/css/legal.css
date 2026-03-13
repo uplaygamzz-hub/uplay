@@ -1,0 +1,105 @@
+/* =========================================
+   === (legal.css) ===
+   Shared styles for Terms and Privacy Pages
+   ========================================= */
+
+.legal-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px 5% 60px 5%;
+    min-height: calc(100vh - 70px);
+}
+
+.legal-container {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 900px;
+    padding: 48px;
+    box-shadow: var(--card-shadow);
+    margin: 0 auto;
+}
+
+.legal-header {
+    text-align: left;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 24px;
+}
+
+.legal-header h1 {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    margin-top: 0;
+}
+
+.legal-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+}
+
+.legal-content {
+    color: var(--text-primary);
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.legal-content h2 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--UPlay-yellow);
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+
+.legal-content p {
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+}
+
+.legal-content ul {
+    margin-bottom: 24px;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+
+.legal-content li {
+    margin-bottom: 8px;
+}
+
+.legal-content strong {
+    color: var(--text-primary);
+}
+
+.legal-content a {
+    color: var(--info-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.legal-content a:hover {
+    text-decoration: underline;
+}
+
+.legal-cta {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .legal-container {
+        padding: 32px 24px;
+    }
+    
+    .legal-header h1 {
+        font-size: 28px;
+    }
+}
