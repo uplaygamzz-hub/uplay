@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, update_session_auth_hash
@@ -10,6 +11,7 @@ from .forms import (
 )
 from .models import User, Tournament, PendingRegistration, Friendship, Squad
 from django.db.models import Q
+from django.conf import settings
 
 # Template Views
 
@@ -222,6 +224,54 @@ def create_squad(request):
 def tournaments(request):
     tournaments = Tournament.objects.all().order_by('-start_date')
     return render(request, 'tournaments.html', {'tournaments': tournaments})
+
+def get_banks(request):
+    url = "https://api.paystack.co/bank?country=nigeria"
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        
+        if data['status']:
+            # data['data'] is a list of dicts with 'name' and 'code'
+            return JsonResponse({'success': True, 'banks': data['data']})
+        else:
+            return JsonResponse({'success': False, 'message': 'Could not fetch banks'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
+def verify_account_details(request):
+    if request.method == 'POST':
+        account_number = request.POST.get('account_number')
+        bank_code = request.POST.get('bank_code')
+
+        url = f"https://api.paystack.co/bank/resolve?account_number={account_number}&bank_code={bank_code}"
+        headers = {
+            "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+        }
+
+        try:
+            response = requests.get(url, headers=headers)
+            response_data = response.json()
+
+            if response_data['status']:
+                # Success: Returns account_name and account_number
+                return JsonResponse({
+                    'success': True, 
+                    'account_name': response_data['data']['account_name']
+                })
+            else:
+                return JsonResponse({
+                    'success': False, 
+                    'message': response_data['message']
+                })
+        except requests.exceptions.RequestException:
+            return JsonResponse({'success': False, 'message': 'Connection to Paystack failed.'})
+            
+    return JsonResponse({'success': False, 'message': 'Invalid method.'}, status=405)
 
 @login_required
 def register_tournament(request):
